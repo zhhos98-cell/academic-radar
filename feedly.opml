@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<opml version="1.0">
+    <head>
+        <title>Haohao subscriptions in feedly Cloud</title>
+    </head>
+    <body>
+        <outline text="Karlzhang" title="Karlzhang">
+            <outline type="rss" text="German Historical Institute London Podcast" title="German Historical Institute London Podcast" xmlUrl="https://www.ghil.ac.uk/podcasts.rss" htmlUrl="https://www.ghil.ac.uk"/>
+            <outline type="rss" text="href" title="href" xmlUrl="https://href.hypotheses.org/feed" htmlUrl="https://href.hypotheses.org"/>
+            <outline type="rss" text="Tsadra Foundation" title="Tsadra Foundation" xmlUrl="https://www.tsadra.org/feed/" htmlUrl="https://www.tsadra.org"/>
+            <outline type="rss" text="The Recipes Project" title="The Recipes Project" xmlUrl="http://recipes.hypotheses.org/feed" htmlUrl="https://recipes.hypotheses.org"/>
+            <outline type="rss" text="Renaissance Science &amp; Medicine" title="Renaissance Science &amp; Medicine" xmlUrl="https://renascimed.hcommons.org/feed/" htmlUrl="https://renascimed.hcommons.org"/>
+            <outline type="rss" text="Women's History Network" title="Women's History Network" xmlUrl="https://womenshistorynetwork.org/feed/" htmlUrl="https://womenshistorynetwork.org"/>
+            <outline type="rss" text="China Art Research Network" title="China Art Research Network" xmlUrl="https://carnuk.wordpress.com/feed/" htmlUrl="https://carnuk.wordpress.com"/>
+            <outline type="rss" text="Geschichtstheorie am Werk" title="Geschichtstheorie am Werk" xmlUrl="https://gtw.hypotheses.org/feed" htmlUrl="https://gtw.hypotheses.org"/>
+            <outline type="rss" text="The Public Domain Review" title="The Public Domain Review" xmlUrl="https://publicdomainreview.org/rss.xml" htmlUrl="https://publicdomainreview.org"/>
+            <outline type="rss" text="History and Translation Network" title="History and Translation Network" xmlUrl="https://historyandtranslation.net/feed/" htmlUrl="https://historyandtranslation.net"/>
+            <outline type="rss" text="theccysc" title="theccysc" xmlUrl="https://www.theccysc.com/blog-feed.xml" htmlUrl="https://www.theccysc.com/blog"/>
+            <outline type="rss" text="HSTM Network Ireland" title="HSTM Network Ireland" xmlUrl="https://hstmnetworkireland.org/feed/" htmlUrl="https://hstmnetworkireland.org"/>
+            <outline type="rss" text="Mittelalter" title="Mittelalter" xmlUrl="https://mittelalter.hypotheses.org/feed" htmlUrl="https://mittelalter.hypotheses.org"/>
+            <outline type="rss" text="Imperial &amp; Global Forum" title="Imperial &amp; Global Forum" xmlUrl="https://imperialglobalexeter.com/feed/" htmlUrl="https://imperialglobalexeter.com"/>
+            <outline type="rss" text="Sexual Harms and Medical Encounters (SHaME)" title="Sexual Harms and Medical Encounters (SHaME)" xmlUrl="https://shame.bbk.ac.uk/feed/" htmlUrl="https://shame.bbk.ac.uk/"/>
+            <outline type="rss" text="Warp, Weft, and Way" title="Warp, Weft, and Way" xmlUrl="https://warpweftandway.com/feed/" htmlUrl="https://warpweftandway.com"/>
+            <outline type="rss" text="H-Diplo - Recent Reviews" title="H-Diplo - Recent Reviews" xmlUrl="http://www.h-net.org/reviews/rss/H-Diplo.rss" htmlUrl="https://networks.h-net.org/h-diplo"/>
+            <outline type="rss" text="The Victorianist: BAVS Pages" title="The Victorianist: BAVS Pages" xmlUrl="https://victorianist.wordpress.com/feed/" htmlUrl="https://victorianist.wordpress.com"/>
+            <outline type="rss" text="Huizinga Instituut" title="Huizinga Instituut" xmlUrl="https://www.huizingainstituut.nl/feed/" htmlUrl="https://www.huizingainstituut.nl/"/>
+            <outline type="rss" text="History and Philosophy of the Language Sciences" title="History and Philosophy of the Language Sciences" xmlUrl="http://hiphilangsci.net/feed/" htmlUrl="https://hiphilangsci.net"/>
+            <outline type="rss" text="Association française d'études chinoises 法國漢學協會" title="Association française d'études chinoises 法國漢學協會" xmlUrl="https://afec.hypotheses.org/feed" htmlUrl="https://afec.hypotheses.org"/>
+            <outline type="rss" text="Historien.nes de la santé" title="Historien.nes de la santé" xmlUrl="http://histoiresante.blogspot.com/feeds/posts/default" htmlUrl="http://histoiresante.blogspot.com/"/>
+            <outline type="rss" text="Urban Studies Foundation" title="Urban Studies Foundation" xmlUrl="https://www.urbanstudiesfoundation.org/feed/" htmlUrl="https://www.urbanstudiesfoundation.org"/>
+            <outline type="rss" text="CRCAO" title="CRCAO" xmlUrl="https://www.crcao.fr/feed/" htmlUrl="https://www.crcao.fr"/>
+            <outline type="rss" text="Dimensionen der techne in den Künsten" title="Dimensionen der techne in den Künsten" xmlUrl="https://techne.hypotheses.org/feed" htmlUrl="https://techne.hypotheses.org"/>
+            <outline type="rss" text="Comments on: CfA: 2nd International Conference ‘The History of the Philosophy of Technology’ (Maastricht, October 26-28, 2026)" title="Comments on: CfA: 2nd International Conference ‘The History of the Philosophy of Technology’ (Maastricht, October 26-28, 2026)" xmlUrl="https://fasos-research.nl/history-of-philosophy-of-technology/cfa-2nd-international-conference-the-history-of-the-philosophy-of-technology-maastricht-october-26-28-2026/feed/" htmlUrl="https://fasos-research.nl/history-of-philosophy-of-technology/cfa-2nd-international-conference-the-history-of-the-philosophy-of-technology-maastricht-october-26-28-2026/"/>
+            <outline type="rss" text="The Northern Early Modern Network" title="The Northern Early Modern Network" xmlUrl="https://earlymodernnetwork.wordpress.com/feed/" htmlUrl="https://earlymodernnetwork.wordpress.com"/>
+            <outline type="rss" text="Research Institute for the Humanities" title="Research Institute for the Humanities" xmlUrl="https://rih.cuhk.edu.hk/feed/" htmlUrl="https://rih.cuhk.edu.hk/"/>
+            <outline type="rss" text="Le cabinet de curiosités / The curiosity cabinet" title="Le cabinet de curiosités / The curiosity cabinet" xmlUrl="https://lecabinetdecuriosites.ca/rss/" htmlUrl="https://lecabinetdecuriosites.ca/"/>
+            <outline type="rss" text="European Association for Chinese Studies" title="European Association for Chinese Studies" xmlUrl="http://chinesestudies.eu/?feed=rss2" htmlUrl="https://chinesestudies.eu"/>
+            <outline type="rss" text="Latest Activity on British Photographic History" title="Latest Activity on British Photographic History" xmlUrl="https://britishphotohistory.ning.com/activity/log/rss?sitePageId=28612104%3ASitePage%3A76054" htmlUrl="https://britishphotohistory.ning.com/"/>
+            <outline type="rss" text="Lieux de savoir" title="Lieux de savoir" xmlUrl="https://lieuxdesavoir.hypotheses.org/feed" htmlUrl="https://lieuxdesavoir.hypotheses.org"/>
+            <outline type="rss" text="Operational Images" title="Operational Images" xmlUrl="https://operationalimages.cz/feed/" htmlUrl="https://operationalimages.cz"/>
+            <outline type="rss" text="ISIH" title="ISIH" xmlUrl="http://is-ih.com/feed/" htmlUrl="http://is-ih.com"/>
+            <outline type="rss" text="Journal for the History of Knowledge" title="Journal for the History of Knowledge" xmlUrl="https://journalhistoryknowledge.org/gateway/plugin/WebFeedGatewayPlugin/rss2/" htmlUrl="https://journalhistoryknowledge.org/"/>
+            <outline type="rss" text="Schedules | Rare Book School" title="Schedules | Rare Book School" xmlUrl="https://rarebookschool.org/schedule/feed/" htmlUrl="https://rarebookschool.org/schedule/"/>
+            <outline type="rss" text="Society of Apothecaries" title="Society of Apothecaries" xmlUrl="https://www.apothecaries.org/feed/" htmlUrl="https://www.apothecaries.org/"/>
+            <outline type="rss" text="Early Modern Asian Studies at UCLA" title="Early Modern Asian Studies at UCLA" xmlUrl="https://emas.humspace.ucla.edu/feed/" htmlUrl="https://emas.humspace.ucla.edu"/>
+            <outline type="rss" text="BILDERFAHRZEUGE" title="BILDERFAHRZEUGE" xmlUrl="https://bilderfahrzeuge.hypotheses.org/feed" htmlUrl="https://bilderfahrzeuge.hypotheses.org"/>
+            <outline type="rss" text="Seechac Société Européenne pour l'Etude des Civilisations de l'Himalaya et de l'Asie Centrale" title="Seechac Société Européenne pour l'Etude des Civilisations de l'Himalaya et de l'Asie Centrale" xmlUrl="https://seechac.org/feed/" htmlUrl="https://seechac.org/"/>
+            <outline type="rss" text="Khyentse Foundation" title="Khyentse Foundation" xmlUrl="https://khyentsefoundation.org/feed/" htmlUrl="https://khyentsefoundation.org/"/>
+            <outline type="rss" text="Comments on: Lecture Series: East Asian Art History – Current Research in Europe (Freie Universität Berlin)" title="Comments on: Lecture Series: East Asian Art History – Current Research in Europe (Freie Universität Berlin)" xmlUrl="https://ea-aaa.eu/lecture-series-east-asian-art-history-current-research-in-europe-freie-universitat-berlin/feed/" htmlUrl="https://ea-aaa.eu/lecture-series-east-asian-art-history-current-research-in-europe-freie-universitat-berlin/"/>
+            <outline type="rss" text="Scientiae" title="Scientiae" xmlUrl="https://scientiaeacademic.com/feed" htmlUrl="https://scientiaeacademic.com?source=rss----7318d21d79a4---4"/>
+            <outline type="rss" text="Herbal History Research Network" title="Herbal History Research Network" xmlUrl="https://www.herbalhistory.org/home/feed/" htmlUrl="https://www.herbalhistory.org/home"/>
+            <outline type="rss" text="Pacific World" title="Pacific World" xmlUrl="https://pwj.shin-ibs.edu/feed" htmlUrl="https://pwj.shin-ibs.edu"/>
+            <outline type="rss" text="Collective Wisdom" title="Collective Wisdom" xmlUrl="https://collectivewisdom.uoregon.edu/feed/" htmlUrl="https://collectivewisdom.uoregon.edu"/>
+            <outline type="rss" text="CSMBR" title="CSMBR" xmlUrl="https://csmbr.fondazionecomel.org/feed/" htmlUrl="https://csmbr.fondazionecomel.org/"/>
+            <outline type="rss" text="the many-headed monster" title="the many-headed monster" xmlUrl="https://manyheadedmonster.com/feed/" htmlUrl="https://manyheadedmonster.com"/>
+            <outline type="rss" text="Society for the History of the Humanities" title="Society for the History of the Humanities" xmlUrl="https://www.historyofhumanities.org/feed/" htmlUrl="https://www.historyofhumanities.org"/>
+            <outline type="rss" text="Aeon | a world of ideas" title="Aeon | a world of ideas" xmlUrl="https://aeon.co/feed.rss" htmlUrl="https://aeon.co"/>
+            <outline type="rss" text="Goodman Lecture Series Archives - Khyentse Foundation" title="Goodman Lecture Series Archives - Khyentse Foundation" xmlUrl="https://khyentsefoundation.org/story/series/goodman-lecture-series/feed/" htmlUrl="https://khyentsefoundation.org/story/series/goodman-lecture-series/"/>
+            <outline type="rss" text="Somatosphere" title="Somatosphere" xmlUrl="https://somatosphere.net/feed/" htmlUrl="https://somatosphere.net"/>
+            <outline type="rss" text="Historical Network Research" title="Historical Network Research" xmlUrl="http://historicalnetworkresearch.org/feed/" htmlUrl="https://historicalnetworkresearch.org"/>
+            <outline type="rss" text="The Bodies, Emotions and Material Culture Collective" title="The Bodies, Emotions and Material Culture Collective" xmlUrl="https://sites.manchester.ac.uk/bodies-emotions-material-culture/feed/" htmlUrl="https://sites.manchester.ac.uk/bodies-emotions-material-culture"/>
+            <outline type="rss" text="Diegesis In Mind" title="Diegesis In Mind" xmlUrl="https://diegesis-in-mind.com/feed/" htmlUrl="https://diegesis-in-mind.com/"/>
+            <outline type="rss" text="The Medieval Academy Blog" title="The Medieval Academy Blog" xmlUrl="http://www.themedievalacademyblog.org/feed/" htmlUrl="https://www.themedievalacademyblog.org"/>
+            <outline type="rss" text="History for Atheists" title="History for Atheists" xmlUrl="https://historyforatheists.com/feed/" htmlUrl="https://historyforatheists.com/"/>
+            <outline type="rss" text="Digressions&amp;Impressions" title="Digressions&amp;Impressions" xmlUrl="https://digressionsnimpressions.typepad.com/digressionsimpressions/atom.xml" htmlUrl="https://digressionsnimpressions.typepad.com/digressionsimpressions/"/>
+            <outline type="rss" text="Elites, Networks and Power in modern China" title="Elites, Networks and Power in modern China" xmlUrl="https://enepchina.hypotheses.org/feed" htmlUrl="https://enepchina.hypotheses.org"/>
+            <outline type="rss" text="History of Knowledge" title="History of Knowledge" xmlUrl="https://historyofknowledge.net/feed/" htmlUrl="https://historyofknowledge.hypotheses.org"/>
+            <outline type="rss" text="Akce - Komeniologie - Filosofický ústav AV ČR" title="Akce - Komeniologie - Filosofický ústav AV ČR" xmlUrl="https://komeniologie.flu.cas.cz/en/akce?format=feed&amp;type=rss" htmlUrl="https://komeniologie.flu.cas.cz/en/akce"/>
+            <outline type="rss" text="Early Modern Soundscapes" title="Early Modern Soundscapes" xmlUrl="https://emsoundscapes.co.uk/feed/" htmlUrl="https://emsoundscapes.co.uk"/>
+            <outline type="rss" text="Silk Road Digressions" title="Silk Road Digressions" xmlUrl="https://silkroaddigressions.com/feed/" htmlUrl="https://silkroaddigressions.com"/>
+            <outline type="rss" text="Global Urban History" title="Global Urban History" xmlUrl="https://globalurbanhistory.com/feed/" htmlUrl="https://globalurbanhistory.com"/>
+            <outline type="rss" text="cfp - victorian" title="cfp - victorian" xmlUrl="https://call-for-papers.sas.upenn.edu/taxonomy/term/33/feed" htmlUrl="https://call-for-papers.sas.upenn.edu/category/victorian"/>
+            <outline type="rss" text="History Workshop" title="History Workshop" xmlUrl="https://www.historyworkshop.org.uk/feed/" htmlUrl="https://www.historyworkshop.org.uk/"/>
+            <outline type="rss" text="Medicine Anthropology Theory" title="Medicine Anthropology Theory" xmlUrl="http://www.medanthrotheory.org/gateway/plugin/WebFeedGatewayPlugin/atom" htmlUrl="https://www.medanthrotheory.org/"/>
+            <outline type="rss" text="HAB" title="HAB" xmlUrl="https://www.hab.de/feed/" htmlUrl="https://www.hab.de"/>
+            <outline type="rss" text="Cromohs - Cyber Review of Modern Historiography" title="Cromohs - Cyber Review of Modern Historiography" xmlUrl="https://oajournals.fupress.net/index.php/cromohs/gateway/plugin/WebFeedGatewayPlugin/atom" htmlUrl="https://oajournals.fupress.net/index.php/cromohs"/>
+            <outline type="rss" text="Himalayan Trust UK |" title="Himalayan Trust UK |" xmlUrl="https://himalayantrust.co.uk/feed/" htmlUrl="https://himalayantrust.co.uk/"/>
+            <outline type="rss" text="Mapping as Process" title="Mapping as Process" xmlUrl="https://www.mappingasprocess.net/blog?format=rss" htmlUrl="https://www.mappingasprocess.net/"/>
+            <outline type="rss" text="Events from November 2012 – October 2013 – CeMEAS" title="Events from November 2012 – October 2013 – CeMEAS" xmlUrl="https://www.cemeas.de/events/feed/" htmlUrl="https://www.cemeas.de/events/"/>
+            <outline type="rss" text="From the Ground Up: Buddhism &amp; East Asian Religions" title="From the Ground Up: Buddhism &amp; East Asian Religions" xmlUrl="https://frogbear.org/feed/" htmlUrl="https://frogbear.org"/>
+            <outline type="rss" text="Mapping Religious Diversity in Modern Sichuan" title="Mapping Religious Diversity in Modern Sichuan" xmlUrl="https://sichuanreligions.com/feed/" htmlUrl="https://sichuanreligions.com"/>
+            <outline type="rss" text="Nearly Knowledgeable" title="Nearly Knowledgeable" xmlUrl="https://nearlyknowledgeablehistory.blogspot.com/feeds/posts/default" htmlUrl="https://nearlyknowledgeablehistory.blogspot.com/"/>
+            <outline type="rss" text="Curious Ordinary" title="Curious Ordinary" xmlUrl="https://www.curiousordinary.com/feeds/posts/default" htmlUrl="https://www.curiousordinary.com/"/>
+            <outline type="rss" text="lhistoire.fr - Le magazine de référence des passionnés" title="lhistoire.fr - Le magazine de référence des passionnés" xmlUrl="https://www.lhistoire.fr/flux-rss.xml" htmlUrl="https://www.lhistoire.fr/"/>
+            <outline type="rss" text="UCLA CMRS Center for Early Global Studies" title="UCLA CMRS Center for Early Global Studies" xmlUrl="https://cmrs.ucla.edu/feed/" htmlUrl="https://ec2-44-254-29-4.us-west-2.compute.amazonaws.com/"/>
+            <outline type="rss" text="Chinese Studies Association of Australia" title="Chinese Studies Association of Australia" xmlUrl="https://www.csaa.org.au/feed/" htmlUrl="https://www.csaa.org.au"/>
+            <outline type="rss" text="Salon 21" title="Salon 21" xmlUrl="https://salon21.univie.ac.at/?feed=rss2" htmlUrl="https://salon21.univie.ac.at"/>
+        </outline>
+    </body>
+</opml>
