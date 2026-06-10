@@ -32,4 +32,8 @@ with open("bsky_accounts.txt", "w", encoding="utf-8") as out:
     for handle, display, desc in handles:
         out.write(f"{handle}\t{display}\t{desc}\n")
 
-print(f"Exported {len(handles)} follows to bsky_accounts.txt")
+print(f"Exported {len(handles)} follows")
+print("BEGIN_BSKY_ACCOUNTS")
+for handle, display, desc in handles:
+    print(f"{handle}\t{display}\t{desc}")
+print("END_BSKY_ACCOUNTS")
