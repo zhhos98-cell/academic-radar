@@ -31,7 +31,6 @@ EVENT_TERMS = [
     "fellowship", "grant", "bursary", "studentship",
     "research assistant", "ra position", "library assistant",
     "assistant librarian", "archivist", "curator",
-    "archive", "archives", "digitisation", "digitization", "collection",
     "deadline", "open access", "new issue",
 ]
 
@@ -41,8 +40,8 @@ CORE_FIELD_TERMS = [
     "intellectual history", "history of medicine", "history of technology",
     "philosophy of science", "hps", "sts",
     "early modern", "eighteenth century", "18th century", "c18",
-    "romanticism", "manuscript", "archives", "archive", "bibliography",
-    "rare books", "scientific instrument", "scientific instruments",
+    "romanticism", "manuscript", "bibliography", "rare books",
+    "scientific instrument", "scientific instruments",
     "natural history", "premodern", "mediterranean",
 ]
 
@@ -101,7 +100,6 @@ BLUESKY_QUERIES = [
     '"special issue" "history of humanities"',
     '"fellowship" "history of science"',
     '"bursary" "history of science"',
-    '"archive" "history of science"',
     '"scientific instruments" "call for papers"',
     '"premodern mediterranean" "history of medicine"',
     '"research assistant" "history of science"',
@@ -193,12 +191,6 @@ def classify(text):
 
     if any(x in t for x in ["fellowship", "grant", "bursary", "studentship"]):
         return "Fellowships / Grants", "资助"
-
-    if any(x in t for x in [
-        "archive", "archives", "digitisation", "digitization",
-        "collection", "library"
-    ]):
-        return "Archives / Collections", "档案/馆藏"
 
     if any(x in t for x in ["conference", "workshop", "symposium", "seminar"]):
         return "Events / Seminars", "活动"
@@ -531,7 +523,6 @@ def render_email(items):
         "New Books",
         "Fellowships / Grants",
         "RA / Library / Archive Jobs",
-        "Archives / Collections",
         "Events / Seminars",
         "Other Signals",
     ]
