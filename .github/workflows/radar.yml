@@ -1,23 +1,21 @@
-name: Export Bluesky Follows
+name: Daily Academic Radar
 
 on:
+  schedule:
+    - cron: "0 8 * * *"
   workflow_dispatch:
 
 jobs:
-  export:
+  run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - run: pip install requests
-
-      - run: python export_bsky_follows.py
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: bsky_accounts
-          path: bsky_accounts.txt
+      - run: pip install feedparser requests
+      - run: python radar.py
+        env:
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
