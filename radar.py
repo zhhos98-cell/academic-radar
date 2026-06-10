@@ -1,6 +1,7 @@
 import os
 import re
 import html
+import json
 import smtplib
 import xml.etree.ElementTree as ET
 from email.mime.text import MIMEText
@@ -13,10 +14,11 @@ import requests
 
 OPML_FILE = "feedly_active.opml"
 BSKY_WATCHLIST_FILE = "bsky_watchlist_core.txt"
+STATE_FILE = "sent_items.json"
 
 RSS_MAX_AGE_DAYS = 35
 BSKY_MAX_AGE_DAYS = 10
-MAX_EMAIL_ITEMS = 25
+MAX_EMAIL_ITEMS = 20
 MAX_RSS_PER_FEED = 12
 MAX_BSKY_PER_QUERY = 15
 MAX_BSKY_PER_ACCOUNT = 8
@@ -26,7 +28,9 @@ EVENT_TERMS = [
     "call for papers", "cfp", "call for chapters", "special issue",
     "conference", "workshop", "symposium", "seminar",
     "new book", "forthcoming", "book launch", "review copy",
-    "fellowship", "grant", "bursary", "studentship", "postdoc",
+    "fellowship", "grant", "bursary", "studentship",
+    "research assistant", "ra position", "library assistant",
+    "assistant librarian", "archivist", "curator",
     "archive", "archives", "digitisation", "digitization", "collection",
     "deadline", "open access", "new issue",
 ]
@@ -59,14 +63,22 @@ NEGATIVE_TERMS = [
     "digital sovereignty", "policy", "governance", "sociology", "social scientists",
     "social science", "anthropological linguistics",
 
-    "chinese studies", "china workshop", "sino-korean", "korean studies",
-    "asian humanities", "south asian", "southeast asian", "east asian",
-    "japanese studies", "sinology", "sinological",
+    "china", "chinese", "sinology", "sinological", "sino-",
+    "east asia", "east asian", "asian studies", "asian humanities",
+    "south asia", "south asian", "southeast asia", "southeast asian",
+    "korea", "korean", "japan", "japanese", "confucian", "dao ",
+    "pre-qin",
+
+    "classics", "classical studies", "homer", "odyssey", "greco-roman",
 
     "american literature", "emerson", "thoreau", "joseph conrad",
     "popular fiction", "neo-victorian", "victorian publics",
     "postcolonial", "film and television", "popular culture",
     "modernist studies", "creative-critical",
+
+    "postdoc", "postdoctoral", "lecturer", "assistant professor",
+    "associate professor", "professor", "tenure", "tenure-track",
+    "faculty position", "jobs for medievalists",
 
     "errant journal", "online conference", "samla",
     "undergraduate", "high school",
@@ -88,9 +100,13 @@ BLUESKY_QUERIES = [
     '"call for papers" "history of humanities"',
     '"special issue" "history of humanities"',
     '"fellowship" "history of science"',
+    '"bursary" "history of science"',
     '"archive" "history of science"',
     '"scientific instruments" "call for papers"',
     '"premodern mediterranean" "history of medicine"',
+    '"research assistant" "history of science"',
+    '"archivist" "history of science"',
+    '"curator" "history of science"',
 ]
 
 
@@ -133,6 +149,7 @@ def load_opml_feeds(path=OPML_FILE):
         title = outline.attrib.get("title") or outline.attrib.get("text") or url
         if url:
             feeds.append((title, url))
+
     seen, out = set(), []
     for title, url in feeds:
         if url not in seen:
@@ -158,23 +175,40 @@ def load_bsky_watchlist(path=BSKY_WATCHLIST_FILE):
 
 def classify(text):
     t = text.lower()
+
     if any(x in t for x in ["call for papers", "cfp", "call for chapters"]):
         return "CFP / Calls", "征稿"
+
     if any(x in t for x in ["special issue", "new issue"]):
         return "Special Issues / Journals", "专刊/期刊"
+
     if any(x in t for x in ["new book", "forthcoming", "book launch", "review copy"]):
         return "New Books", "新书"
-    if any(x in t for x in ["fellowship", "grant", "bursary", "studentship", "postdoc"]):
-        return "Fellowships / Grants / Jobs", "机会"
-    if any(x in t for x in ["archive", "archives", "digitisation", "digitization", "collection", "library"]):
+
+    if any(x in t for x in [
+        "research assistant", "ra position", "library assistant",
+        "assistant librarian", "archivist", "curator"
+    ]):
+        return "RA / Library / Archive Jobs", "职位"
+
+    if any(x in t for x in ["fellowship", "grant", "bursary", "studentship"]):
+        return "Fellowships / Grants", "资助"
+
+    if any(x in t for x in [
+        "archive", "archives", "digitisation", "digitization",
+        "collection", "library"
+    ]):
         return "Archives / Collections", "档案/馆藏"
+
     if any(x in t for x in ["conference", "workshop", "symposium", "seminar"]):
         return "Events / Seminars", "活动"
+
     return "Other Signals", "线索"
 
 
 def score(text):
     t = text.lower()
+
     if any(x in t for x in NEGATIVE_TERMS):
         return 0
 
@@ -191,6 +225,15 @@ def score(text):
         return 0
 
     if any(x in t for x in ["call for papers", "cfp", "call for chapters"]) and raw < 9:
+        return 0
+
+    if any(x in t for x in ["fellowship", "grant", "bursary", "studentship"]) and raw < 10:
+        return 0
+
+    if any(x in t for x in [
+        "research assistant", "library assistant",
+        "assistant librarian", "archivist", "curator"
+    ]) and raw < 10:
         return 0
 
     return raw
@@ -211,7 +254,8 @@ def extract_dates_and_details(text):
         r"submission deadline[:\s]+([^.;\n]{3,80})",
         r"abstracts? (?:due|by)[:\s]+([^.;\n]{3,80})",
         r"deadline is[:\s]+([^.;\n]{3,80})",
-        r"by ([0-9]{1,2} [A-Z][a-z]+ 20[0-9]{2})",
+        r"deadline to submit [^:]{0,40}[:\s]+([^.;\n]{3,80})",
+        r"by ([0-9]{1,2}(?:st|nd|rd|th)? [A-Z][a-z]+ 20[0-9]{2})",
         r"by ([A-Z][a-z]+ [0-9]{1,2}, 20[0-9]{2})",
     ]
     for pat in deadline_patterns:
@@ -233,29 +277,30 @@ def extract_dates_and_details(text):
             break
 
     location_patterns = [
-        r"(?:at|venue:|hosted by|held at)\s+([^.;\n]{3,90})",
+        r"(?:venue:|hosted by|held at)\s+([^.;\n]{3,90})",
         r"([A-Z][A-Za-z .'-]+ University(?:, [A-Z][A-Za-z .'-]+)?)",
         r"(University of [A-Z][A-Za-z .'-]+)",
     ]
     for pat in location_patterns:
         m = re.search(pat, t, flags=re.IGNORECASE)
         if m:
-            location = m.group(1).strip()
-            break
+            candidate = m.group(1).strip()
+            if len(candidate.split()) <= 14:
+                location = candidate
+                break
 
-    if "online" in lower or "zoom" in lower or "virtual" in lower:
-        format_hint = "online"
-    elif "hybrid" in lower:
+    if "hybrid" in lower:
         format_hint = "hybrid"
+    elif "online" in lower or "zoom" in lower or "virtual" in lower:
+        format_hint = "online"
     elif "in person" in lower or "in-person" in lower:
         format_hint = "in-person"
 
     funding_terms = [
-        "funding", "funded", "grant", "bursary", "travel support",
-        "travel grant", "stipend", "scholarship", "fee waiver"
+        "bursary", "travel support", "travel grant",
+        "stipend", "scholarship", "fee waiver", "funding available"
     ]
     if any(x in lower for x in funding_terms):
-        # 抽一小段上下文
         for term in funding_terms:
             idx = lower.find(term)
             if idx != -1:
@@ -340,6 +385,7 @@ def bsky_created_at(post):
 
 def fetch_bluesky_search():
     items = []
+
     for q in BLUESKY_QUERIES:
         try:
             r = requests.get(
@@ -364,6 +410,7 @@ def fetch_bluesky_search():
                     items.append(item)
         except Exception as ex:
             print(f"[BSKY SEARCH ERROR] {q}: {ex}")
+
     return items
 
 
@@ -402,17 +449,59 @@ def fetch_bluesky_watchlist():
 def dedupe(items):
     seen = set()
     out = []
+
     for item in sorted(items, key=lambda x: x["score"], reverse=True):
         key = item["link"] or item["title"].lower()
         if key in seen:
             continue
         seen.add(key)
         out.append(item)
+
     return out
+
+
+def load_seen_links():
+    if not os.path.exists(STATE_FILE):
+        return set()
+
+    try:
+        with open(STATE_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return set(data.get("seen_links", []))
+    except Exception:
+        return set()
+
+
+def filter_new_items(items):
+    seen = load_seen_links()
+    return [item for item in items if item.get("link") not in seen]
+
+
+def save_seen_links(items):
+    seen = load_seen_links()
+
+    for item in items:
+        link = item.get("link")
+        if link:
+            seen.add(link)
+
+    seen_list = list(seen)[-5000:]
+
+    with open(STATE_FILE, "w", encoding="utf-8") as f:
+        json.dump(
+            {
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "seen_links": seen_list,
+            },
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
 
 
 def render_details(details):
     rows = []
+
     if details.get("deadline"):
         rows.append(f"<b>Deadline:</b> {html.escape(details['deadline'])}")
     if details.get("event_date"):
@@ -423,21 +512,25 @@ def render_details(details):
         rows.append(f"<b>Format:</b> {html.escape(details['format'])}")
     if details.get("funding"):
         rows.append(f"<b>Funding:</b> {html.escape(details['funding'])}")
+
     if not rows:
         return ""
+
     return "<p>" + " · ".join(rows) + "</p>"
 
 
 def render_email(items):
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
     if not items:
-        return f"No relevant items found today ({today})."
+        return f"No new relevant items found today ({today})."
 
     categories = [
         "CFP / Calls",
         "Special Issues / Journals",
         "New Books",
-        "Fellowships / Grants / Jobs",
+        "Fellowships / Grants",
+        "RA / Library / Archive Jobs",
         "Archives / Collections",
         "Events / Seminars",
         "Other Signals",
@@ -445,10 +538,11 @@ def render_email(items):
 
     parts = [
         f"<h2>Daily Academic Radar — {html.escape(today)}</h2>",
-        "<p>过滤较严格；中文标签为规则提示，不是机器翻译。</p>",
+        "<p>仅显示新链接；过滤较严格；中文标签为规则提示，不是机器翻译。</p>",
     ]
 
     count = 0
+
     for cat in categories:
         cat_items = [x for x in items if x["category"] == cat]
         if not cat_items:
@@ -459,6 +553,7 @@ def render_email(items):
         for item in cat_items:
             if count >= MAX_EMAIL_ITEMS:
                 break
+
             count += 1
 
             source_line = item["source"]
@@ -508,4 +603,8 @@ if __name__ == "__main__":
     items = dedupe(rss_items + bsky_search_items + bsky_watch_items)
     print(f"Deduped items: {len(items)}")
 
-    send_email(items)
+    new_items = filter_new_items(items)
+    print(f"New items: {len(new_items)}")
+
+    send_email(new_items[:MAX_EMAIL_ITEMS])
+    save_seen_links(items)
