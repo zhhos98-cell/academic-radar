@@ -22,7 +22,7 @@ while True:
         handle = f.get("handle", "")
         display = f.get("displayName", "")
         desc = f.get("description", "").replace("\n", " ")
-        handles.append((handle, display, desc[:120]))
+        handles.append((handle, display, desc[:200]))
 
     cursor = data.get("cursor")
     if not cursor:
