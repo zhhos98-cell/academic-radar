@@ -1,0 +1,22 @@
+name: Audit Feedly OPML
+
+on:
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install feedparser requests
+      - run: python audit_feeds.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: feed_audit_results
+          path: |
+            feed_audit.csv
+            feedly_active.opml
+            feedly_stale_or_unknown.opml
