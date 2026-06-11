@@ -1,0 +1,35 @@
+name: Black Studies CFP Digest
+
+on:
+  schedule:
+    - cron: "0 12 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install feedparser requests
+
+      - run: python black_studies_radar.py
+        env:
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+
+      - name: Commit sent item state
+        run: |
+          git config user.name "black-studies-radar-bot"
+          git config user.email "black-studies-radar-bot@users.noreply.github.com"
+          git add black_studies_sent.json
+          git diff --cached --quiet || git commit -m "Update black studies sent item state"
+          git push
