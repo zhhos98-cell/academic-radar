@@ -221,11 +221,11 @@ def dedupe(items):
 def render(items):
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     if not items:
-        return f"No new Black Studies CFP / special issue items found today ({today})."
+        return "No new Black Studies CFP / special issue items found today ({}).".format(today)
 
     cats = ["CFP / Calls", "Special Issues", "Grants / Fellowships"]
     parts = [
-        f"<h2>Black Studies CFP Digest — {html.escape(today)}</h2>",
+        "<h2>Black Studies CFP Digest — {}</h2>".format(html.escape(today)),
         "<p>仅抓 CFP、special issue；grant/fellowship 作为次级信号。</p >",
     ]
 
@@ -235,7 +235,7 @@ def render(items):
         if not cat_items:
             continue
 
-        parts.append(f"<h2>{html.escape(cat)}</h2>")
+        parts.append("<h2>{}</h2>".format(html.escape(cat)))
 
         for item in cat_items:
             if count >= MAX_ITEMS:
@@ -243,14 +243,20 @@ def render(items):
 
             count += 1
 
+            title = html.escape(item.get("title", ""))
+            zh = html.escape(item.get("zh", ""))
+            source = html.escape(item.get("source", ""))
+            score = item.get("score", "")
+            summary = html.escape(item.get("summary", ""))
+            link = html.escape(item.get("link", ""))
+
             parts.append(
-                f"<div style='margin-bottom:18px;'>"
-                f"<h3>[{html.escape(item['zh'])}] {html.escape(item['title'])}</h3>"
-                f"<p><b>Source:</b> {html.escape(item['source'])} · "
-                f"<b>Score:</b> {item['score']}</p >"
-                f"<p>{html.escape(item['summary'])}</p >"
-                f"<p><a href=' 'link'])}'>{html.escape(item['link'])}</a ></p >"
-                f"</div>"
+                "<div style='margin-bottom:18px;'>"
+                "<h3>[{}] {}</h3>"
+                "<p><b>Source:</b> {} · <b>Score:</b> {}</p >"
+                "<p>{}</p >"
+                "<p><a href=' '>{}</a ></p >"
+                "</div>".format(zh, title, source, score, summary, link, link)
             )
 
         if count >= MAX_ITEMS:
