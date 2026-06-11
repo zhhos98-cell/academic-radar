@@ -234,21 +234,28 @@ def render(items):
         cat_items = [x for x in items if x["category"] == cat]
         if not cat_items:
             continue
+
         parts.append(f"<h2>{html.escape(cat)}</h2>")
+
         for item in cat_items:
             if count >= MAX_ITEMS:
                 break
+
             count += 1
+
             parts.append(
                 f"<div style='margin-bottom:18px;'>"
                 f"<h3>[{html.escape(item['zh'])}] {html.escape(item['title'])}</h3>"
-                f"<p><b>Source:</b> {html.escape(item['source'])} · <b>Score:</b> {item['score']}</p >"
+                f"<p><b>Source:</b> {html.escape(item['source'])} · "
+                f"<b>Score:</b> {item['score']}</p >"
                 f"<p>{html.escape(item['summary'])}</p >"
                 f"<p><a href=' 'link'])}'>{html.escape(item['link'])}</a ></p >"
                 f"</div>"
             )
+
         if count >= MAX_ITEMS:
             break
+
     return "\n".join(parts)
 
 
