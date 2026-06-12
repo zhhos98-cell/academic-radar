@@ -1,0 +1,45 @@
+name: CFP Backfill Archive
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  archive-backfill:
+    if: contains(github.event.issue.labels.*.name, 'backfill')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Archive backfill issue
+        run: python scripts/cfp_backfill_archive.py
+
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add cfp/
+
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+          else
+            git commit -m "Archive backfilled conference issue #${{ github.event.issue.number }}"
+            git push
+          fi
+
+      - name: Comment and close issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -f /tmp/cfp_backfill_comment.md ]; then
+            gh issue comment "${{ github.event.issue.number }}" --body-file /tmp/cfp_backfill_comment.md
+          fi
+
+          gh issue close "${{ github.event.issue.number }}" --reason completed
