@@ -5,35 +5,38 @@ labels: ["backfill"]
 
 body:
 
-type: input
-id: presentation_title
-attributes:
-label: "Presentation title"
-description: "Title of your paper or presentation."
-placeholder: "Paper title"
-validations:
-required: true
-type: input
-id: conference_title
-attributes:
-label: "Conference title"
-description: "Conference, workshop, symposium, or seminar title."
-placeholder: "Conference title"
-validations:
-required: true
-type: textarea
-id: abstract
-attributes:
-label: "Abstract text"
-description: "Paste abstract here."
-placeholder: "Abstract"
-validations:
-required: false
-type: textarea
-id: bio
-attributes:
-label: "Bio text"
-description: "Paste bio here."
-placeholder: "Bio"
-validations:
-required: false
+* type: input
+  id: presentation_title
+  attributes:
+  label: "Presentation title"
+  description: "Title of your paper or presentation."
+  placeholder: "Paper title"
+  validations:
+  required: true
+
+* type: input
+  id: conference_title
+  attributes:
+  label: "Conference title"
+  description: "Conference, workshop, symposium, or seminar title."
+  placeholder: "Conference title"
+  validations:
+  required: true
+
+* type: textarea
+  id: abstract
+  attributes:
+  label: "Abstract text"
+  description: "Paste abstract here."
+  placeholder: "Abstract"
+  validations:
+  required: false
+
+* type: textarea
+  id: bio
+  attributes:
+  label: "Bio text"
+  description: "Paste bio here."
+  placeholder: "Bio"
+  validations:
+  required: false
