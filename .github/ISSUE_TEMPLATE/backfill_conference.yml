@@ -1,19 +1,26 @@
+```yaml
 name: Backfill conference / 补档会议
 description: Archive a past conference presentation with links, abstract, bio, and ORCID-ready metadata.
 title: "[BACKFILL] "
-labels: ["cfp-ledger", "backfill", "completed"]
+labels:
+  - backfill
+  - cfp-ledger
+  - completed
+
 body:
   - type: markdown
     attributes:
       value: |
         用这个表单补档已经完成的会议、报告、panel、workshop、seminar。
-        先只存链接和文本，不上传文件。后面可以自动归档 abstract/bio、计算 hash、生成 CV / ORCID-ready 导出。
+        
+        这一入口只保存链接和文本，不上传文件。提交后，GitHub Actions 会把记录归档到 `cfp/backfill/`，生成 `metadata.yml`、`metadata.json`、`abstract.txt`、`bio.txt`、`SHA256SUMS.txt`，并更新 `cfp/README.md`、CV export 和 ORCID-ready export。
 
   - type: input
     id: presentation_title
     attributes:
       label: Presentation title / 论文题目
-      placeholder: "Title of the paper or presentation"
+      description: The title of your paper, presentation, poster, or talk.
+      placeholder: "Weighing the Koh-i-Noor: Story-Maskelyne, Valentine Ball, and Diamond Chronology in Late Victorian Britain"
     validations:
       required: true
 
@@ -21,14 +28,25 @@ body:
     id: conference_title
     attributes:
       label: Conference title / 会议名称
-      placeholder: "Conference, workshop, panel, seminar, etc."
+      description: Conference, symposium, workshop, seminar, invited lecture series, etc.
+      placeholder: "Journal of the History of Ideas Graduate Student Symposium"
     validations:
       required: true
+
+  - type: input
+    id: panel_title
+    attributes:
+      label: Panel title / Panel 名称
+      description: Optional. Use this for panel, session, roundtable, or stream title.
+      placeholder: "Knowledge Beyond the Text"
+    validations:
+      required: false
 
   - type: input
     id: conference_website
     attributes:
       label: Conference website / 会议网站
+      description: Main conference or event page.
       placeholder: "https://..."
     validations:
       required: false
@@ -37,6 +55,7 @@ body:
     id: programme_url
     attributes:
       label: Programme URL / 会议日程链接
+      description: Programme, schedule, registration page, blog announcement, or public event listing.
       placeholder: "https://..."
     validations:
       required: false
@@ -45,6 +64,7 @@ body:
     id: proceedings_url
     attributes:
       label: Proceedings / abstract book URL / 论文集或摘要集链接
+      description: Proceedings, abstract book, published programme PDF, conference booklet, or permanent announcement page.
       placeholder: "https://..."
     validations:
       required: false
@@ -53,7 +73,8 @@ body:
     id: location
     attributes:
       label: Location / 地点
-      placeholder: "Cambridge, UK / Online / Hybrid"
+      description: City and country, or Online / Hybrid.
+      placeholder: "Online / Cambridge, UK / Philadelphia, PA, USA"
     validations:
       required: false
 
@@ -61,7 +82,8 @@ body:
     id: host_institution
     attributes:
       label: Host institution / 主办或承办机构
-      placeholder: "University / Society / Department"
+      description: University, department, society, journal, research centre, or host institution.
+      placeholder: "Journal of the History of Ideas / University / Society / Department"
     validations:
       required: false
 
@@ -69,7 +91,8 @@ body:
     id: event_dates
     attributes:
       label: Event dates / 会议日期
-      placeholder: "2026-06-18 to 2026-06-19"
+      description: Use YYYY-MM-DD, YYYY-MM, or a date range if possible.
+      placeholder: "2025-10 / 2026-06-18 to 2026-06-19"
     validations:
       required: false
 
@@ -77,6 +100,7 @@ body:
     id: presentation_date
     attributes:
       label: Presentation date / 报告日期
+      description: Use YYYY-MM-DD if known. Leave blank if only the month or event dates are known.
       placeholder: "2026-06-18"
     validations:
       required: false
@@ -85,6 +109,7 @@ body:
     id: role
     attributes:
       label: Role / 角色
+      description: Your role in this event.
       options:
         - paper presenter
         - invited speaker
@@ -93,7 +118,10 @@ body:
         - respondent
         - organizer
         - poster presenter
+        - seminar speaker
+        - workshop participant
         - other
+      default: 0
     validations:
       required: false
 
@@ -101,6 +129,7 @@ body:
     id: project_link
     attributes:
       label: Project link / 对应项目
+      description: Internal project tag for your own tracking.
       options:
         - unknown
         - Mudge / Board of Longitude
@@ -110,7 +139,10 @@ body:
         - Mary Toft / reproductive politics
         - Balfour / China / religion
         - Black Studies radar
+        - Book review / review essay
+        - General HPS / history of science
         - other
+      default: 0
     validations:
       required: false
 
@@ -118,7 +150,8 @@ body:
     id: abstract
     attributes:
       label: Abstract text / 摘要文本
-      description: Paste the submitted or presented abstract here. No file upload needed.
+      description: Paste the submitted or presented abstract. No file upload needed.
+      placeholder: "Paste abstract here."
       render: markdown
     validations:
       required: false
@@ -128,6 +161,17 @@ body:
     attributes:
       label: Bio text / 投稿或会议 bio
       description: Paste the bio used for this conference, if any.
+      placeholder: "Paste bio here."
+      render: markdown
+    validations:
+      required: false
+
+  - type: textarea
+    id: citation_note
+    attributes:
+      label: Citation note / CV 引用备注
+      description: Optional. Add preferred CV wording, citation style, panel/chair detail, or publication note.
+      placeholder: "Preferred CV wording, chair, panel, funding, acceptance note, recording link, etc."
       render: markdown
     validations:
       required: false
@@ -136,7 +180,8 @@ body:
     id: notes
     attributes:
       label: Notes / 备注
-      description: Funding, travel, panel title, chair, publication status, acceptance email link, etc.
+      description: Internal notes. Use for funding, travel, acceptance email link, recording, publication status, or uncertainty.
+      placeholder: "Private/internal notes."
       render: markdown
     validations:
       required: false
@@ -145,7 +190,12 @@ body:
     id: exports
     attributes:
       label: Export options / 导出选项
+      description: Choose where this backfilled record should appear.
       options:
         - label: Include in CV conference list / 加入 CV 会议列表
+          required: false
         - label: Include in ORCID-ready export / 加入 ORCID-ready 导出
+          required: false
         - label: Include abstract in local archive / 归档 abstract 全文
+          required: false
+```
