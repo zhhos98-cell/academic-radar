@@ -1,11 +1,7 @@
 name: Backfill conference / 补档会议
 description: Archive a past conference presentation with links, abstract, bio, and ORCID-ready metadata.
 title: "[BACKFILL] "
-labels:
-
-* backfill
-* cfp-ledger
-* completed
+labels: ["backfill", "cfp-ledger", "completed"]
 
 body:
 
