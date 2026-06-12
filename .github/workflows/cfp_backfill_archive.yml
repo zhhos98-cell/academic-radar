@@ -1,8 +1,13 @@
+```yaml
 name: CFP Backfill Archive
 
 on:
   issues:
-    types: [opened, edited, labeled]
+    types:
+      - opened
+      - edited
+      - labeled
+      - reopened
 
 permissions:
   contents: write
@@ -10,8 +15,15 @@ permissions:
 
 jobs:
   archive-backfill:
-    if: contains(github.event.issue.labels.*.name, 'backfill')
+    name: Archive backfilled conference issue
     runs-on: ubuntu-latest
+
+    # Run only for real issues, not PR-like issue events.
+    # Trigger if:
+    #   1. the issue has a `backfill` label; or
+    #   2. the title starts with [BACKFILL]; or
+    #   3. the body contains the issue-form heading for backfilled conferences.
+    if: ${{ github.event.issue.pull_request == null && (contains(github.event.issue.labels.*.name, 'backfill') || startsWith(github.event.issue.title, '[BACKFILL]') || contains(github.event.issue.body, 'Presentation title / 论文题目')) }}
 
     steps:
       - name: Checkout repository
@@ -20,7 +32,7 @@ jobs:
       - name: Archive backfill issue
         run: python scripts/cfp_backfill_archive.py
 
-      - name: Commit generated files
+      - name: Commit generated CFP ledger files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -34,12 +46,21 @@ jobs:
             git push
           fi
 
-      - name: Comment and close issue
+      - name: Comment on issue
+        if: always()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [ -f /tmp/cfp_backfill_comment.md ]; then
             gh issue comment "${{ github.event.issue.number }}" --body-file /tmp/cfp_backfill_comment.md
+          else
+            echo "No comment file generated."
           fi
 
+      - name: Close issue as completed
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
           gh issue close "${{ github.event.issue.number }}" --reason completed
+```
