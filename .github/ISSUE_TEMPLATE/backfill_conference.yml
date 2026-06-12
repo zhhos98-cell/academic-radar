@@ -1,190 +1,39 @@
-name: "Backfill conference / 补档会议"
-description: "Archive a past conference presentation with links, abstract, bio, and ORCID-ready metadata."
+name: "Backfill conference"
+description: "Archive a past conference presentation."
 title: "[BACKFILL] "
-labels: ["backfill", "cfp-ledger", "completed"]
+labels: ["backfill"]
 
 body:
 
-* type: markdown
-  attributes:
-  value: "Use this form to backfill a completed conference, workshop, seminar, panel, lecture, or symposium. This form stores links and text only. No file upload is needed."
-
-* type: input
-  id: presentation_title
-  attributes:
-  label: "Presentation title / 论文题目"
-  description: "Title of your paper, presentation, poster, or talk."
-  placeholder: "Weighing the Koh-i-Noor: Story-Maskelyne, Valentine Ball, and Diamond Chronology in Late Victorian Britain"
-  validations:
-  required: true
-
-* type: input
-  id: conference_title
-  attributes:
-  label: "Conference title / 会议名称"
-  description: "Conference, symposium, workshop, seminar, lecture series, panel, or event title."
-  placeholder: "Journal of the History of Ideas Graduate Student Symposium"
-  validations:
-  required: true
-
-* type: input
-  id: panel_title
-  attributes:
-  label: "Panel title / Panel 名称"
-  description: "Optional panel, session, roundtable, or stream title."
-  placeholder: "Knowledge Beyond the Text"
-  validations:
-  required: false
-
-* type: input
-  id: conference_website
-  attributes:
-  label: "Conference website / 会议网站"
-  description: "Main conference or event page."
-  placeholder: "https://..."
-  validations:
-  required: false
-
-* type: input
-  id: programme_url
-  attributes:
-  label: "Programme URL / 会议日程链接"
-  description: "Programme, schedule, registration page, announcement, or public event listing."
-  placeholder: "https://..."
-  validations:
-  required: false
-
-* type: input
-  id: proceedings_url
-  attributes:
-  label: "Proceedings / abstract book URL / 论文集或摘要集链接"
-  description: "Proceedings, abstract book, published programme PDF, conference booklet, or permanent announcement page."
-  placeholder: "https://..."
-  validations:
-  required: false
-
-* type: input
-  id: location
-  attributes:
-  label: "Location / 地点"
-  description: "City and country, or Online / Hybrid."
-  placeholder: "Online / Cambridge, UK / Philadelphia, PA, USA"
-  validations:
-  required: false
-
-* type: input
-  id: host_institution
-  attributes:
-  label: "Host institution / 主办或承办机构"
-  description: "University, department, society, journal, research centre, or host institution."
-  placeholder: "Journal of the History of Ideas / University / Society / Department"
-  validations:
-  required: false
-
-* type: input
-  id: event_dates
-  attributes:
-  label: "Event dates / 会议日期"
-  description: "Use YYYY-MM-DD, YYYY-MM, YYYY, or a simple date range."
-  placeholder: "2025-10 / 2026-06-18 to 2026-06-19"
-  validations:
-  required: false
-
-* type: input
-  id: presentation_date
-  attributes:
-  label: "Presentation date / 报告日期"
-  description: "Use YYYY-MM-DD if known. Leave blank if only the month is known."
-  placeholder: "2026-06-18"
-  validations:
-  required: false
-
-* type: dropdown
-  id: role
-  attributes:
-  label: "Role / 角色"
-  description: "Your role in this event."
-  options:
-  - "paper presenter"
-  - "invited speaker"
-  - "panelist"
-  - "chair"
-  - "respondent"
-  - "organizer"
-  - "poster presenter"
-  - "seminar speaker"
-  - "workshop participant"
-  - "other"
-  default: 0
-  validations:
-  required: false
-
-* type: dropdown
-  id: project_link
-  attributes:
-  label: "Project link / 对应项目"
-  description: "Internal project tag for your own tracking."
-  options:
-  - "unknown"
-  - "Mudge / Board of Longitude"
-  - "Huizinga / Malinowski"
-  - "Coleridge / Wedgwood"
-  - "Photography / tacit knowledge"
-  - "Mary Toft / reproductive politics"
-  - "Balfour / China / religion"
-  - "Black Studies radar"
-  - "Book review / review essay"
-  - "General HPS / history of science"
-  - "other"
-  default: 0
-  validations:
-  required: false
-
-* type: textarea
-  id: abstract
-  attributes:
-  label: "Abstract text / 摘要文本"
-  description: "Paste the submitted or presented abstract. No file upload needed."
-  placeholder: "Paste abstract here."
-  validations:
-  required: false
-
-* type: textarea
-  id: bio
-  attributes:
-  label: "Bio text / 投稿或会议 bio"
-  description: "Paste the bio used for this conference, if any."
-  placeholder: "Paste bio here."
-  validations:
-  required: false
-
-* type: textarea
-  id: citation_note
-  attributes:
-  label: "Citation note / CV 引用备注"
-  description: "Optional preferred CV wording, citation style, panel detail, chair detail, or publication note."
-  placeholder: "Preferred CV wording, chair, panel, funding, acceptance note, recording link, etc."
-  validations:
-  required: false
-
-* type: textarea
-  id: notes
-  attributes:
-  label: "Notes / 备注"
-  description: "Internal notes. Use for funding, travel, acceptance email link, recording, publication status, or uncertainty."
-  placeholder: "Private or internal notes."
-  validations:
-  required: false
-
-* type: checkboxes
-  id: exports
-  attributes:
-  label: "Export options / 导出选项"
-  description: "Choose where this backfilled record should appear."
-  options:
-  - label: "Include in CV conference list / 加入 CV 会议列表"
-  required: false
-  - label: "Include in ORCID-ready export / 加入 ORCID-ready 导出"
-  required: false
-  - label: "Include abstract in local archive / 归档 abstract 全文"
-  required: false
+type: input
+id: presentation_title
+attributes:
+label: "Presentation title"
+description: "Title of your paper or presentation."
+placeholder: "Paper title"
+validations:
+required: true
+type: input
+id: conference_title
+attributes:
+label: "Conference title"
+description: "Conference, workshop, symposium, or seminar title."
+placeholder: "Conference title"
+validations:
+required: true
+type: textarea
+id: abstract
+attributes:
+label: "Abstract text"
+description: "Paste abstract here."
+placeholder: "Abstract"
+validations:
+required: false
+type: textarea
+id: bio
+attributes:
+label: "Bio text"
+description: "Paste bio here."
+placeholder: "Bio"
+validations:
+required: false
