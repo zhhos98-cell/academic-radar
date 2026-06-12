@@ -1,0 +1,299 @@
+name: Add CFP / 新增 CFP
+description: Add a new CFP, special issue, conference, edited volume, fellowship, or grant lead.
+title: "[CFP] "
+labels:
+
+* cfp
+* inbox
+
+body:
+
+* type: markdown
+  attributes:
+  value: |
+  用这个表单把新的 CFP、会议、专刊、edited volume、fellowship、grant lead 丢进 `academic-radar`。
+
+  ```
+  第一版只做结构化入口，不自动抓网页。后面可以接 URL parser、deadline reminder、`/submit` abstract/bio 归档、hash、CV/ORCID-ready export。
+  ```
+
+* type: input
+  id: cfp_title
+  attributes:
+  label: CFP title / CFP 标题
+  description: The title of the call, conference, special issue, edited volume, fellowship, or grant.
+  placeholder: "Conference title / Special issue title / Fellowship name"
+  validations:
+  required: true
+
+* type: dropdown
+  id: cfp_type
+  attributes:
+  label: Type / 类型
+  description: What kind of opportunity is this?
+  options:
+  - conference
+  - symposium
+  - workshop
+  - seminar
+  - special issue
+  - edited volume
+  - fellowship
+  - grant
+  - prize
+  - job
+  - other
+  default: 0
+  validations:
+  required: true
+
+* type: input
+  id: source_url
+  attributes:
+  label: Source URL / 来源链接
+  description: Main CFP page, announcement, registration page, or call URL.
+  placeholder: "https://..."
+  validations:
+  required: false
+
+* type: input
+  id: organiser
+  attributes:
+  label: Organiser / 主办方
+  description: Society, journal, university, department, centre, or organiser.
+  placeholder: "Journal / Society / University / Department / Centre"
+  validations:
+  required: false
+
+* type: input
+  id: host_institution
+  attributes:
+  label: Host institution / 承办机构
+  description: Host institution if different from organiser.
+  placeholder: "University / College / Institute / Online"
+  validations:
+  required: false
+
+* type: input
+  id: location
+  attributes:
+  label: Location / 地点
+  description: City and country, or Online / Hybrid.
+  placeholder: "Oxford, UK / Online / Hybrid"
+  validations:
+  required: false
+
+* type: dropdown
+  id: online_option
+  attributes:
+  label: Online option / 是否可线上
+  options:
+  - unknown
+  - yes
+  - no
+  - hybrid
+  default: 0
+  validations:
+  required: false
+
+* type: input
+  id: event_dates
+  attributes:
+  label: Event dates / 会议或项目日期
+  description: Use YYYY-MM-DD, YYYY-MM, or date range if possible.
+  placeholder: "2026-06-18 to 2026-06-19"
+  validations:
+  required: false
+
+* type: input
+  id: abstract_deadline
+  attributes:
+  label: Abstract deadline / 摘要截止
+  description: Use YYYY-MM-DD if possible.
+  placeholder: "2026-07-15"
+  validations:
+  required: false
+
+* type: input
+  id: full_paper_deadline
+  attributes:
+  label: Full paper deadline / 全文截止
+  description: Use YYYY-MM-DD if known.
+  placeholder: "2026-09-01"
+  validations:
+  required: false
+
+* type: input
+  id: registration_deadline
+  attributes:
+  label: Registration deadline / 注册截止
+  description: Use YYYY-MM-DD if known.
+  placeholder: "2026-08-01"
+  validations:
+  required: false
+
+* type: input
+  id: notification_date
+  attributes:
+  label: Notification date / 结果通知日期
+  description: Use YYYY-MM-DD or YYYY-MM if known.
+  placeholder: "2026-08"
+  validations:
+  required: false
+
+* type: input
+  id: word_limit_abstract
+  attributes:
+  label: Abstract word limit / 摘要字数
+  placeholder: "250 words"
+  validations:
+  required: false
+
+* type: input
+  id: word_limit_paper
+  attributes:
+  label: Paper word limit / 全文字数
+  placeholder: "8000 words"
+  validations:
+  required: false
+
+* type: input
+  id: submission_method
+  attributes:
+  label: Submission method / 投稿方式
+  placeholder: "email / portal / Google Form / EasyChair / Oxford Abstracts"
+  validations:
+  required: false
+
+* type: input
+  id: submission_email
+  attributes:
+  label: Submission email / 投稿邮箱
+  placeholder: "[name@example.com](mailto:name@example.com)"
+  validations:
+  required: false
+
+* type: input
+  id: submission_portal
+  attributes:
+  label: Submission portal / 投稿系统链接
+  placeholder: "https://..."
+  validations:
+  required: false
+
+* type: textarea
+  id: theme_keywords
+  attributes:
+  label: Theme keywords / 主题关键词
+  description: One per line, or comma-separated.
+  placeholder: |
+  history of science
+  material culture
+  early modern print
+  render: markdown
+  validations:
+  required: false
+
+* type: dropdown
+  id: project_link
+  attributes:
+  label: Project link / 对应项目
+  description: Internal project tag for your own tracking.
+  options:
+  - unknown
+  - Mudge / Board of Longitude
+  - Huizinga / Malinowski
+  - Coleridge / Wedgwood
+  - Photography / tacit knowledge
+  - Mary Toft / reproductive politics
+  - Balfour / China / religion
+  - Black Studies radar
+  - Book review / review essay
+  - General HPS / history of science
+  - other
+  default: 0
+  validations:
+  required: false
+
+* type: dropdown
+  id: priority
+  attributes:
+  label: Priority / 优先级
+  options:
+  - unknown
+  - high
+  - medium
+  - low
+  - archive only
+  default: 0
+  validations:
+  required: false
+
+* type: dropdown
+  id: status
+  attributes:
+  label: Status / 状态
+  options:
+  - inbox
+  - reviewing
+  - active
+  - drafting
+  - submitted
+  - accepted
+  - rejected
+  - declined
+  - archived
+  default: 0
+  validations:
+  required: false
+
+* type: input
+  id: next_action
+  attributes:
+  label: Next action / 下一步
+  placeholder: "Decide go/no-go / draft abstract / ask organiser / submit"
+  validations:
+  required: false
+
+* type: input
+  id: next_action_due
+  attributes:
+  label: Next action due / 下一步截止
+  description: Use YYYY-MM-DD if possible.
+  placeholder: "2026-07-01"
+  validations:
+  required: false
+
+* type: textarea
+  id: raw_text
+  attributes:
+  label: Raw CFP text / CFP 原文
+  description: Paste CFP text here if useful. Later this can be parsed automatically.
+  placeholder: "Paste CFP text here."
+  render: markdown
+  validations:
+  required: false
+
+* type: textarea
+  id: notes
+  attributes:
+  label: Notes / 备注
+  description: Internal notes, possible angle, travel/funding issue, fit, doubts, etc.
+  placeholder: "Internal notes."
+  render: markdown
+  validations:
+  required: false
+
+* type: checkboxes
+  id: tracking
+  attributes:
+  label: Tracking options / 跟踪选项
+  options:
+  - label: Add to active CFP dashboard / 加入 CFP 看板
+  required: false
+  - label: Send deadline reminders later / 后续发送 deadline 提醒
+  required: false
+  - label: Needs funding or travel check / 需要经费或出行判断
+  required: false
+  - label: Keep only as archive lead / 只作为线索归档
+  required: false
