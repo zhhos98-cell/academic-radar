@@ -57,6 +57,40 @@ NEGATIVE_TERMS = [
 ]
 
 
+def load_config():
+    path = os.environ.get("BLACK_STUDIES_RADAR_CONFIG", "config/profiles/black_studies.json")
+    if not path or not os.path.exists(path):
+        return {}
+
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def apply_config(config):
+    global STATE_FILE, MAX_ITEMS, RSS_MAX_AGE_DAYS, BSKY_MAX_AGE_DAYS
+    global RSS_FEEDS, BSKY_QUERIES, EVENT_TERMS, CORE_TERMS, NEGATIVE_TERMS
+
+    files = config.get("files", {})
+    settings = config.get("settings", {})
+    rss = config.get("rss", {})
+    bluesky = config.get("bluesky", {})
+    scoring = config.get("scoring", {})
+
+    STATE_FILE = files.get("state", STATE_FILE)
+    MAX_ITEMS = int(settings.get("max_items", MAX_ITEMS))
+    RSS_MAX_AGE_DAYS = int(settings.get("rss_max_age_days", RSS_MAX_AGE_DAYS))
+    BSKY_MAX_AGE_DAYS = int(settings.get("bsky_max_age_days", BSKY_MAX_AGE_DAYS))
+
+    RSS_FEEDS = rss.get("feeds", RSS_FEEDS)
+    BSKY_QUERIES = bluesky.get("queries", BSKY_QUERIES)
+    EVENT_TERMS = scoring.get("event_terms", EVENT_TERMS)
+    CORE_TERMS = scoring.get("core_terms", CORE_TERMS)
+    NEGATIVE_TERMS = scoring.get("negative_terms", NEGATIVE_TERMS)
+
+
+apply_config(load_config())
+
+
 def clean(s):
     if not s:
         return ""
@@ -255,7 +289,7 @@ def render(items):
                 "<h3>[{}] {}</h3>"
                 "<p><b>Source:</b> {} · <b>Score:</b> {}</p >"
                 "<p>{}</p >"
-                "<p><a href=' '>{}</a ></p >"
+                "<p><a href='{}'>{}</a ></p >"
                 "</div>".format(zh, title, source, score, summary, link, link)
             )
 
