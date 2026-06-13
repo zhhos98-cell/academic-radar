@@ -1,4 +1,3 @@
-````python
 from __future__ import annotations
 
 import datetime as dt
@@ -6,9 +5,12 @@ import hashlib
 import json
 import os
 import re
+import tempfile
 import unicodedata
 from pathlib import Path
 from typing import Any
+
+from cfp_ingest_archive import build_dashboard as build_combined_dashboard
 
 
 ROOT = Path.cwd()
@@ -20,8 +22,21 @@ EXPORT_DIR = CFP_DIR / "exports"
 ORCID_EXPORT_DIR = EXPORT_DIR / "orcid"
 CV_EXPORT_DIR = EXPORT_DIR / "cv"
 
-DASHBOARD = CFP_DIR / "README.md"
-COMMENT_PATH = Path("/tmp/cfp_backfill_comment.md")
+COMMENT_PATH = Path(
+    os.environ.get(
+        "CFP_BACKFILL_COMMENT_PATH",
+        Path(tempfile.gettempdir()) / "cfp_backfill_comment.md",
+    )
+)
+
+
+def utc_now_iso() -> str:
+    return (
+        dt.datetime.now(dt.timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
 
 
 def read_event() -> dict[str, Any]:
@@ -299,105 +314,6 @@ def load_backfill_records() -> list[dict[str, Any]]:
     return records
 
 
-def build_dashboard() -> None:
-    records = load_backfill_records()
-
-    lines: list[str] = [
-        "# CFP Ledger / 投稿与会议台账",
-        "",
-        "自动生成。不要手动编辑本页；修改 issue 或 metadata 后重新运行 workflow。",
-        "",
-        "## Active / 进行中",
-        "",
-        "下一步接入未来 CFP tracker 与 `/submit` 归档。",
-        "",
-        "<details>",
-        f"<summary>Backfilled / 补档 {len(records)}</summary>",
-        "",
-    ]
-
-    if not records:
-        lines.extend(
-            [
-                "No backfilled records yet.",
-                "",
-            ]
-        )
-    else:
-        lines.extend(
-            [
-                "| Date | Presentation | Conference | Panel | Location | Abstract | Bio | Programme | Proceedings | Hash | Issue | ORCID |",
-                "|---|---|---|---|---|---|---|---|---|---|---|---|",
-            ]
-        )
-
-        for record in records:
-            record_dir: Path = record["_record_dir"]
-            presentation = record.get("presentation", {})
-            conference = record.get("conference", {})
-            exports = record.get("exports", {})
-
-            date = (
-                presentation.get("presentation_date")
-                or conference.get("event_start")
-                or conference.get("event_dates_raw")
-                or ""
-            )
-            title = presentation.get("title", "")
-            conference_title = conference.get("title", "")
-            panel_title = conference.get("panel_title", "")
-            location = conference.get("location", "")
-
-            abstract_path = record_dir / "abstract.txt"
-            bio_path = record_dir / "bio.txt"
-            hash_path = record_dir / "SHA256SUMS.txt"
-
-            programme_url = conference.get("programme_url") or ""
-            proceedings_url = conference.get("proceedings_url") or ""
-
-            programme = f"[programme]({programme_url})" if programme_url else ""
-            proceedings = f"[proceedings]({proceedings_url})" if proceedings_url else ""
-
-            issue_number = record.get("source_issue", "")
-            issue_url = record.get("source_issue_url", "")
-            issue = f"[#{issue_number}]({issue_url})" if issue_number and issue_url else ""
-
-            orcid = "ready" if exports.get("orcid_ready") else ""
-
-            lines.append(
-                "| "
-                + " | ".join(
-                    [
-                        escape_table(date),
-                        escape_table(title),
-                        escape_table(conference_title),
-                        escape_table(panel_title),
-                        escape_table(location),
-                        markdown_link("abstract", abstract_path),
-                        markdown_link("bio", bio_path),
-                        programme,
-                        proceedings,
-                        markdown_link("hash", hash_path),
-                        issue,
-                        escape_table(orcid),
-                    ]
-                )
-                + " |"
-            )
-
-        lines.append("")
-
-    lines.extend(
-        [
-            "</details>",
-            "",
-        ]
-    )
-
-    DASHBOARD.parent.mkdir(parents=True, exist_ok=True)
-    DASHBOARD.write_text("\n".join(lines), encoding="utf-8")
-
-
 def build_orcid_export() -> None:
     records = load_backfill_records()
     export_records: list[dict[str, Any]] = []
@@ -440,7 +356,7 @@ def build_orcid_export() -> None:
     ORCID_EXPORT_DIR.mkdir(parents=True, exist_ok=True)
 
     payload = {
-        "generated_at": dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
+        "generated_at": utc_now_iso(),
         "note": "ORCID-ready export. Review manually before entering into ORCID.",
         "records": export_records,
     }
@@ -619,7 +535,7 @@ def main() -> None:
         "id": slug,
         "record_type": "conference-presentation",
         "status": "completed",
-        "created_at": dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
+        "created_at": utc_now_iso(),
         "source_issue": issue_number,
         "source_issue_url": issue_url,
         "presentation": {
@@ -679,7 +595,7 @@ def main() -> None:
         encoding="utf-8",
     )
 
-    build_dashboard()
+    build_combined_dashboard()
     build_orcid_export()
     build_cv_export()
 
@@ -704,4 +620,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-````
