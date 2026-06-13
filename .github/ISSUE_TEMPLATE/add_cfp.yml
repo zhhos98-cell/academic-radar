@@ -1,0 +1,231 @@
+name: Add CFP
+description: Add a CFP, special issue, conference, edited volume, fellowship, grant, job, or other academic lead.
+title: "[CFP] "
+labels:
+  - cfp
+  - inbox
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to add a structured CFP or academic opportunity to the CFP Ledger.
+
+  - type: input
+    id: cfp_title
+    attributes:
+      label: CFP title
+      description: The title of the call, conference, special issue, edited volume, fellowship, grant, job, or other lead.
+      placeholder: "Conference title / Special issue title / Fellowship name"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: cfp_type
+    attributes:
+      label: Type
+      description: What kind of opportunity is this?
+      options:
+        - conference
+        - symposium
+        - workshop
+        - seminar
+        - special issue
+        - edited volume
+        - fellowship
+        - grant
+        - prize
+        - job
+        - other
+      default: 0
+    validations:
+      required: true
+
+  - type: input
+    id: source_url
+    attributes:
+      label: Source URL
+      description: Main CFP page, announcement, registration page, or call URL.
+      placeholder: "https://..."
+
+  - type: input
+    id: organiser
+    attributes:
+      label: Organiser
+      description: Society, journal, university, department, centre, or organiser.
+      placeholder: "Journal / Society / University / Department / Centre"
+
+  - type: input
+    id: host_institution
+    attributes:
+      label: Host institution
+      description: Host institution if different from organiser.
+      placeholder: "University / College / Institute / Online"
+
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: City and country, or Online / Hybrid.
+      placeholder: "Oxford, UK / Online / Hybrid"
+
+  - type: dropdown
+    id: online_option
+    attributes:
+      label: Online option
+      options:
+        - unknown
+        - yes
+        - no
+        - hybrid
+      default: 0
+
+  - type: input
+    id: event_dates
+    attributes:
+      label: Event dates
+      description: Use YYYY-MM-DD, YYYY-MM, or a date range if possible.
+      placeholder: "2026-06-18 to 2026-06-19"
+
+  - type: input
+    id: abstract_deadline
+    attributes:
+      label: Abstract deadline
+      description: Use YYYY-MM-DD if possible.
+      placeholder: "2026-07-15"
+
+  - type: input
+    id: full_paper_deadline
+    attributes:
+      label: Full paper deadline
+      description: Use YYYY-MM-DD if known.
+      placeholder: "2026-09-01"
+
+  - type: input
+    id: registration_deadline
+    attributes:
+      label: Registration deadline
+      description: Use YYYY-MM-DD if known.
+      placeholder: "2026-08-01"
+
+  - type: input
+    id: notification_date
+    attributes:
+      label: Notification date
+      description: Use YYYY-MM-DD or YYYY-MM if known.
+      placeholder: "2026-08"
+
+  - type: input
+    id: word_limit_abstract
+    attributes:
+      label: Abstract word limit
+      placeholder: "250 words"
+
+  - type: input
+    id: word_limit_paper
+    attributes:
+      label: Paper word limit
+      placeholder: "8000 words"
+
+  - type: input
+    id: submission_method
+    attributes:
+      label: Submission method
+      placeholder: "email / portal / Google Form / EasyChair / Oxford Abstracts"
+
+  - type: input
+    id: submission_email
+    attributes:
+      label: Submission email
+      placeholder: "name@example.com"
+
+  - type: input
+    id: submission_portal
+    attributes:
+      label: Submission portal
+      placeholder: "https://..."
+
+  - type: textarea
+    id: theme_keywords
+    attributes:
+      label: Theme keywords
+      description: One per line, or comma-separated.
+      placeholder: |
+        history of science
+        material culture
+        early modern print
+      render: markdown
+
+  - type: input
+    id: project_link
+    attributes:
+      label: Project link
+      description: Internal project tag for your own tracking.
+      placeholder: "General HPS / history of science"
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - unknown
+        - high
+        - medium
+        - low
+        - archive only
+      default: 0
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - inbox
+        - reviewing
+        - active
+        - drafting
+        - submitted
+        - accepted
+        - rejected
+        - declined
+        - archived
+      default: 0
+
+  - type: input
+    id: next_action
+    attributes:
+      label: Next action
+      placeholder: "Decide go/no-go / draft abstract / ask organiser / submit"
+
+  - type: input
+    id: next_action_due
+    attributes:
+      label: Next action due
+      description: Use YYYY-MM-DD if possible.
+      placeholder: "2026-07-01"
+
+  - type: textarea
+    id: raw_text
+    attributes:
+      label: Raw CFP text
+      description: Paste CFP text here if useful. Later this can be parsed automatically.
+      placeholder: "Paste CFP text here."
+      render: markdown
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Internal notes, possible angle, travel/funding issue, fit, doubts, etc.
+      placeholder: "Internal notes."
+      render: markdown
+
+  - type: checkboxes
+    id: tracking
+    attributes:
+      label: Tracking options
+      options:
+        - label: Add to active CFP dashboard
+        - label: Send deadline reminders later
+        - label: Needs funding or travel check
+        - label: Keep only as archive lead
