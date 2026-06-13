@@ -1,0 +1,52 @@
+name: CFP Parse Draft
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_url:
+        description: CFP URL to fetch and parse
+        required: false
+        type: string
+      title_hint:
+        description: Optional title override
+        required: false
+        type: string
+      raw_text:
+        description: Optional pasted CFP text
+        required: false
+        type: string
+
+jobs:
+  parse-cfp-draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Write raw CFP text
+        run: |
+          cat > /tmp/cfp_raw_text.txt <<'EOF'
+          ${{ inputs.raw_text }}
+          EOF
+
+      - name: Parse CFP draft
+        run: |
+          python scripts/cfp_parse_text.py \
+            --url "${{ inputs.source_url }}" \
+            --file /tmp/cfp_raw_text.txt \
+            --title-hint "${{ inputs.title_hint }}" \
+            --output cfp_issue_draft.md
+
+      - name: Upload draft
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfp_issue_draft
+          path: cfp_issue_draft.md
