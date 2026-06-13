@@ -1,0 +1,38 @@
+name: CFP Deadline Digest
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-deadline-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build CFP deadline digest
+        run: python scripts/cfp_deadline_digest.py
+
+      - name: Commit CFP deadline digest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add cfp/deadlines.md
+
+          if git diff --cached --quiet; then
+            echo "No deadline digest changes to commit."
+          else
+            git commit -m "Update CFP deadline digest"
+            git push
+          fi
