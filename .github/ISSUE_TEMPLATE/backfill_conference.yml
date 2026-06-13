@@ -1,7 +1,8 @@
 name: "Backfill conference"
 description: "Archive a past conference presentation."
 title: "[BACKFILL] "
-labels: ["backfill"]
+labels:
+  - backfill
 
 body:
   - type: input
@@ -22,6 +23,78 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: panel_title
+    attributes:
+      label: "Panel title"
+      description: "Panel title, if any."
+      placeholder: "Panel title"
+
+  - type: input
+    id: conference_website
+    attributes:
+      label: "Conference website"
+      placeholder: "https://..."
+
+  - type: input
+    id: programme_url
+    attributes:
+      label: "Programme URL"
+      placeholder: "https://..."
+
+  - type: input
+    id: proceedings_url
+    attributes:
+      label: "Proceedings"
+      placeholder: "https://..."
+
+  - type: input
+    id: location
+    attributes:
+      label: "Location"
+      placeholder: "Online / Cambridge, UK"
+
+  - type: input
+    id: host_institution
+    attributes:
+      label: "Host institution"
+      placeholder: "University / Society / Institute"
+
+  - type: input
+    id: event_dates
+    attributes:
+      label: "Event dates"
+      description: "Use YYYY-MM-DD, YYYY-MM, YYYY, or a date range if possible."
+      placeholder: "2026-06-18 to 2026-06-19"
+
+  - type: input
+    id: presentation_date
+    attributes:
+      label: "Presentation date"
+      description: "Use YYYY-MM-DD if possible."
+      placeholder: "2026-06-18"
+
+  - type: dropdown
+    id: role
+    attributes:
+      label: "Role"
+      options:
+        - presenter
+        - panelist
+        - organiser
+        - chair
+        - respondent
+        - attendee
+        - other
+      default: 0
+
+  - type: input
+    id: project_link
+    attributes:
+      label: "Project link"
+      description: "Internal project tag for your own tracking."
+      placeholder: "General HPS / history of science"
+
   - type: textarea
     id: abstract
     attributes:
@@ -39,3 +112,25 @@ body:
       placeholder: "Bio"
     validations:
       required: false
+
+  - type: textarea
+    id: citation_note
+    attributes:
+      label: "Citation note"
+      description: "Preferred wording for CV, ORCID, or bibliography."
+      placeholder: "Citation note"
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notes"
+      placeholder: "Internal notes."
+
+  - type: checkboxes
+    id: export_options
+    attributes:
+      label: "Export options"
+      options:
+        - label: "Include in CV conference list"
+        - label: "Include in ORCID-ready export"
+        - label: "Include abstract in local archive"
