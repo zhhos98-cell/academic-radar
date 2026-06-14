@@ -52,6 +52,8 @@ The parser tries to infer:
 
 ## GitHub Actions Usage
 
-Run `CFP Parse Draft` manually from the Actions tab. Provide either a URL, pasted raw text, or both. The workflow uploads `cfp_issue_draft.md` as an artifact.
+Run `CFP Parse Draft` manually from the Actions tab. Provide either a URL, pasted raw text, or both.
+
+By default, the workflow does not upload the parsed draft because the draft may contain pasted CFP text or personal material. Select `upload_artifact` only when storing the draft in GitHub Actions artifacts is intentional. Audit artifacts remain content-free.
 
 Review the draft before opening an issue. The draft is meant to reduce typing, not to be treated as authoritative metadata.
