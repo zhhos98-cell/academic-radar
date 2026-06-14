@@ -33,6 +33,13 @@ If you fork this repository and run the workflows, you control the data processi
 
 For public forks, avoid committing real runtime state, private watchlists, exported feed lists, or personal CFP archive records unless you intentionally want them public.
 
+Installable CLI:
+
+```bash
+pip install .
+academic-radar --config config/profiles/hps.json --dry-run --output-html tmp/radar_digest.html --output-json tmp/radar_items.json
+```
+
 Local preview:
 
 ```bash
@@ -50,6 +57,7 @@ python -m unittest discover -s tests
 
 - `site/`: static Pages config builder.
 - `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, and CLI code.
+- `pyproject.toml`: Python package metadata and `academic-radar` console command.
 - `config/profiles/`: radar profile examples.
 - `examples/`: starter watchlist and OPML files.
 - `radar.py`: compatibility entry point for the package CLI.
