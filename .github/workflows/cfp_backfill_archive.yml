@@ -76,7 +76,7 @@ jobs:
           fi
 
       - name: Comment on issue
-        if: ${{ always() && vars.COMMENT_CFP_ISSUES == 'true' }}
+        if: ${{ always() && vars.COMMENT_CFP_ISSUES == 'true' && vars.PERSIST_CFP_LEDGER == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
           CFP_BACKFILL_COMMENT_PATH: ${{ runner.temp }}/cfp_backfill_comment.md
