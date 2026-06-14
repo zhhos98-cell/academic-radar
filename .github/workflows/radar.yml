@@ -1,8 +1,6 @@
 name: Daily Academic Radar
 
 on:
-  schedule:
-    - cron: "0 8 * * *"
   workflow_dispatch:
 
 permissions:
@@ -31,6 +29,6 @@ jobs:
         run: |
           git config user.name "academic-radar-bot"
           git config user.email "academic-radar-bot@users.noreply.github.com"
-          git add sent_items.json
+          git add -f sent_items.json
           git diff --cached --quiet || git commit -m "Update sent item state"
           git push
