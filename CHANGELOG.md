@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.2.0 - 2026-06-14
 
 - Added a local first-run CLI setup flow that creates a private `.radar/` profile, OPML file, Bluesky watchlist, and seen-link state path.
 - Added a `docs/LOCAL_FIRST_RUN.md` walkthrough for local installation, private profile generation, no-network inspection, diagnostics, dry previews, email setup, and privacy checks.
