@@ -10,6 +10,7 @@ from .presets import describe_presets
 from .render import render_email, serializable_items
 from .setup import DEFAULT_LOCAL_PROFILE, write_first_run_files
 from .state import filter_new_items, save_seen_links
+from .summary import summarize_config
 
 
 def write_output(path, body):
@@ -30,6 +31,7 @@ def parse_args(argv=None):
     parser.add_argument("--output-html", help="Write rendered digest HTML to this path.")
     parser.add_argument("--output-json", help="Write selected items as JSON to this path.")
     parser.add_argument("--dry-run", action="store_true", help="Fetch and render without sending email or writing state.")
+    parser.add_argument("--summary", action="store_true", help="Print a no-network profile summary and exit.")
     parser.add_argument("--doctor", action="store_true", help="Run no-network diagnostics for the selected profile and exit.")
     parser.add_argument("--no-email", action="store_true", help="Do not send email.")
     parser.add_argument("--no-state", action="store_true", help="Do not write seen-link state.")
@@ -69,6 +71,7 @@ def print_first_run_result(result):
     print(f"  Bluesky watchlist: {result['watchlist']}")
     print(f"  Seen-link state: {result['state']}")
     print("")
+    print(f"Inspect the profile with: academic-radar --config {result['profile']} --summary")
     print(f"Run diagnostics with: academic-radar --config {result['profile']} --doctor")
     print(f"Run a preview with: academic-radar --config {result['profile']} --dry-run")
 
@@ -103,6 +106,10 @@ def main(argv=None):
 
     config = load_config(args.config)
     apply_overrides(config, opml=args.opml, watchlist=args.watchlist, state=args.state, max_items=args.max_items)
+
+    if args.summary:
+        print(summarize_config(config))
+        return 0
 
     if args.doctor:
         diagnostics = diagnose_config(config)
