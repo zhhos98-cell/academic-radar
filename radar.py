@@ -108,6 +108,47 @@ BLUESKY_QUERIES = [
 ]
 
 
+def load_config():
+    path = os.environ.get("RADAR_CONFIG", "config/profiles/hps.json")
+    if not path or not os.path.exists(path):
+        return {}
+
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def apply_config(config):
+    global OPML_FILE, BSKY_WATCHLIST_FILE, STATE_FILE
+    global RSS_MAX_AGE_DAYS, BSKY_MAX_AGE_DAYS
+    global MAX_EMAIL_ITEMS, MAX_RSS_PER_FEED, MAX_BSKY_PER_QUERY, MAX_BSKY_PER_ACCOUNT
+    global EVENT_TERMS, CORE_FIELD_TERMS, PRESTIGE_OR_CORE_SOURCES, NEGATIVE_TERMS, BLUESKY_QUERIES
+
+    files = config.get("files", {})
+    settings = config.get("settings", {})
+    scoring = config.get("scoring", {})
+    bluesky = config.get("bluesky", {})
+
+    OPML_FILE = files.get("opml", OPML_FILE)
+    BSKY_WATCHLIST_FILE = files.get("bsky_watchlist", BSKY_WATCHLIST_FILE)
+    STATE_FILE = files.get("state", STATE_FILE)
+
+    RSS_MAX_AGE_DAYS = int(settings.get("rss_max_age_days", RSS_MAX_AGE_DAYS))
+    BSKY_MAX_AGE_DAYS = int(settings.get("bsky_max_age_days", BSKY_MAX_AGE_DAYS))
+    MAX_EMAIL_ITEMS = int(settings.get("max_email_items", MAX_EMAIL_ITEMS))
+    MAX_RSS_PER_FEED = int(settings.get("max_rss_per_feed", MAX_RSS_PER_FEED))
+    MAX_BSKY_PER_QUERY = int(settings.get("max_bsky_per_query", MAX_BSKY_PER_QUERY))
+    MAX_BSKY_PER_ACCOUNT = int(settings.get("max_bsky_per_account", MAX_BSKY_PER_ACCOUNT))
+
+    EVENT_TERMS = scoring.get("event_terms", EVENT_TERMS)
+    CORE_FIELD_TERMS = scoring.get("core_field_terms", CORE_FIELD_TERMS)
+    PRESTIGE_OR_CORE_SOURCES = scoring.get("prestige_or_core_sources", PRESTIGE_OR_CORE_SOURCES)
+    NEGATIVE_TERMS = scoring.get("negative_terms", NEGATIVE_TERMS)
+    BLUESKY_QUERIES = bluesky.get("queries", BLUESKY_QUERIES)
+
+
+apply_config(load_config())
+
+
 def clean_text(s):
     if not s:
         return ""

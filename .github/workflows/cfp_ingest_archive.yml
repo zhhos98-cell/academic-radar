@@ -1,4 +1,4 @@
-name: CFP Backfill Archive
+name: CFP Ingest Archive
 
 on:
   issues:
@@ -13,11 +13,11 @@ permissions:
   issues: write
 
 jobs:
-  archive-backfill:
-    name: Archive backfilled conference issue
+  ingest-cfp:
+    name: Ingest CFP issue into ledger
     runs-on: ubuntu-latest
 
-    if: ${{ github.event.issue.pull_request == null && (contains(github.event.issue.labels.*.name, 'backfill') || startsWith(github.event.issue.title, '[BACKFILL]') || contains(github.event.issue.body, 'Presentation title')) }}
+    if: ${{ github.event.issue.pull_request == null && !contains(github.event.issue.labels.*.name, 'backfill') && (contains(github.event.issue.labels.*.name, 'cfp') || startsWith(github.event.issue.title, '[CFP]') || contains(github.event.issue.body, 'CFP title')) }}
 
     steps:
       - name: Checkout repository
@@ -28,8 +28,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Archive backfill issue
-        run: python scripts/cfp_backfill_archive.py
+      - name: Ingest CFP issue
+        run: python scripts/cfp_ingest_archive.py
 
       - name: Commit generated CFP ledger files
         run: |
@@ -41,24 +41,17 @@ jobs:
           if git diff --cached --quiet; then
             echo "No generated changes to commit."
           else
-            git commit -m "Archive backfilled conference issue #${{ github.event.issue.number }}"
+            git commit -m "Ingest CFP issue #${{ github.event.issue.number }}"
             git push
           fi
 
       - name: Comment on issue
-        if: always()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if [ -f /tmp/cfp_backfill_comment.md ]; then
-            gh issue comment "${{ github.event.issue.number }}" --body-file /tmp/cfp_backfill_comment.md
-          else
-            echo "No comment file generated."
-          fi
-
-      - name: Close issue as completed
         if: success()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh issue close "${{ github.event.issue.number }}" --reason completed
+          if [ -f /tmp/cfp_ingest_comment.md ]; then
+            gh issue comment "${{ github.event.issue.number }}" --body-file /tmp/cfp_ingest_comment.md
+          else
+            echo "No comment file generated."
+          fi

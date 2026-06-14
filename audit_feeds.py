@@ -1,14 +1,23 @@
-import csv, datetime, time, xml.etree.ElementTree as ET
+import csv, datetime, os, time, xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import feedparser, requests
 
-OPML_IN = "feedly.opml"
+OPML_IN = os.environ.get("OPML_IN", "feedly.opml")
 AUDIT_CSV = "feed_audit.csv"
 ACTIVE_OPML = "feedly_active.opml"
 STALE_OPML = "feedly_stale_or_unknown.opml"
 CUTOFF_DAYS = 120  # 4 months-ish; change to 180 for 6 months
 NOW = datetime.datetime.now(datetime.timezone.utc)
+
+if not os.path.exists(OPML_IN) and OPML_IN == "feedly.opml" and os.path.exists(ACTIVE_OPML):
+    OPML_IN = ACTIVE_OPML
+
+if not os.path.exists(OPML_IN):
+    raise FileNotFoundError(
+        f"Could not find {OPML_IN!r}. Export Feedly OPML as feedly.opml, "
+        "or set OPML_IN to another OPML file."
+    )
 
 root = ET.parse(OPML_IN).getroot()
 feeds = []

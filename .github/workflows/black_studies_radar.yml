@@ -18,10 +18,11 @@ jobs:
         with:
           python-version: "3.11"
 
-      - run: pip install feedparser requests
+      - run: pip install -r requirements.txt
 
       - run: python black_studies_radar.py
         env:
+          BLACK_STUDIES_RADAR_CONFIG: config/profiles/black_studies.json
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
