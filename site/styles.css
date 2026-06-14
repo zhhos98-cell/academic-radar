@@ -253,6 +253,13 @@ pre {
   background: var(--gold);
 }
 
+.privacy-note {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
 @media (max-width: 920px) {
   .shell {
     padding: 14px;
