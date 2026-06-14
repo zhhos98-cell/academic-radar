@@ -5,6 +5,7 @@
 - Added a Windows desktop GUI for form-based setup, local file generation, no-network summary, diagnostics, dry-run previews, and opening generated HTML results without PowerShell.
 - Added a GitHub Actions workflow that builds `AcademicRadar.exe` with PyInstaller and uploads `AcademicRadar-Windows.zip` as a workflow artifact.
 - Added `academic-radar-gui` and `academic_radar_gui.py` entry points for launching or packaging the desktop GUI.
+- Added GUI packaging smoke tests that compile the desktop GUI sources without opening a display window.
 - Added `docs/WINDOWS_APP.md` with download, first-run, workspace, button, privacy, and build instructions for the desktop app.
 - Improved the Pages web builder with beginner-facing instructions, a privacy note, a three-step workflow, clearer generated-file labels, and links to the repository, local first-run guide, and releases.
 - Added a responsible-use notice reminding users to check source terms, platform rules, institutional policies, data-protection duties, and private runtime file handling before automation.
