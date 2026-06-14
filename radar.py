@@ -1,16 +1,15 @@
-import os
-import re
+import argparse
 import html
 import json
+import os
+import re
 import smtplib
 import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta, timezone
 from email.mime.text import MIMEText
 from email.utils import parsedate_to_datetime
-from datetime import datetime, timezone, timedelta
 
-import feedparser
-import requests
-
+DEFAULT_CONFIG = "config/profiles/hps.json"
 
 OPML_FILE = "feedly_active.opml"
 BSKY_WATCHLIST_FILE = "bsky_watchlist_core.txt"
@@ -23,66 +22,102 @@ MAX_RSS_PER_FEED = 12
 MAX_BSKY_PER_QUERY = 15
 MAX_BSKY_PER_ACCOUNT = 8
 
-
 EVENT_TERMS = [
-    "call for papers", "cfp", "call for chapters", "special issue",
-    "conference", "workshop", "symposium", "seminar",
-    "new book", "forthcoming", "book launch", "review copy",
-    "fellowship", "grant", "bursary", "studentship",
-    "research assistant", "ra position", "library assistant",
-    "assistant librarian", "archivist", "curator",
-    "deadline", "open access", "new issue",
+    "call for papers",
+    "cfp",
+    "call for chapters",
+    "special issue",
+    "conference",
+    "workshop",
+    "symposium",
+    "seminar",
+    "new book",
+    "forthcoming",
+    "book launch",
+    "review copy",
+    "fellowship",
+    "grant",
+    "bursary",
+    "studentship",
+    "research assistant",
+    "ra position",
+    "library assistant",
+    "assistant librarian",
+    "archivist",
+    "curator",
+    "deadline",
+    "open access",
+    "new issue",
 ]
 
 CORE_FIELD_TERMS = [
-    "history of science", "histstm", "hstm", "history of knowledge",
-    "history of humanities", "book history", "material culture",
-    "intellectual history", "history of medicine", "history of technology",
-    "philosophy of science", "hps", "sts",
-    "early modern", "eighteenth century", "18th century", "c18",
-    "romanticism", "manuscript", "bibliography", "rare books",
-    "scientific instrument", "scientific instruments",
-    "natural history", "premodern", "mediterranean",
+    "history of science",
+    "histstm",
+    "hstm",
+    "history of knowledge",
+    "history of humanities",
+    "book history",
+    "material culture",
+    "intellectual history",
+    "history of medicine",
+    "history of technology",
+    "philosophy of science",
+    "hps",
+    "sts",
+    "early modern",
+    "eighteenth century",
+    "18th century",
+    "manuscript",
+    "bibliography",
+    "rare books",
+    "scientific instrument",
+    "natural history",
 ]
 
 PRESTIGE_OR_CORE_SOURCES = [
-    "bshs", "hstm", "hopos", "isis", "history of science",
-    "jhi", "journal of the history of ideas", "isih",
-    "history of humanities", "mpi", "mpiwg",
-    "royal historical society", "royal society", "royal astronomical society",
-    "society for renaissance studies", "bsecs", "bars",
-    "warburg", "whipple", "cambridge", "oxford", "bodleian",
-    "british library", "wellcome", "ihr", "crassh",
+    "bshs",
+    "hstm",
+    "hopos",
+    "isis",
+    "history of science",
+    "jhi",
+    "journal of the history of ideas",
+    "isih",
+    "history of humanities",
+    "mpi",
+    "mpiwg",
+    "royal historical society",
+    "royal society",
+    "royal astronomical society",
+    "society for renaissance studies",
+    "bsecs",
+    "bars",
+    "warburg",
+    "whipple",
+    "cambridge",
+    "oxford",
+    "bodleian",
+    "british library",
+    "wellcome",
+    "ihr",
+    "crassh",
 ]
 
 NEGATIVE_TERMS = [
-    "contemporary", "twentieth century", "21st century", "twenty-first century",
-    "media studies", "global media", "digital governance", "algorithmic media",
-    "artificial intelligence", "platform", "social media", "public discourse",
-    "digital sovereignty", "policy", "governance", "sociology", "social scientists",
-    "social science", "anthropological linguistics",
-
-    "china", "chinese", "sinology", "sinological", "sino-",
-    "east asia", "east asian", "asian studies", "asian humanities",
-    "south asia", "south asian", "southeast asia", "southeast asian",
-    "korea", "korean", "japan", "japanese", "confucian", "dao ",
-    "pre-qin",
-
-    "classics", "classical studies", "homer", "odyssey", "greco-roman",
-
-    "american literature", "emerson", "thoreau", "joseph conrad",
-    "popular fiction", "neo-victorian", "victorian publics",
-    "postcolonial", "film and television", "popular culture",
-    "modernist studies", "creative-critical",
-
-    "postdoc", "postdoctoral", "lecturer", "assistant professor",
-    "associate professor", "professor", "tenure", "tenure-track",
-    "faculty position", "jobs for medievalists",
-
-    "errant journal", "online conference", "samla",
-    "undergraduate", "high school",
-
-    "crypto", "nft", "marketing", "seo", "garden planner",
+    "contemporary",
+    "postdoc",
+    "postdoctoral",
+    "lecturer",
+    "assistant professor",
+    "associate professor",
+    "professor",
+    "tenure",
+    "tenure-track",
+    "faculty position",
+    "undergraduate",
+    "high school",
+    "marketing",
+    "seo",
 ]
 
 BLUESKY_QUERIES = [
@@ -108,8 +143,8 @@ BLUESKY_QUERIES = [
 ]
 
 
-def load_config():
-    path = os.environ.get("RADAR_CONFIG", "config/profiles/hps.json")
+def load_config(path=None):
+    path = path or os.environ.get("RADAR_CONFIG", DEFAULT_CONFIG)
     if not path or not os.path.exists(path):
         return {}
 
@@ -146,29 +181,40 @@ def apply_config(config):
     BLUESKY_QUERIES = bluesky.get("queries", BLUESKY_QUERIES)
 
 
-apply_config(load_config())
+def apply_cli_overrides(args):
+    global OPML_FILE, BSKY_WATCHLIST_FILE, STATE_FILE, MAX_EMAIL_ITEMS
+
+    if args.opml:
+        OPML_FILE = args.opml
+    if args.watchlist:
+        BSKY_WATCHLIST_FILE = args.watchlist
+    if args.state:
+        STATE_FILE = args.state
+    if args.max_items is not None:
+        MAX_EMAIL_ITEMS = args.max_items
 
 
-def clean_text(s):
-    if not s:
+def clean_text(value):
+    if not value:
         return ""
-    s = html.unescape(str(s))
-    s = re.sub(r"<.*?>", " ", s)
-    s = re.sub(r"\s+", " ", s)
-    return s.strip()
+    value = html.unescape(str(value))
+    value = re.sub(r"<.*?>", " ", value)
+    value = re.sub(r"\s+", " ", value)
+    return value.strip()
 
 
 def parse_feed_date(entry):
     for key in ["published", "updated", "created"]:
         value = entry.get(key)
-        if value:
-            try:
-                dt = parsedate_to_datetime(value)
-                if dt.tzinfo is None:
-                    dt = dt.replace(tzinfo=timezone.utc)
-                return dt.astimezone(timezone.utc)
-            except Exception:
-                pass
+        if not value:
+            continue
+        try:
+            dt = parsedate_to_datetime(value)
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt.astimezone(timezone.utc)
+        except Exception:
+            pass
     return None
 
 
@@ -178,9 +224,12 @@ def too_old(dt, max_age_days):
     return dt < datetime.now(timezone.utc) - timedelta(days=max_age_days)
 
 
-def load_opml_feeds(path=OPML_FILE):
+def load_opml_feeds(path=None):
+    path = path or OPML_FILE
     if not os.path.exists(path):
+        print(f"[CONFIG] OPML file not found: {path}")
         return []
+
     root = ET.parse(path).getroot()
     feeds = []
     for outline in root.iter("outline"):
@@ -189,17 +238,21 @@ def load_opml_feeds(path=OPML_FILE):
         if url:
             feeds.append((title, url))
 
-    seen, out = set(), []
+    seen = set()
+    deduped = []
     for title, url in feeds:
         if url not in seen:
             seen.add(url)
-            out.append((title, url))
-    return out
+            deduped.append((title, url))
+    return deduped
 
 
-def load_bsky_watchlist(path=BSKY_WATCHLIST_FILE):
+def load_bsky_watchlist(path=None):
+    path = path or BSKY_WATCHLIST_FILE
     if not os.path.exists(path):
+        print(f"[CONFIG] Bluesky watchlist not found: {path}")
         return []
+
     handles = []
     with open(path, "r", encoding="utf-8") as f:
         for line in f:
@@ -213,41 +266,42 @@ def load_bsky_watchlist(path=BSKY_WATCHLIST_FILE):
 
 
 def classify(text):
-    t = text.lower()
+    text = text.lower()
 
-    if any(x in t for x in ["call for papers", "cfp", "call for chapters"]):
-        return "CFP / Calls", "征稿"
-
-    if any(x in t for x in ["special issue", "new issue"]):
-        return "Special Issues / Journals", "专刊/期刊"
-
-    if any(x in t for x in ["new book", "forthcoming", "book launch", "review copy"]):
-        return "New Books", "新书"
-
-    if any(x in t for x in [
-        "research assistant", "ra position", "library assistant",
-        "assistant librarian", "archivist", "curator"
-    ]):
-        return "RA / Library / Archive Jobs", "职位"
-
-    if any(x in t for x in ["fellowship", "grant", "bursary", "studentship"]):
-        return "Fellowships / Grants", "资助"
-
-    if any(x in t for x in ["conference", "workshop", "symposium", "seminar"]):
-        return "Events / Seminars", "活动"
-
-    return "Other Signals", "线索"
+    if any(term in text for term in ["call for papers", "cfp", "call for chapters"]):
+        return "CFP / Calls", "CFP"
+    if any(term in text for term in ["special issue", "new issue"]):
+        return "Special Issues / Journals", "Journal"
+    if any(term in text for term in ["new book", "forthcoming", "book launch", "review copy"]):
+        return "New Books", "Book"
+    if any(
+        term in text
+        for term in [
+            "research assistant",
+            "ra position",
+            "library assistant",
+            "assistant librarian",
+            "archivist",
+            "curator",
+        ]
+    ):
+        return "RA / Library / Archive Jobs", "Job"
+    if any(term in text for term in ["fellowship", "grant", "bursary", "studentship"]):
+        return "Fellowships / Grants", "Funding"
+    if any(term in text for term in ["conference", "workshop", "symposium", "seminar"]):
+        return "Events / Seminars", "Event"
+    return "Other Signals", "Signal"
 
 
 def score(text):
-    t = text.lower()
+    text = text.lower()
 
-    if any(x in t for x in NEGATIVE_TERMS):
+    if any(term in text for term in NEGATIVE_TERMS):
         return 0
 
-    event_score = sum(3 for k in EVENT_TERMS if k in t)
-    field_score = sum(2 for k in CORE_FIELD_TERMS if k in t)
-    core_source_bonus = 4 if any(k in t for k in PRESTIGE_OR_CORE_SOURCES) else 0
+    event_score = sum(3 for term in EVENT_TERMS if term in text)
+    field_score = sum(2 for term in CORE_FIELD_TERMS if term in text)
+    core_source_bonus = 4 if any(term in text for term in PRESTIGE_OR_CORE_SOURCES) else 0
     raw = event_score + field_score + core_source_bonus
 
     has_event = event_score > 0
@@ -256,31 +310,30 @@ def score(text):
 
     if has_event and not has_core_field and not has_core_source:
         return 0
-
-    if any(x in t for x in ["call for papers", "cfp", "call for chapters"]) and raw < 9:
+    if any(term in text for term in ["call for papers", "cfp", "call for chapters"]) and raw < 9:
         return 0
-
-    if any(x in t for x in ["fellowship", "grant", "bursary", "studentship"]) and raw < 10:
+    if any(term in text for term in ["fellowship", "grant", "bursary", "studentship"]) and raw < 10:
         return 0
-
-    if any(x in t for x in [
-        "research assistant", "library assistant",
-        "assistant librarian", "archivist", "curator"
-    ]) and raw < 10:
+    if any(
+        term in text
+        for term in ["research assistant", "library assistant", "assistant librarian", "archivist", "curator"]
+    ) and raw < 10:
         return 0
 
     return raw
 
 
 def extract_dates_and_details(text):
-    t = clean_text(text)
-    lower = t.lower()
+    text = clean_text(text)
+    lower = text.lower()
 
-    deadline = ""
-    event_date = ""
-    location = ""
-    format_hint = ""
-    funding = ""
+    details = {
+        "deadline": "",
+        "event_date": "",
+        "location": "",
+        "format": "",
+        "funding": "",
+    }
 
     deadline_patterns = [
         r"deadline(?: for submissions)?[:\s]+([^.;\n]{3,80})",
@@ -291,22 +344,22 @@ def extract_dates_and_details(text):
         r"by ([0-9]{1,2}(?:st|nd|rd|th)? [A-Z][a-z]+ 20[0-9]{2})",
         r"by ([A-Z][a-z]+ [0-9]{1,2}, 20[0-9]{2})",
     ]
-    for pat in deadline_patterns:
-        m = re.search(pat, t, flags=re.IGNORECASE)
-        if m:
-            deadline = m.group(1).strip()
+    for pattern in deadline_patterns:
+        match = re.search(pattern, text, flags=re.IGNORECASE)
+        if match:
+            details["deadline"] = match.group(1).strip()[:100]
             break
 
     event_patterns = [
-        r"([0-9]{1,2}[–-][0-9]{1,2} [A-Z][a-z]+ 20[0-9]{2})",
+        r"([0-9]{1,2}[-/][0-9]{1,2} [A-Z][a-z]+ 20[0-9]{2})",
         r"([0-9]{1,2} [A-Z][a-z]+ 20[0-9]{2})",
-        r"([A-Z][a-z]+ [0-9]{1,2}[–-][0-9]{1,2}, 20[0-9]{2})",
+        r"([A-Z][a-z]+ [0-9]{1,2}[-/][0-9]{1,2}, 20[0-9]{2})",
         r"([A-Z][a-z]+ [0-9]{1,2}, 20[0-9]{2})",
     ]
-    for pat in event_patterns:
-        m = re.search(pat, t)
-        if m:
-            event_date = m.group(1).strip()
+    for pattern in event_patterns:
+        match = re.search(pattern, text)
+        if match:
+            details["event_date"] = match.group(1).strip()[:100]
             break
 
     location_patterns = [
@@ -314,87 +367,86 @@ def extract_dates_and_details(text):
         r"([A-Z][A-Za-z .'-]+ University(?:, [A-Z][A-Za-z .'-]+)?)",
         r"(University of [A-Z][A-Za-z .'-]+)",
     ]
-    for pat in location_patterns:
-        m = re.search(pat, t, flags=re.IGNORECASE)
-        if m:
-            candidate = m.group(1).strip()
+    for pattern in location_patterns:
+        match = re.search(pattern, text, flags=re.IGNORECASE)
+        if match:
+            candidate = match.group(1).strip()
             if len(candidate.split()) <= 14:
-                location = candidate
+                details["location"] = candidate[:120]
                 break
 
     if "hybrid" in lower:
-        format_hint = "hybrid"
+        details["format"] = "hybrid"
     elif "online" in lower or "zoom" in lower or "virtual" in lower:
-        format_hint = "online"
+        details["format"] = "online"
     elif "in person" in lower or "in-person" in lower:
-        format_hint = "in-person"
+        details["format"] = "in-person"
 
     funding_terms = [
-        "bursary", "travel support", "travel grant",
-        "stipend", "scholarship", "fee waiver", "funding available"
+        "bursary",
+        "travel support",
+        "travel grant",
+        "stipend",
+        "scholarship",
+        "fee waiver",
+        "funding available",
     ]
-    if any(x in lower for x in funding_terms):
-        for term in funding_terms:
-            idx = lower.find(term)
-            if idx != -1:
-                start = max(0, idx - 70)
-                end = min(len(t), idx + 160)
-                funding = t[start:end].strip()
-                break
+    for term in funding_terms:
+        index = lower.find(term)
+        if index != -1:
+            start = max(0, index - 70)
+            end = min(len(text), index + 160)
+            details["funding"] = text[start:end].strip()[:240]
+            break
 
-    return {
-        "deadline": deadline[:100],
-        "event_date": event_date[:100],
-        "location": location[:120],
-        "format": format_hint,
-        "funding": funding[:240],
-    }
+    return details
 
 
 def make_item(title, link, summary, source, source_name="", dt=None):
     full_text = f"{title} {summary} {source_name}"
-    s = score(full_text)
-    if s <= 0:
+    item_score = score(full_text)
+    if item_score <= 0:
         return None
 
-    category, zh_tag = classify(full_text)
-    details = extract_dates_and_details(full_text)
-
+    category, tag = classify(full_text)
     return {
-        "score": s,
+        "score": item_score,
         "title": clean_text(title)[:220],
         "link": link,
         "summary": clean_text(summary)[:520],
         "source": source,
         "source_name": source_name,
         "category": category,
-        "zh_tag": zh_tag,
-        "details": details,
+        "tag": tag,
+        "details": extract_dates_and_details(full_text),
         "dt": dt,
     }
 
 
 def fetch_rss():
-    items = []
-    feeds = load_opml_feeds()
+    import feedparser
 
-    for feed_title, url in feeds:
+    items = []
+    for feed_title, url in load_opml_feeds():
         try:
             feed = feedparser.parse(url)
-            for e in feed.entries[:MAX_RSS_PER_FEED]:
-                entry_dt = parse_feed_date(e)
+            for entry in feed.entries[:MAX_RSS_PER_FEED]:
+                entry_dt = parse_feed_date(entry)
                 if too_old(entry_dt, RSS_MAX_AGE_DAYS):
                     continue
 
-                title = e.get("title", "")
-                link = e.get("link", "")
-                summary = e.get("summary", "") or e.get("description", "")
-                item = make_item(title, link, summary, "RSS", feed_title, entry_dt)
+                item = make_item(
+                    entry.get("title", ""),
+                    entry.get("link", ""),
+                    entry.get("summary", "") or entry.get("description", ""),
+                    "RSS",
+                    feed_title,
+                    entry_dt,
+                )
                 if item:
                     items.append(item)
-        except Exception as ex:
-            print(f"[RSS ERROR] {url}: {ex}")
-
+        except Exception as exc:
+            print(f"[RSS ERROR] {url}: {exc}")
     return items
 
 
@@ -417,80 +469,81 @@ def bsky_created_at(post):
 
 
 def fetch_bluesky_search():
-    items = []
+    import requests
 
-    for q in BLUESKY_QUERIES:
+    items = []
+    for query in BLUESKY_QUERIES:
         try:
-            r = requests.get(
+            response = requests.get(
                 "https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts",
-                params={"q": q, "limit": MAX_BSKY_PER_QUERY},
+                params={"q": query, "limit": MAX_BSKY_PER_QUERY},
                 timeout=20,
             )
-            if not r.ok:
-                print(f"[BSKY SEARCH ERROR] {q}: {r.status_code}")
+            if not response.ok:
+                print(f"[BSKY SEARCH ERROR] {query}: {response.status_code}")
                 continue
 
-            for p in r.json().get("posts", []):
-                dt = bsky_created_at(p)
+            for post in response.json().get("posts", []):
+                dt = bsky_created_at(post)
                 if too_old(dt, BSKY_MAX_AGE_DAYS):
                     continue
 
-                text = p.get("record", {}).get("text", "")
-                author = p.get("author", {}).get("handle", "")
-                link = bsky_post_link(p)
-                item = make_item(text[:180], link, text, "Bluesky search", author, dt)
+                text = post.get("record", {}).get("text", "")
+                item = make_item(
+                    text[:180],
+                    bsky_post_link(post),
+                    text,
+                    "Bluesky search",
+                    post.get("author", {}).get("handle", ""),
+                    dt,
+                )
                 if item:
                     items.append(item)
-        except Exception as ex:
-            print(f"[BSKY SEARCH ERROR] {q}: {ex}")
-
+        except Exception as exc:
+            print(f"[BSKY SEARCH ERROR] {query}: {exc}")
     return items
 
 
 def fetch_bluesky_watchlist():
-    items = []
-    handles = load_bsky_watchlist()
+    import requests
 
-    for handle in handles:
+    items = []
+    for handle in load_bsky_watchlist():
         try:
-            r = requests.get(
+            response = requests.get(
                 "https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed",
                 params={"actor": handle, "limit": MAX_BSKY_PER_ACCOUNT},
                 timeout=20,
             )
-            if not r.ok:
-                print(f"[BSKY WATCH ERROR] {handle}: {r.status_code}")
+            if not response.ok:
+                print(f"[BSKY WATCH ERROR] {handle}: {response.status_code}")
                 continue
 
-            for row in r.json().get("feed", []):
-                p = row.get("post", {})
-                dt = bsky_created_at(p)
+            for row in response.json().get("feed", []):
+                post = row.get("post", {})
+                dt = bsky_created_at(post)
                 if too_old(dt, BSKY_MAX_AGE_DAYS):
                     continue
 
-                text = p.get("record", {}).get("text", "")
-                link = bsky_post_link(p)
-                item = make_item(text[:180], link, text, "Bluesky watchlist", handle, dt)
+                text = post.get("record", {}).get("text", "")
+                item = make_item(text[:180], bsky_post_link(post), text, "Bluesky watchlist", handle, dt)
                 if item:
                     items.append(item)
-        except Exception as ex:
-            print(f"[BSKY WATCH ERROR] {handle}: {ex}")
-
+        except Exception as exc:
+            print(f"[BSKY WATCH ERROR] {handle}: {exc}")
     return items
 
 
 def dedupe(items):
     seen = set()
-    out = []
-
-    for item in sorted(items, key=lambda x: x["score"], reverse=True):
+    output = []
+    for item in sorted(items, key=lambda row: row["score"], reverse=True):
         key = item["link"] or item["title"].lower()
         if key in seen:
             continue
         seen.add(key)
-        out.append(item)
-
-    return out
+        output.append(item)
+    return output
 
 
 def load_seen_links():
@@ -512,19 +565,20 @@ def filter_new_items(items):
 
 def save_seen_links(items):
     seen = load_seen_links()
-
     for item in items:
         link = item.get("link")
         if link:
             seen.add(link)
 
-    seen_list = list(seen)[-5000:]
+    state_dir = os.path.dirname(STATE_FILE)
+    if state_dir:
+        os.makedirs(state_dir, exist_ok=True)
 
     with open(STATE_FILE, "w", encoding="utf-8") as f:
         json.dump(
             {
                 "updated_at": datetime.now(timezone.utc).isoformat(),
-                "seen_links": seen_list,
+                "seen_links": list(seen)[-5000:],
             },
             f,
             ensure_ascii=False,
@@ -534,7 +588,6 @@ def save_seen_links(items):
 
 def render_details(details):
     rows = []
-
     if details.get("deadline"):
         rows.append(f"<b>Deadline:</b> {html.escape(details['deadline'])}")
     if details.get("event_date"):
@@ -548,13 +601,11 @@ def render_details(details):
 
     if not rows:
         return ""
-
-    return "<p>" + " · ".join(rows) + "</p>"
+    return "<p>" + " | ".join(rows) + "</p>"
 
 
 def render_email(items):
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-
     if not items:
         return f"No new relevant items found today ({today})."
 
@@ -569,34 +620,31 @@ def render_email(items):
     ]
 
     parts = [
-        f"<h2>Daily Academic Radar — {html.escape(today)}</h2>",
-        "<p>仅显示新链接；过滤较严格；中文标签为规则提示，不是机器翻译。</p>",
+        f"<h2>Daily Academic Radar - {html.escape(today)}</h2>",
+        "<p>Only new links are shown. Scoring and categories are rule-based.</p>",
     ]
-
     count = 0
 
-    for cat in categories:
-        cat_items = [x for x in items if x["category"] == cat]
-        if not cat_items:
+    for category in categories:
+        category_items = [item for item in items if item["category"] == category]
+        if not category_items:
             continue
 
-        parts.append(f"<h2>{html.escape(cat)}</h2>")
-
-        for item in cat_items:
+        parts.append(f"<h2>{html.escape(category)}</h2>")
+        for item in category_items:
             if count >= MAX_EMAIL_ITEMS:
                 break
 
             count += 1
-
             source_line = item["source"]
             if item["source_name"]:
-                source_line += f" · {item['source_name']}"
+                source_line += f" | {item['source_name']}"
 
             parts.append(
                 f"<div style='margin-bottom:18px;'>"
-                f"<h3>[{html.escape(item['zh_tag'])}] {html.escape(item['title'])}</h3>"
+                f"<h3>[{html.escape(item['tag'])}] {html.escape(item['title'])}</h3>"
                 f"{render_details(item['details'])}"
-                f"<p><b>Source:</b> {html.escape(source_line)} · "
+                f"<p><b>Source:</b> {html.escape(source_line)} | "
                 f"<b>Score:</b> {item['score']}</p>"
                 f"<p>{html.escape(item['summary'])}</p>"
                 f"<p><a href='{html.escape(item['link'])}'>{html.escape(item['link'])}</a></p>"
@@ -610,23 +658,43 @@ def render_email(items):
 
 
 def send_email(items):
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    body = render_email(items)
+    missing = [key for key in ["SMTP_USER", "SMTP_PASS", "TO_EMAIL"] if not os.environ.get(key)]
+    if missing:
+        raise RuntimeError(f"Missing email environment variables: {', '.join(missing)}")
 
-    msg = MIMEText(body, "html", "utf-8")
-    msg["Subject"] = f"Daily Academic Radar — {today}"
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    msg = MIMEText(render_email(items), "html", "utf-8")
+    msg["Subject"] = f"Daily Academic Radar - {today}"
     msg["From"] = os.environ["SMTP_USER"]
     msg["To"] = os.environ["TO_EMAIL"]
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
-        s.login(os.environ["SMTP_USER"], os.environ["SMTP_PASS"])
-        s.send_message(msg)
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(os.environ["SMTP_USER"], os.environ["SMTP_PASS"])
+        smtp.send_message(msg)
 
 
-if __name__ == "__main__":
-    rss_items = fetch_rss()
-    bsky_search_items = fetch_bluesky_search()
-    bsky_watch_items = fetch_bluesky_watchlist()
+def write_output(path, body):
+    out_dir = os.path.dirname(path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(body)
+
+
+def serializable_items(items):
+    output = []
+    for item in items:
+        row = dict(item)
+        if row.get("dt"):
+            row["dt"] = row["dt"].isoformat()
+        output.append(row)
+    return output
+
+
+def collect_items(skip_rss=False, skip_bsky=False):
+    rss_items = [] if skip_rss else fetch_rss()
+    bsky_search_items = [] if skip_bsky else fetch_bluesky_search()
+    bsky_watch_items = [] if skip_bsky else fetch_bluesky_watchlist()
 
     print(f"RSS items: {len(rss_items)}")
     print(f"Bluesky search items: {len(bsky_search_items)}")
@@ -634,9 +702,58 @@ if __name__ == "__main__":
 
     items = dedupe(rss_items + bsky_search_items + bsky_watch_items)
     print(f"Deduped items: {len(items)}")
+    return items
 
-    new_items = filter_new_items(items)
-    print(f"New items: {len(new_items)}")
 
-    send_email(new_items[:MAX_EMAIL_ITEMS])
-    save_seen_links(items)
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(description="Run the Academic Radar digest.")
+    parser.add_argument("--config", default=os.environ.get("RADAR_CONFIG", DEFAULT_CONFIG))
+    parser.add_argument("--opml", help="Override the OPML path from the profile.")
+    parser.add_argument("--watchlist", help="Override the Bluesky watchlist path from the profile.")
+    parser.add_argument("--state", help="Override the seen-link state file path from the profile.")
+    parser.add_argument("--max-items", type=int, help="Override max email/output items.")
+    parser.add_argument("--output-html", help="Write rendered digest HTML to this path.")
+    parser.add_argument("--output-json", help="Write selected items as JSON to this path.")
+    parser.add_argument("--dry-run", action="store_true", help="Fetch and render without sending email or writing state.")
+    parser.add_argument("--no-email", action="store_true", help="Do not send email.")
+    parser.add_argument("--no-state", action="store_true", help="Do not write seen-link state.")
+    parser.add_argument("--include-seen", action="store_true", help="Render all matching items, including seen links.")
+    parser.add_argument("--skip-rss", action="store_true", help="Skip RSS fetching.")
+    parser.add_argument("--skip-bsky", action="store_true", help="Skip Bluesky fetching.")
+    return parser.parse_args(argv)
+
+
+def main(argv=None):
+    args = parse_args(argv)
+    apply_config(load_config(args.config))
+    apply_cli_overrides(args)
+
+    items = collect_items(skip_rss=args.skip_rss, skip_bsky=args.skip_bsky)
+    selected_items = items if args.include_seen else filter_new_items(items)
+    digest_items = selected_items[:MAX_EMAIL_ITEMS]
+    print(f"Rendered items: {len(digest_items)}")
+
+    body = render_email(digest_items)
+
+    if args.output_html:
+        write_output(args.output_html, body)
+        print(f"Wrote digest HTML: {args.output_html}")
+    if args.output_json:
+        write_output(args.output_json, json.dumps(serializable_items(digest_items), ensure_ascii=False, indent=2))
+        print(f"Wrote digest JSON: {args.output_json}")
+
+    if args.dry_run or args.no_email:
+        print("Email skipped.")
+    else:
+        send_email(digest_items)
+        print("Email sent.")
+
+    if args.dry_run or args.no_state:
+        print("State update skipped.")
+    else:
+        save_seen_links(items)
+        print(f"State updated: {STATE_FILE}")
+
+
+if __name__ == "__main__":
+    main()
