@@ -33,6 +33,18 @@ If you fork this repository and run the workflows, you control the data processi
 
 For public forks, avoid committing real runtime state, private watchlists, exported feed lists, or personal CFP archive records unless you intentionally want them public.
 
+Local preview:
+
+```bash
+python radar.py --config config/profiles/hps.json --dry-run --output-html radar_digest.html --output-json radar_items.json
+```
+
+Release hygiene check:
+
+```bash
+python scripts/validate_release.py
+```
+
 ## Repository Map
 
 - `site/`: static Pages config builder.
