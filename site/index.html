@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Academic Radar Config Builder</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace" aria-label="Academic Radar configuration builder">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Academic Radar</p>
+            <h1>Config Builder</h1>
+          </div>
+          <div class="status" id="statusText">Ready</div>
+        </header>
+
+        <div class="grid">
+          <section class="panel builder" aria-label="Builder inputs">
+            <div class="field two">
+              <label>
+                Profile name
+                <input id="profileName" value="My Academic Radar" />
+              </label>
+              <label>
+                State file
+                <input id="stateFile" value="sent_items.json" />
+              </label>
+            </div>
+
+            <div class="field two">
+              <label>
+                Core field terms
+                <textarea id="coreTerms" rows="8">history of science
+book history
+history of medicine
+history of technology
+philosophy of science
+STS</textarea>
+              </label>
+              <label>
+                Negative terms
+                <textarea id="negativeTerms" rows="8">marketing
+crypto
+undergraduate
+celebrity
+sports</textarea>
+              </label>
+            </div>
+
+            <div class="field two">
+              <label>
+                Bluesky queries
+                <textarea id="bskyQueries" rows="7">&quot;call for papers&quot; &quot;history of science&quot;
+&quot;special issue&quot; &quot;history of science&quot;
+&quot;fellowship&quot; &quot;history of science&quot;</textarea>
+              </label>
+              <label>
+                Bluesky watchlist
+                <textarea id="watchlist" rows="7">hssonline.bsky.social
+isisjournal.bsky.social
+whipplemuseum.bsky.social</textarea>
+              </label>
+            </div>
+
+            <div class="field two">
+              <label>
+                RSS feed URLs
+                <textarea id="rssFeeds" rows="6">https://networks.h-net.org/node/73374/announcements/feed
+https://www.aaihs.org/feed/</textarea>
+              </label>
+              <div class="numbers" aria-label="Limits">
+                <label>
+                  RSS days
+                  <input id="rssDays" type="number" min="1" max="365" value="35" />
+                </label>
+                <label>
+                  Bluesky days
+                  <input id="bskyDays" type="number" min="1" max="90" value="10" />
+                </label>
+                <label>
+                  Max email items
+                  <input id="maxItems" type="number" min="1" max="100" value="20" />
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <aside class="panel output" aria-label="Generated files">
+            <div class="radar-art" aria-hidden="true">
+              <span></span>
+            </div>
+
+            <div class="tabs" role="tablist" aria-label="Preview files">
+              <button class="tab active" data-preview="json" type="button">JSON</button>
+              <button class="tab" data-preview="watchlist" type="button">Watchlist</button>
+              <button class="tab" data-preview="opml" type="button">OPML</button>
+            </div>
+
+            <pre id="preview" tabindex="0"></pre>
+
+            <div class="actions">
+              <button id="downloadJson" type="button">Download JSON</button>
+              <button id="downloadWatchlist" type="button">Watchlist</button>
+              <button id="downloadOpml" type="button">OPML</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
