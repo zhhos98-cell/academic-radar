@@ -6,6 +6,7 @@ from .config import DEFAULT_CONFIG, apply_overrides, load_config
 from .emailer import send_email
 from .pipeline import collect_items
 from .render import render_email, serializable_items
+from .setup import DEFAULT_LOCAL_PROFILE, write_first_run_files
 from .state import filter_new_items, save_seen_links
 
 
@@ -32,11 +33,52 @@ def parse_args(argv=None):
     parser.add_argument("--include-seen", action="store_true", help="Render all matching items, including seen links.")
     parser.add_argument("--skip-rss", action="store_true", help="Skip RSS fetching.")
     parser.add_argument("--skip-bsky", action="store_true", help="Skip Bluesky fetching.")
+
+    setup_group = parser.add_argument_group("first-run setup")
+    setup_group.add_argument(
+        "--init",
+        action="store_true",
+        help="Create a local private profile, OPML file, and Bluesky watchlist, then exit.",
+    )
+    setup_group.add_argument("--init-profile", default=DEFAULT_LOCAL_PROFILE, help="Path for the generated local profile.")
+    setup_group.add_argument("--profile-name", default="Local Academic Radar", help="Name stored in the generated profile.")
+    setup_group.add_argument("--field-term", action="append", default=[], help="Extra field term to score and query.")
+    setup_group.add_argument("--negative-term", action="append", default=[], help="Extra term to suppress.")
+    setup_group.add_argument("--bsky-query", action="append", default=[], help="Extra public Bluesky search query.")
+    setup_group.add_argument("--bsky-handle", action="append", default=[], help="Bluesky handle to add to the local watchlist.")
+    setup_group.add_argument("--rss-feed", action="append", default=[], help="RSS feed as TITLE=URL or URL.")
+    setup_group.add_argument("--overwrite", action="store_true", help="Replace generated first-run files if they exist.")
+
     return parser.parse_args(argv)
+
+
+def print_first_run_result(result):
+    print("Created local Academic Radar files:")
+    print(f"  Profile: {result['profile']}")
+    print(f"  OPML: {result['opml']}")
+    print(f"  Bluesky watchlist: {result['watchlist']}")
+    print(f"  Seen-link state: {result['state']}")
+    print("")
+    print(f"Run a preview with: academic-radar --config {result['profile']} --dry-run")
 
 
 def main(argv=None):
     args = parse_args(argv)
+
+    if args.init:
+        result = write_first_run_files(
+            profile_path=args.init_profile,
+            profile_name=args.profile_name,
+            field_terms=args.field_term,
+            negative_terms=args.negative_term,
+            bsky_queries=args.bsky_query,
+            bsky_handles=args.bsky_handle,
+            rss_feeds=args.rss_feed,
+            overwrite=args.overwrite,
+        )
+        print_first_run_result(result)
+        return 0
+
     config = load_config(args.config)
     apply_overrides(config, opml=args.opml, watchlist=args.watchlist, state=args.state, max_items=args.max_items)
 
@@ -65,3 +107,5 @@ def main(argv=None):
     else:
         save_seen_links(items, config.state_file)
         print(f"State updated: {config.state_file}")
+
+    return 0
