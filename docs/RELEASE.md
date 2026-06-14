@@ -7,10 +7,12 @@ Academic Radar is a reusable starter for monitoring CFPs, academic events, journ
 Highlights:
 
 - Static Pages config builder in `site/`.
+- Modular Python package with a compatibility `radar.py` CLI entry point.
 - Generic radar CLI and workflow driven by a JSON profile.
 - CFP issue templates, parsers, archive workflows, and deadline digest generation.
 - Example OPML and Bluesky watchlist files in `examples/`.
 - Release hygiene validation for privacy-sensitive files and personal archive remnants.
+- No-network unit tests for scoring, rendering, and state behavior.
 
 Privacy note:
 
