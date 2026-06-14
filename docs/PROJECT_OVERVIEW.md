@@ -9,6 +9,7 @@ This repository is a reusable academic monitoring starter. It currently has four
 
 2. `academic_radar/` and `radar.py`
    - Reusable package plus a compatibility CLI entry point.
+   - `pyproject.toml` exposes the installable `academic-radar` console command.
    - Loads its profile from `config/profiles/hps.json` by default.
    - Override the profile with the `RADAR_CONFIG` environment variable.
    - Reads RSS sources and Bluesky handles from the files named in the profile.
@@ -99,7 +100,7 @@ Use `Backfill conference` for past presentations:
 
 ## Next Generalization Step
 
-- Add packaging metadata so the CLI can be installed with `pipx` or bundled as a small desktop executable.
+- Add a release workflow that builds and attaches source and wheel artifacts.
 - Add a local "first run" setup flow that writes a profile, OPML file, and Bluesky watchlist without exposing private data.
 - Promote the CFP parser from draft generation to optional issue creation once the rules feel reliable.
 - Later, wrap the CLI with a packaged desktop or web interface.
