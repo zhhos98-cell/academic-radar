@@ -65,6 +65,7 @@ The CFP workflows use `GITHUB_TOKEN`, which GitHub Actions provides automaticall
 - `CFP Deadline Digest`: runs daily and updates `cfp/deadlines.md`.
 - `CFP Parse Draft`: runs manually and uploads a draft issue body from a CFP URL or pasted text.
 - `Deploy Pages`: publishes the config builder from `site/`.
+- `Release Hygiene Check`: blocks accidental reintroduction of runtime state, generated personal archives, or known personal example strings.
 
 ## Public Release Hygiene
 
