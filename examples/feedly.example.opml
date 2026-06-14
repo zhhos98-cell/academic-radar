@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<opml version="2.0">
+  <head>
+    <title>Academic Radar example feeds</title>
+  </head>
+  <body>
+    <outline text="H-Net Announcements" title="H-Net Announcements" type="rss" xmlUrl="https://networks.h-net.org/node/73374/announcements/feed" />
+    <outline text="Public Domain Review" title="Public Domain Review" type="rss" xmlUrl="https://publicdomainreview.org/rss.xml" />
+    <outline text="The Recipes Project" title="The Recipes Project" type="rss" xmlUrl="https://recipes.hypotheses.org/feed/" />
+  </body>
+</opml>
