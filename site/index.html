@@ -96,72 +96,102 @@
               <p data-i18n="inputs.body">Start with the defaults, then replace the examples with your own sources.</p>
             </div>
 
-            <div class="field two">
-              <label>
-                <span data-i18n="label.profileName">Profile name</span>
-                <input id="profileName" value="My Academic Radar" />
-              </label>
-              <label>
-                <span data-i18n="label.stateFile">State file</span>
-                <input id="stateFile" value="sent_items.json" />
-              </label>
-            </div>
+            <div class="config-list">
+              <article class="config-row">
+                <div class="config-meta">
+                  <span>01</span>
+                  <h3 data-i18n="group.profile.heading">Profile</h3>
+                  <p data-i18n="group.profile.body">Name the local profile and choose the state file used to avoid repeat items.</p>
+                </div>
+                <div class="config-controls two">
+                  <label>
+                    <span data-i18n="label.profileName">Profile name</span>
+                    <input id="profileName" value="My Academic Radar" />
+                  </label>
+                  <label>
+                    <span data-i18n="label.stateFile">State file</span>
+                    <input id="stateFile" value="sent_items.json" />
+                  </label>
+                </div>
+              </article>
 
-            <div class="field two">
-              <label>
-                <span data-i18n="label.coreTerms">Core field terms</span>
-                <textarea id="coreTerms" rows="8">history of science
+              <article class="config-row">
+                <div class="config-meta">
+                  <span>02</span>
+                  <h3 data-i18n="group.vocabulary.heading">Vocabulary</h3>
+                  <p data-i18n="group.vocabulary.body">Define what counts as field-relevant, and what should be pushed down or ignored.</p>
+                </div>
+                <div class="config-controls two">
+                  <label>
+                    <span data-i18n="label.coreTerms">Core field terms</span>
+                    <textarea id="coreTerms" rows="8">history of science
 book history
 history of medicine
 history of technology
 philosophy of science
 STS</textarea>
-              </label>
-              <label>
-                <span data-i18n="label.negativeTerms">Negative terms</span>
-                <textarea id="negativeTerms" rows="8">marketing
+                  </label>
+                  <label>
+                    <span data-i18n="label.negativeTerms">Negative terms</span>
+                    <textarea id="negativeTerms" rows="8">marketing
 crypto
 undergraduate
 celebrity
 sports</textarea>
-              </label>
-            </div>
+                  </label>
+                </div>
+              </article>
 
-            <div class="field two">
-              <label>
-                <span data-i18n="label.bskyQueries">Bluesky queries</span>
-                <textarea id="bskyQueries" rows="7">"call for papers" "history of science"
+              <article class="config-row">
+                <div class="config-meta">
+                  <span>03</span>
+                  <h3 data-i18n="group.bsky.heading">Bluesky</h3>
+                  <p data-i18n="group.bsky.body">Combine public search queries with a small watchlist of relevant accounts.</p>
+                </div>
+                <div class="config-controls two">
+                  <label>
+                    <span data-i18n="label.bskyQueries">Bluesky queries</span>
+                    <textarea id="bskyQueries" rows="7">"call for papers" "history of science"
 "special issue" "history of science"
 "fellowship" "history of science"</textarea>
-              </label>
-              <label>
-                <span data-i18n="label.watchlist">Bluesky watchlist</span>
-                <textarea id="watchlist" rows="7">hssonline.bsky.social
+                  </label>
+                  <label>
+                    <span data-i18n="label.watchlist">Bluesky watchlist</span>
+                    <textarea id="watchlist" rows="7">hssonline.bsky.social
 isisjournal.bsky.social
 whipplemuseum.bsky.social</textarea>
-              </label>
-            </div>
+                  </label>
+                </div>
+              </article>
 
-            <div class="field two">
-              <label>
-                <span data-i18n="label.rssFeeds">RSS feed URLs</span>
-                <textarea id="rssFeeds" rows="6">https://networks.h-net.org/node/73374/announcements/feed
+              <article class="config-row">
+                <div class="config-meta">
+                  <span>04</span>
+                  <h3 data-i18n="group.rss.heading">RSS &amp; limits</h3>
+                  <p data-i18n="group.rss.body">Add feed URLs and set the look-back window for local dry previews.</p>
+                </div>
+                <div class="config-controls rss-controls">
+                  <label>
+                    <span data-i18n="label.rssFeeds">RSS feed URLs</span>
+                    <textarea id="rssFeeds" rows="6">https://networks.h-net.org/node/73374/announcements/feed
 https://publicdomainreview.org/rss.xml</textarea>
-              </label>
-              <div class="numbers" aria-label="Limits">
-                <label>
-                  <span data-i18n="label.rssDays">RSS days</span>
-                  <input id="rssDays" type="number" min="1" max="365" value="35" />
-                </label>
-                <label>
-                  <span data-i18n="label.bskyDays">Bluesky days</span>
-                  <input id="bskyDays" type="number" min="1" max="90" value="10" />
-                </label>
-                <label>
-                  <span data-i18n="label.maxItems">Max email items</span>
-                  <input id="maxItems" type="number" min="1" max="100" value="20" />
-                </label>
-              </div>
+                  </label>
+                  <div class="numbers" aria-label="Limits">
+                    <label>
+                      <span data-i18n="label.rssDays">RSS days</span>
+                      <input id="rssDays" type="number" min="1" max="365" value="35" />
+                    </label>
+                    <label>
+                      <span data-i18n="label.bskyDays">Bluesky days</span>
+                      <input id="bskyDays" type="number" min="1" max="90" value="10" />
+                    </label>
+                    <label>
+                      <span data-i18n="label.maxItems">Max email items</span>
+                      <input id="maxItems" type="number" min="1" max="100" value="20" />
+                    </label>
+                  </div>
+                </div>
+              </article>
             </div>
           </section>
 
