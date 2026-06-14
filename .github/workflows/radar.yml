@@ -38,7 +38,35 @@ jobs:
               --output-json radar_items.json
           fi
 
+      - name: Write processing audit
+        if: always()
+        env:
+          CONTENT_PERSISTED: ${{ (vars.UPLOAD_RADAR_DIGEST == 'true' || vars.COMMIT_RADAR_STATE == 'true') && 'true' || 'false' }}
+          STORAGE_MODE: ${{ vars.UPLOAD_RADAR_DIGEST == 'true' && 'artifact' || 'ephemeral' }}
+        run: |
+          python scripts/write_audit_event.py \
+            --output "${{ runner.temp }}/radar_audit.jsonl" \
+            --workflow "$GITHUB_WORKFLOW" \
+            --event "radar_digest" \
+            --source-type "profile" \
+            --source-id "$RADAR_CONFIG" \
+            --storage-mode "$STORAGE_MODE" \
+            --content-persisted "$CONTENT_PERSISTED" \
+            --category "rss source selections" \
+            --category "public Bluesky posts" \
+            --category "digest delivery metadata"
+
+      - name: Upload processing audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: radar-audit-${{ github.run_id }}
+          path: ${{ runner.temp }}/radar_audit.jsonl
+          retention-days: 30
+          if-no-files-found: ignore
+
       - uses: actions/upload-artifact@v4
+        if: ${{ vars.UPLOAD_RADAR_DIGEST == 'true' }}
         with:
           name: radar-digest
           path: |
