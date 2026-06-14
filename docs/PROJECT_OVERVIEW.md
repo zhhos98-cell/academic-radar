@@ -15,6 +15,7 @@ This repository is a reusable academic monitoring starter. It currently has four
    - Reads RSS sources and Bluesky handles from the files named in the profile.
    - Searches public Bluesky posts with topic queries in the profile.
    - Sends an email digest and records seen links in the configured state file.
+   - Does not upload radar digest artifacts or commit state unless the relevant repository variables are explicitly enabled.
 
 3. `audit_feeds.py`
    - Audits OPML feeds and separates active feeds from stale or unknown feeds.
@@ -25,8 +26,8 @@ This repository is a reusable academic monitoring starter. It currently has four
    - Issue forms live in `.github/ISSUE_TEMPLATE/`.
    - Workflows live in `.github/workflows/cfp_ingest_archive.yml` and `.github/workflows/cfp_backfill_archive.yml`.
    - Scripts live in `scripts/cfp_ingest_archive.py` and `scripts/cfp_backfill_archive.py`.
-   - Generated records live under `cfp/`.
-   - Deadline reminders are summarized in `cfp/deadlines.md`.
+   - Generated records live under `cfp/` only when `PERSIST_CFP_LEDGER=true`.
+   - Deadline reminders are summarized in `cfp/deadlines.md` only when persistence is enabled.
    - CFP text and URLs can be pre-parsed with `scripts/cfp_parse_text.py`; see `docs/CFP_PARSER.md`.
 
 ## Config Profiles
@@ -61,13 +62,14 @@ The CFP workflows use `GITHUB_TOKEN`, which GitHub Actions provides automaticall
 
 - `Daily Academic Radar`: runs manually by default. Fork users can add a schedule after setting their own profile and secrets.
 - `Audit Feedly OPML`: runs manually and uploads OPML audit artifacts.
-- `CFP Ingest Archive`: runs when a CFP issue is opened or edited.
-- `CFP Backfill Archive`: runs when a backfill issue is opened or edited.
-- `CFP Deadline Digest`: runs daily and updates `cfp/deadlines.md`.
-- `CFP Parse Draft`: runs manually and uploads a draft issue body from a CFP URL or pasted text.
+- `CFP Ingest Archive`: runs when a CFP issue is opened or edited; generated records are not committed unless `PERSIST_CFP_LEDGER=true`.
+- `CFP Backfill Archive`: runs when a backfill issue is opened or edited; generated records and exports are not committed unless `PERSIST_CFP_LEDGER=true`.
+- `CFP Deadline Digest`: runs daily; generated deadline pages are not committed unless `PERSIST_CFP_LEDGER=true`.
+- `CFP Parse Draft`: runs manually; parsed drafts are not uploaded unless `upload_artifact` is selected.
 - `Deploy Pages`: publishes the config builder from `site/`.
 - `Release Hygiene Check`: blocks accidental reintroduction of runtime state, generated personal archives, or known personal example strings.
   It also runs the no-network unit tests in `tests/`.
+- Processing audit artifacts: workflow runs write minimal JSONL audit records without content-bearing fields.
 
 ## Public Release Hygiene
 
@@ -81,22 +83,24 @@ Keep personal runtime data out of the public repository:
 
 Use repository secrets for credentials, and use the files in `examples/` only as starters.
 
+See `PRIVACY.md` and `docs/ACCOUNTABILITY.md` for the default-off persistence controls and audit model.
+
 ## CFP Ledger Flow
 
 Use `Add CFP` for future opportunities:
 
 1. Open a new issue with the `Add CFP` form.
 2. Fill in title, type, source URL, deadlines, status, priority, notes, and tracking options.
-3. The workflow creates a structured record under `cfp/records/<status>/`.
-4. `cfp/README.md` is regenerated as the dashboard.
-5. `cfp/deadlines.md` can be regenerated to show upcoming, overdue, approximate, and missing deadlines.
+3. The workflow creates a structured record under `cfp/records/<status>/` only when persistence is enabled.
+4. `cfp/README.md` is regenerated as the dashboard only when persistence is enabled.
+5. `cfp/deadlines.md` can be regenerated to show upcoming, overdue, approximate, and missing deadlines when persistence is enabled.
 
 Use `Backfill conference` for past presentations:
 
 1. Open a new issue with the `Backfill conference` form.
 2. Fill in presentation title, conference title, event details, abstract, bio, and export options.
-3. The workflow creates a record under `cfp/backfill/`.
-4. ORCID-ready and CV-ready exports are regenerated under `cfp/exports/`.
+3. The workflow creates a record under `cfp/backfill/` only when persistence is enabled.
+4. ORCID-ready and CV-ready exports are regenerated under `cfp/exports/` only when persistence is enabled.
 
 ## Next Generalization Step
 
