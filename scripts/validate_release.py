@@ -112,12 +112,62 @@ def check_python_compile():
     return errors
 
 
+def check_privacy_workflow_defaults():
+    errors = []
+
+    expectations = {
+        ".github/workflows/radar.yml": [
+            "vars.UPLOAD_RADAR_DIGEST == 'true'",
+            "vars.COMMIT_RADAR_STATE == 'true'",
+            "scripts/write_audit_event.py",
+            "retention-days: 30",
+        ],
+        ".github/workflows/cfp_ingest_archive.yml": [
+            "vars.PERSIST_CFP_LEDGER == 'true'",
+            "vars.COMMENT_CFP_ISSUES == 'true'",
+            "scripts/write_audit_event.py",
+            "retention-days: 30",
+        ],
+        ".github/workflows/cfp_backfill_archive.yml": [
+            "vars.PERSIST_CFP_LEDGER == 'true'",
+            "vars.COMMENT_CFP_ISSUES == 'true'",
+            "vars.CLOSE_CFP_ISSUES == 'true'",
+            "scripts/write_audit_event.py",
+            "retention-days: 30",
+        ],
+        ".github/workflows/cfp_deadline_digest.yml": [
+            "vars.PERSIST_CFP_LEDGER == 'true'",
+            "scripts/write_audit_event.py",
+            "retention-days: 30",
+        ],
+        ".github/workflows/cfp_parse_draft.yml": [
+            "upload_artifact",
+            "inputs.upload_artifact == true",
+            "scripts/write_audit_event.py",
+            "retention-days: 30",
+        ],
+    }
+
+    for rel, needles in expectations.items():
+        path = ROOT / rel
+        if not path.exists():
+            errors.append(f"privacy workflow check missing file: {rel}")
+            continue
+        text = path.read_text(encoding="utf-8")
+        for needle in needles:
+            if needle not in text:
+                errors.append(f"privacy workflow guard {needle!r} missing from {rel}")
+
+    return errors
+
+
 def main():
     errors = []
     errors.extend(check_forbidden_paths())
     errors.extend(check_forbidden_text())
     errors.extend(check_structured_files())
     errors.extend(check_python_compile())
+    errors.extend(check_privacy_workflow_defaults())
 
     if errors:
         print("Release validation failed:")
