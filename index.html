@@ -2,11 +2,181 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0; url=site/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Academic Radar</title>
+    <title>Academic Radar Web Builder</title>
+    <meta
+      name="description"
+      content="Build a local Academic Radar profile, Bluesky watchlist, and OPML feed list in your browser."
+    />
+    <link rel="stylesheet" href="site/styles.css" />
   </head>
   <body>
-    <p><a href="site/">Open Academic Radar Config Builder</a></p>
+    <main class="shell">
+      <section class="workspace" aria-label="Academic Radar web builder">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Academic Radar</p>
+            <h1>Web Builder</h1>
+          </div>
+          <div class="status" id="statusText">Ready</div>
+        </header>
+
+        <section class="hero panel" aria-label="What this builder does">
+          <div>
+            <h2>Build a private radar profile in your browser.</h2>
+            <p>
+              Fill in your fields, feeds, and Bluesky sources. This page generates
+              three plain-text files you can download and use with the local
+              <code>academic-radar</code> command-line tool.
+            </p>
+          </div>
+          <div class="hero-note">
+            <strong>Privacy posture:</strong> this builder is static and client-side only.
+            It has no analytics, cookies, accounts, uploads, backend API calls, or
+            server-side storage.
+          </div>
+        </section>
+
+        <section class="steps" aria-label="Beginner workflow">
+          <article class="step-card">
+            <span>1</span>
+            <h2>Fill the form</h2>
+            <p>Add field terms, negative filters, RSS feeds, Bluesky queries, and watched accounts.</p>
+          </article>
+          <article class="step-card">
+            <span>2</span>
+            <h2>Preview files</h2>
+            <p>Switch between JSON, Watchlist, and OPML to inspect exactly what will be downloaded.</p>
+          </article>
+          <article class="step-card">
+            <span>3</span>
+            <h2>Download and run</h2>
+            <p>Save the three files, then run <code>--summary</code>, <code>--doctor</code>, and a dry preview locally.</p>
+          </article>
+        </section>
+
+        <div class="grid">
+          <section class="panel builder" aria-label="Builder inputs">
+            <div class="section-heading">
+              <h2>Inputs</h2>
+              <p>Start with the defaults, then replace the examples with your own sources.</p>
+            </div>
+
+            <div class="field two">
+              <label>
+                Profile name
+                <input id="profileName" value="My Academic Radar" />
+              </label>
+              <label>
+                State file
+                <input id="stateFile" value="sent_items.json" />
+              </label>
+            </div>
+
+            <div class="field two">
+              <label>
+                Core field terms
+                <textarea id="coreTerms" rows="8">history of science
+book history
+history of medicine
+history of technology
+philosophy of science
+STS</textarea>
+              </label>
+              <label>
+                Negative terms
+                <textarea id="negativeTerms" rows="8">marketing
+crypto
+undergraduate
+celebrity
+sports</textarea>
+              </label>
+            </div>
+
+            <div class="field two">
+              <label>
+                Bluesky queries
+                <textarea id="bskyQueries" rows="7">"call for papers" "history of science"
+"special issue" "history of science"
+"fellowship" "history of science"</textarea>
+              </label>
+              <label>
+                Bluesky watchlist
+                <textarea id="watchlist" rows="7">hssonline.bsky.social
+isisjournal.bsky.social
+whipplemuseum.bsky.social</textarea>
+              </label>
+            </div>
+
+            <div class="field two">
+              <label>
+                RSS feed URLs
+                <textarea id="rssFeeds" rows="6">https://networks.h-net.org/node/73374/announcements/feed
+https://publicdomainreview.org/rss.xml</textarea>
+              </label>
+              <div class="numbers" aria-label="Limits">
+                <label>
+                  RSS days
+                  <input id="rssDays" type="number" min="1" max="365" value="35" />
+                </label>
+                <label>
+                  Bluesky days
+                  <input id="bskyDays" type="number" min="1" max="90" value="10" />
+                </label>
+                <label>
+                  Max email items
+                  <input id="maxItems" type="number" min="1" max="100" value="20" />
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <aside class="panel output" aria-label="Generated files">
+            <div class="radar-art" aria-hidden="true">
+              <span></span>
+            </div>
+
+            <div class="output-intro">
+              <h2>Generated files</h2>
+              <p>Download all three files. Keep real runtime files private unless you intentionally want them public.</p>
+            </div>
+
+            <div class="tabs" role="tablist" aria-label="Preview files">
+              <button class="tab active" data-preview="json" type="button">JSON profile</button>
+              <button class="tab" data-preview="watchlist" type="button">Watchlist</button>
+              <button class="tab" data-preview="opml" type="button">OPML</button>
+            </div>
+
+            <pre id="preview" tabindex="0"></pre>
+
+            <div class="actions">
+              <button id="downloadJson" type="button">Download JSON</button>
+              <button id="downloadWatchlist" type="button">Download Watchlist</button>
+              <button id="downloadOpml" type="button">Download OPML</button>
+            </div>
+          </aside>
+        </div>
+
+        <section class="next panel" aria-label="After download">
+          <div>
+            <h2>After downloading</h2>
+            <p>Put the files where your JSON profile points, then inspect the setup before fetching live data.</p>
+          </div>
+          <pre>academic-radar --config .radar/profiles/local.json --summary
+academic-radar --config .radar/profiles/local.json --doctor
+academic-radar --config .radar/profiles/local.json --dry-run</pre>
+          <div class="quick-links">
+            <a href="https://github.com/zhhos98-cell/academic-radar">GitHub repository</a>
+            <a href="https://github.com/zhhos98-cell/academic-radar/blob/main/docs/LOCAL_FIRST_RUN.md">Local first-run guide</a>
+            <a href="https://github.com/zhhos98-cell/academic-radar/releases">Releases</a>
+          </div>
+        </section>
+      </section>
+      <p class="privacy-note">
+        Runs in your browser. No analytics, cookies, uploads, accounts, backend API calls, or server-side storage.
+      </p>
+    </main>
+
+    <script src="site/app.js"></script>
   </body>
 </html>
