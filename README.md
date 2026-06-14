@@ -43,6 +43,8 @@ academic-radar --config .radar/profiles/local.json --doctor
 academic-radar --config .radar/profiles/local.json --dry-run --output-html tmp/radar_digest.html --output-json tmp/radar_items.json
 ```
 
+For a fuller walkthrough, see [Local First Run](docs/LOCAL_FIRST_RUN.md).
+
 List available presets:
 
 ```bash
@@ -114,7 +116,7 @@ python -m unittest discover -s tests
 - `scripts/`: CFP parsing, ingestion, backfill, and deadline digest scripts.
 - `.github/workflows/`: GitHub Actions automation.
 - `tests/`: no-network unit tests for core scoring, rendering, setup, presets, profile summaries, diagnostics, and state behavior.
-- `docs/`: project notes, accountability model, release notes, and parser documentation.
+- `docs/`: project notes, first-run setup guide, accountability model, release notes, and parser documentation.
 
 ## Release Notes
 
