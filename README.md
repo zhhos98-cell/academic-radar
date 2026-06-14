@@ -18,7 +18,9 @@ https://zhhos98-cell.github.io/academic-radar/
 
 The Pages builder is static and client-side only. It has no analytics, cookies, uploads, accounts, backend API calls, or server-side storage.
 
-If you fork this repository and run the workflows, you control the data processing in your fork. Bluesky handles, RSS selections, seen-link state files, recipient email addresses, issue bodies, abstracts, bios, CV exports, and ORCID exports may be personal data depending on context. See [PRIVACY.md](PRIVACY.md).
+If you fork this repository and run the workflows, you control the data processing in your fork. Bluesky handles, RSS selections, seen-link state files, recipient email addresses, issue bodies, abstracts, bios, CV exports, and ORCID exports may be personal data depending on context. See [PRIVACY.md](PRIVACY.md) and [docs/ACCOUNTABILITY.md](docs/ACCOUNTABILITY.md).
+
+By default, workflows avoid repository persistence for content-bearing outputs. Radar digest uploads, seen-link state commits, CFP ledger commits, issue comments, and parsed CFP draft uploads must be explicitly enabled.
 
 ## Quick Start
 
@@ -58,6 +60,7 @@ python -m unittest discover -s tests
 - `site/`: static Pages config builder.
 - `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, and CLI code.
 - `pyproject.toml`: Python package metadata and `academic-radar` console command.
+- `LICENSE`: MIT license for reuse.
 - `config/profiles/`: radar profile examples.
 - `examples/`: starter watchlist and OPML files.
 - `radar.py`: compatibility entry point for the package CLI.
@@ -66,7 +69,7 @@ python -m unittest discover -s tests
 - `scripts/`: CFP parsing, ingestion, backfill, and deadline digest scripts.
 - `.github/workflows/`: GitHub Actions automation.
 - `tests/`: no-network unit tests for core scoring, rendering, and state behavior.
-- `docs/`: project notes, release notes, and parser documentation.
+- `docs/`: project notes, accountability model, release notes, and parser documentation.
 
 ## Release Notes
 
