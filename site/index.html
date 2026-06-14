@@ -27,8 +27,8 @@
           </div>
         </header>
 
-        <section class="hero panel" aria-label="What this builder does">
-          <div>
+        <section class="hero" aria-label="What this builder does">
+          <div class="hero-copy">
             <h2 data-i18n="hero.heading">Build a private radar profile in your browser.</h2>
             <p data-i18n="hero.body">
               Fill in your fields, feeds, and Bluesky sources. This page generates
@@ -45,15 +45,42 @@
           </div>
         </section>
 
-        <section class="compliance panel" aria-label="Responsible use notice">
+        <section class="process" aria-label="Beginner workflow">
+          <p class="kicker" data-i18n="process.kicker">Workflow</p>
+          <ol>
+            <li>
+              <span>01</span>
+              <div>
+                <h2 data-i18n="step1.heading">Fill the form</h2>
+                <p data-i18n="step1.body">Add field terms, negative filters, RSS feeds, Bluesky queries, and watched accounts.</p>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <h2 data-i18n="step2.heading">Preview files</h2>
+                <p data-i18n="step2.body">Switch between JSON, Watchlist, and OPML to inspect exactly what will be downloaded.</p>
+              </div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <h2 data-i18n="step3.heading">Download and run</h2>
+                <p data-i18n="step3.body">Save the three files, then run --summary, --doctor, and a dry preview locally.</p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <section class="compliance" aria-label="Responsible use notice">
           <div>
             <p class="kicker" data-i18n="compliance.kicker">Responsible use</p>
             <h2 data-i18n="compliance.heading">Check sources and obligations before automation.</h2>
-            <p data-i18n="compliance.body">
-              This builder only prepares local configuration files. Before running collection, review source terms,
-              platform rules, institutional policies, and any data-protection duties that apply to your use case.
-            </p>
           </div>
+          <p data-i18n="compliance.body">
+            This builder only prepares local configuration files. Before running collection, review source terms,
+            platform rules, institutional policies, and any data-protection duties that apply to your use case.
+          </p>
           <ul>
             <li data-i18n="compliance.item1">Keep private watchlists, feed exports, state files, and delivery settings out of public repositories.</li>
             <li data-i18n="compliance.item2">Use dry runs and diagnostics before enabling email delivery or persistent state.</li>
@@ -61,28 +88,11 @@
           </ul>
         </section>
 
-        <section class="steps" aria-label="Beginner workflow">
-          <article class="step-card">
-            <span>1</span>
-            <h2 data-i18n="step1.heading">Fill the form</h2>
-            <p data-i18n="step1.body">Add field terms, negative filters, RSS feeds, Bluesky queries, and watched accounts.</p>
-          </article>
-          <article class="step-card">
-            <span>2</span>
-            <h2 data-i18n="step2.heading">Preview files</h2>
-            <p data-i18n="step2.body">Switch between JSON, Watchlist, and OPML to inspect exactly what will be downloaded.</p>
-          </article>
-          <article class="step-card">
-            <span>3</span>
-            <h2 data-i18n="step3.heading">Download and run</h2>
-            <p data-i18n="step3.body">Save the three files, then run --summary, --doctor, and a dry preview locally.</p>
-          </article>
-        </section>
-
         <div class="grid">
-          <section class="panel builder" aria-label="Builder inputs">
+          <section class="builder" aria-label="Builder inputs">
             <div class="section-heading">
-              <h2 data-i18n="inputs.heading">Inputs</h2>
+              <p class="kicker" data-i18n="inputs.kicker">Configure</p>
+              <h2 data-i18n="inputs.heading">Build Profile</h2>
               <p data-i18n="inputs.body">Start with the defaults, then replace the examples with your own sources.</p>
             </div>
 
@@ -155,13 +165,14 @@ https://publicdomainreview.org/rss.xml</textarea>
             </div>
           </section>
 
-          <aside class="panel output" aria-label="Generated files">
+          <aside class="output" aria-label="Generated files">
             <div class="radar-art" aria-hidden="true">
               <span></span>
             </div>
 
             <div class="output-intro">
-              <h2 data-i18n="output.heading">Generated files</h2>
+              <p class="kicker" data-i18n="output.kicker">Generated files</p>
+              <h2 data-i18n="output.heading">Review Files</h2>
               <p data-i18n="output.body">Download all three files. Keep real runtime files private unless you intentionally want them public.</p>
             </div>
 
@@ -181,9 +192,10 @@ https://publicdomainreview.org/rss.xml</textarea>
           </aside>
         </div>
 
-        <section class="next panel" aria-label="After download">
+        <section class="next" aria-label="After download">
           <div>
-            <h2 data-i18n="after.heading">After downloading</h2>
+            <p class="kicker" data-i18n="after.kicker">Local run</p>
+            <h2 data-i18n="after.heading">Run Locally</h2>
             <p data-i18n="after.body">Put the files where your JSON profile points, then inspect the setup before fetching live data.</p>
           </div>
           <pre>academic-radar --config .radar/profiles/local.json --summary
