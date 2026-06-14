@@ -5,8 +5,10 @@
 - Added a local first-run CLI setup flow that creates a private `.radar/` profile, OPML file, Bluesky watchlist, and seen-link state path.
 - Added reusable first-run presets for HPS, history of knowledge, scientific instruments, photography history, Romantic science, and book history.
 - Added `academic-radar --list-presets` and `academic-radar --init --preset ...` support.
+- Added `academic-radar --summary` for no-network inspection of profile names, local paths, source limits, scoring term counts, and Bluesky query counts.
 - Added `academic-radar --doctor` no-network diagnostics for local paths, source-list parseability, settings, scoring terms, and query configuration.
 - Added setup tests for first-run file generation, RSS argument parsing, Bluesky handle normalization, OPML escaping, and preset merging.
+- Added profile summary tests for profile name preservation and no-network summary output.
 - Added diagnostics tests for valid local source files, missing input warnings, and invalid setting errors.
 - Ignored `.radar/` runtime files by default.
 
