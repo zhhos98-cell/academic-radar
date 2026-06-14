@@ -2,10 +2,15 @@
 
 ## v0.2.0 - 2026-06-14
 
-Academic Radar v0.2.0 turns the prototype into a more usable local-first starter. The release focuses on first-run setup, reusable field presets, no-network inspection, diagnostics, and clearer privacy-preserving defaults.
+Academic Radar v0.2.0 turns the prototype into a more usable local-first starter. The release focuses on the public web builder, first-run setup, reusable field presets, no-network inspection, diagnostics, and clearer privacy-preserving defaults.
+
+Web builder:
+
+https://zhhos98-cell.github.io/academic-radar/
 
 Highlights:
 
+- Improved the Pages web builder with beginner-facing instructions, a privacy note, a three-step workflow, clearer generated-file labels, and links to the repository, local first-run guide, and releases.
 - Added `academic-radar --init` to generate private runtime files under `.radar/`.
 - Added reusable presets for HPS, history of knowledge, scientific instruments, photography history, Romantic science, and book history.
 - Added `academic-radar --list-presets` for preset discovery.
@@ -59,7 +64,7 @@ Highlights:
 Privacy note:
 
 - Do not publish real state files, private watchlists, exported feed lists, email credentials, or personal CFP archive records.
-- Use repository secrets for SMTP credentials.
+- Use repository secrets for email delivery if you enable automation.
 - Public forks should leave persistence variables unset unless repository storage is intentional.
 - Review `PRIVACY.md` and `docs/ACCOUNTABILITY.md` before enabling persistence.
 
