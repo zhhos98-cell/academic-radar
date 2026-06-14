@@ -8,6 +8,7 @@ Highlights:
 
 - Static Pages config builder in `site/`.
 - Modular Python package with a compatibility `radar.py` CLI entry point.
+- Installable `academic-radar` console command via `pyproject.toml`.
 - Generic radar CLI and workflow driven by a JSON profile.
 - CFP issue templates, parsers, archive workflows, and deadline digest generation.
 - Example OPML and Bluesky watchlist files in `examples/`.
