@@ -30,6 +30,8 @@ jobs:
 
       - name: Ingest CFP issue
         run: python scripts/cfp_ingest_archive.py
+        env:
+          CFP_INGEST_COMMENT_PATH: ${{ runner.temp }}/cfp_ingest_comment.md
 
       - name: Commit generated CFP ledger files
         run: |
@@ -49,9 +51,10 @@ jobs:
         if: success()
         env:
           GH_TOKEN: ${{ github.token }}
+          CFP_INGEST_COMMENT_PATH: ${{ runner.temp }}/cfp_ingest_comment.md
         run: |
-          if [ -f /tmp/cfp_ingest_comment.md ]; then
-            gh issue comment "${{ github.event.issue.number }}" --body-file /tmp/cfp_ingest_comment.md
+          if [ -f "$CFP_INGEST_COMMENT_PATH" ]; then
+            gh issue comment "${{ github.event.issue.number }}" --body-file "$CFP_INGEST_COMMENT_PATH"
           else
             echo "No comment file generated."
           fi
