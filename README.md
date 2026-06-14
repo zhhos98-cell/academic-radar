@@ -14,6 +14,7 @@ https://zhhos98-cell.github.io/academic-radar/
 - Provides GitHub Actions workflows for running the radar and maintaining a CFP ledger.
 - Includes CFP issue templates, parsers, archive automation, and a deadline digest.
 - Provides a local first-run CLI setup flow for private, ignored runtime files.
+- Includes built-in academic presets for reusable field-specific profiles.
 
 ## Privacy Posture
 
@@ -30,11 +31,22 @@ For a local private setup, generate ignored first-run files under `.radar/`:
 ```bash
 pip install .
 academic-radar --init \
-  --field-term "photographic history" \
+  --preset hps \
+  --preset photography-history \
+  --preset scientific-instruments \
+  --field-term "household experiment" \
   --bsky-handle "@example.bsky.social" \
   --rss-feed "Example=https://example.org/feed.xml"
 academic-radar --config .radar/profiles/local.json --dry-run --output-html tmp/radar_digest.html --output-json tmp/radar_items.json
 ```
+
+List available presets:
+
+```bash
+academic-radar --list-presets
+```
+
+Current presets are `hps`, `history-of-knowledge`, `scientific-instruments`, `photography-history`, `romantic-science`, and `book-history`. Presets can be repeated or passed as a comma-separated list.
 
 For the static Pages builder:
 
@@ -72,7 +84,7 @@ python -m unittest discover -s tests
 ## Repository Map
 
 - `site/`: static Pages config builder.
-- `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, CLI setup, and CLI code.
+- `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, presets, CLI setup, and CLI code.
 - `pyproject.toml`: Python package metadata and `academic-radar` console command.
 - `LICENSE`: MIT license for reuse.
 - `config/profiles/`: radar profile examples.
@@ -82,7 +94,7 @@ python -m unittest discover -s tests
 - `cfp/`: generated CFP ledger surface.
 - `scripts/`: CFP parsing, ingestion, backfill, and deadline digest scripts.
 - `.github/workflows/`: GitHub Actions automation.
-- `tests/`: no-network unit tests for core scoring, rendering, setup, and state behavior.
+- `tests/`: no-network unit tests for core scoring, rendering, setup, presets, and state behavior.
 - `docs/`: project notes, accountability model, release notes, and parser documentation.
 
 ## Release Notes
