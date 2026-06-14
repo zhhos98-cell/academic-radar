@@ -14,12 +14,15 @@ Highlights:
 - Example OPML and Bluesky watchlist files in `examples/`.
 - Release hygiene validation for privacy-sensitive files and personal archive remnants.
 - No-network unit tests for scoring, rendering, and state behavior.
+- Default-off persistence for radar artifacts, state files, CFP ledger records, CFP comments, and parsed CFP draft artifacts.
+- Minimal JSONL processing audit artifacts for workflow accountability without storing content-bearing fields.
 
 Privacy note:
 
 - Do not publish real state files, private watchlists, exported feed lists, email credentials, or personal CFP archive records.
 - Use repository secrets for SMTP credentials.
-- Forks that run the workflow in public may expose generated state unless they keep the fork private or choose not to commit state files.
+- Public forks should leave persistence variables unset unless repository storage is intentional.
+- Review `PRIVACY.md` and `docs/ACCOUNTABILITY.md` before enabling persistence.
 
 GDPR-oriented note:
 
