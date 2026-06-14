@@ -128,6 +128,7 @@ DEFAULT_BLUESKY_QUERIES = [
 
 @dataclass
 class RadarConfig:
+    name: str = "Academic Radar"
     opml_file: str = "feedly_active.opml"
     bsky_watchlist_file: str = "bsky_watchlist_core.txt"
     state_file: str = "sent_items.json"
@@ -160,6 +161,7 @@ def config_from_profile(profile):
     scoring = profile.get("scoring", {})
     bluesky = profile.get("bluesky", {})
 
+    config.name = profile.get("name", config.name)
     config.opml_file = files.get("opml", config.opml_file)
     config.bsky_watchlist_file = files.get("bsky_watchlist", config.bsky_watchlist_file)
     config.state_file = files.get("state", config.state_file)
