@@ -7,8 +7,8 @@ This repository is a reusable academic monitoring starter. It currently has four
    - Generates a JSON radar profile, a Bluesky watchlist, and an OPML feed list in the browser.
    - Does not call a backend or store visitor input.
 
-2. `radar.py`
-   - General academic radar.
+2. `academic_radar/` and `radar.py`
+   - Reusable package plus a compatibility CLI entry point.
    - Loads its profile from `config/profiles/hps.json` by default.
    - Override the profile with the `RADAR_CONFIG` environment variable.
    - Reads RSS sources and Bluesky handles from the files named in the profile.
@@ -66,6 +66,7 @@ The CFP workflows use `GITHUB_TOKEN`, which GitHub Actions provides automaticall
 - `CFP Parse Draft`: runs manually and uploads a draft issue body from a CFP URL or pasted text.
 - `Deploy Pages`: publishes the config builder from `site/`.
 - `Release Hygiene Check`: blocks accidental reintroduction of runtime state, generated personal archives, or known personal example strings.
+  It also runs the no-network unit tests in `tests/`.
 
 ## Public Release Hygiene
 
@@ -98,7 +99,7 @@ Use `Backfill conference` for past presentations:
 
 ## Next Generalization Step
 
-- Split fetching, scoring, deduplication, rendering, and email delivery into reusable Python modules.
-- Add a small CLI that accepts a config file and can run locally or inside GitHub Actions.
+- Add packaging metadata so the CLI can be installed with `pipx` or bundled as a small desktop executable.
+- Add a local "first run" setup flow that writes a profile, OPML file, and Bluesky watchlist without exposing private data.
 - Promote the CFP parser from draft generation to optional issue creation once the rules feel reliable.
 - Later, wrap the CLI with a packaged desktop or web interface.
