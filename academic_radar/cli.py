@@ -5,6 +5,7 @@ import os
 from .config import DEFAULT_CONFIG, apply_overrides, load_config
 from .emailer import send_email
 from .pipeline import collect_items
+from .presets import describe_presets
 from .render import render_email, serializable_items
 from .setup import DEFAULT_LOCAL_PROFILE, write_first_run_files
 from .state import filter_new_items, save_seen_links
@@ -40,8 +41,15 @@ def parse_args(argv=None):
         action="store_true",
         help="Create a local private profile, OPML file, and Bluesky watchlist, then exit.",
     )
+    setup_group.add_argument("--list-presets", action="store_true", help="List built-in first-run profile presets and exit.")
     setup_group.add_argument("--init-profile", default=DEFAULT_LOCAL_PROFILE, help="Path for the generated local profile.")
     setup_group.add_argument("--profile-name", default="Local Academic Radar", help="Name stored in the generated profile.")
+    setup_group.add_argument(
+        "--preset",
+        action="append",
+        default=[],
+        help="Built-in preset to merge into the generated profile. Repeat or pass comma-separated names.",
+    )
     setup_group.add_argument("--field-term", action="append", default=[], help="Extra field term to score and query.")
     setup_group.add_argument("--negative-term", action="append", default=[], help="Extra term to suppress.")
     setup_group.add_argument("--bsky-query", action="append", default=[], help="Extra public Bluesky search query.")
@@ -62,8 +70,18 @@ def print_first_run_result(result):
     print(f"Run a preview with: academic-radar --config {result['profile']} --dry-run")
 
 
+def print_presets():
+    print("Available Academic Radar presets:")
+    for name, description in describe_presets():
+        print(f"  {name}: {description}")
+
+
 def main(argv=None):
     args = parse_args(argv)
+
+    if args.list_presets:
+        print_presets()
+        return 0
 
     if args.init:
         result = write_first_run_files(
@@ -74,6 +92,7 @@ def main(argv=None):
             bsky_queries=args.bsky_query,
             bsky_handles=args.bsky_handle,
             rss_feeds=args.rss_feed,
+            presets=args.preset,
             overwrite=args.overwrite,
         )
         print_first_run_result(result)
