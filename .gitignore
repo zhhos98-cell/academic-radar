@@ -8,3 +8,4 @@ sent_items.json
 *_sent.json
 *.local.json
 .env
+tmp/
