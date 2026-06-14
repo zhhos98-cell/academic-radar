@@ -15,6 +15,7 @@ This repository is a reusable academic monitoring starter. It currently has four
    - Reads RSS sources and Bluesky handles from the files named in the profile.
    - Searches public Bluesky posts with topic queries in the profile.
    - Sends an email digest and records seen links in the configured state file.
+   - Can generate a local first-run profile, OPML file, and Bluesky watchlist under `.radar/`.
    - Does not upload radar digest artifacts or commit state unless the relevant repository variables are explicitly enabled.
 
 3. `audit_feeds.py`
@@ -32,7 +33,7 @@ This repository is a reusable academic monitoring starter. It currently has four
 
 ## Config Profiles
 
-Radar profiles live in `config/profiles/`.
+Radar profiles live in `config/profiles/` for examples and public starter material. Local first-run profiles should live under `.radar/`, which is ignored by git.
 
 - `hps.json`: an example profile for history of science / HPS.
 - `examples/feedly.example.opml`: starter RSS feed list.
@@ -47,6 +48,30 @@ Profiles control:
 - Bluesky queries.
 
 The script still includes safe defaults. If a profile file is missing, the script falls back to its built-in configuration.
+
+## First-Run Setup
+
+The installable CLI can create local runtime files without committing personal feed exports, watchlists, or seen-link state:
+
+```bash
+academic-radar --init \
+  --field-term "photographic history" \
+  --bsky-handle "@example.bsky.social" \
+  --rss-feed "Example=https://example.org/feed.xml"
+```
+
+This creates:
+
+- `.radar/profiles/local.json`
+- `.radar/feeds.opml`
+- `.radar/bsky_watchlist.txt`
+- `.radar/seen.json`
+
+Run a preview with:
+
+```bash
+academic-radar --config .radar/profiles/local.json --dry-run
+```
 
 ## Required GitHub Secrets
 
@@ -64,7 +89,7 @@ The CFP workflows use `GITHUB_TOKEN`, which GitHub Actions provides automaticall
 - `Audit Feedly OPML`: runs manually and uploads OPML audit artifacts.
 - `CFP Ingest Archive`: runs when a CFP issue is opened or edited; generated records are not committed unless `PERSIST_CFP_LEDGER=true`.
 - `CFP Backfill Archive`: runs when a backfill issue is opened or edited; generated records and exports are not committed unless `PERSIST_CFP_LEDGER=true`.
-- `CFP Deadline Digest`: runs daily; generated deadline pages are not committed unless `PERSIST_CFP_LEDGER=true`.
+- `CFP Deadline Digest`: runs daily; generated deadline pages are not committed unless persistence is enabled.
 - `CFP Parse Draft`: runs manually; parsed drafts are not uploaded unless `upload_artifact` is selected.
 - `Deploy Pages`: publishes the config builder from `site/`.
 - `Release Hygiene Check`: blocks accidental reintroduction of runtime state, generated personal archives, or known personal example strings.
@@ -105,6 +130,5 @@ Use `Backfill conference` for past presentations:
 ## Next Generalization Step
 
 - Add a release workflow that builds and attaches source and wheel artifacts.
-- Add a local "first run" setup flow that writes a profile, OPML file, and Bluesky watchlist without exposing private data.
 - Promote the CFP parser from draft generation to optional issue creation once the rules feel reliable.
 - Later, wrap the CLI with a packaged desktop or web interface.
