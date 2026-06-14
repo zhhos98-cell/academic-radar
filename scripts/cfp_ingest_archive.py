@@ -5,6 +5,7 @@ import json
 import os
 import re
 import shutil
+import tempfile
 import unicodedata
 from pathlib import Path
 from typing import Any
@@ -18,7 +19,12 @@ BACKFILL_DIR = CFP_DIR / "backfill"
 EXPORT_DIR = CFP_DIR / "exports"
 
 DASHBOARD = CFP_DIR / "README.md"
-COMMENT_PATH = Path("/tmp/cfp_ingest_comment.md")
+COMMENT_PATH = Path(
+    os.environ.get(
+        "CFP_INGEST_COMMENT_PATH",
+        Path(tempfile.gettempdir()) / "cfp_ingest_comment.md",
+    )
+)
 
 CFP_STATUSES = {
     "inbox",
@@ -31,6 +37,15 @@ CFP_STATUSES = {
     "declined",
     "archived",
 }
+
+
+def utc_now_iso() -> str:
+    return (
+        dt.datetime.now(dt.timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
 
 
 def read_event() -> dict[str, Any]:
@@ -442,6 +457,8 @@ def build_dashboard() -> None:
         "",
         "自动生成。不要手动编辑本页；修改 issue 或 metadata 后重新运行 workflow。",
         "",
+        "Deadline summary: [cfp/deadlines.md](deadlines.md).",
+        "",
         "## Inbox / 待判断",
         "",
     ]
@@ -612,7 +629,7 @@ def main() -> None:
         "id": slug,
         "record_type": "cfp",
         "status": status,
-        "created_at": dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
+        "created_at": utc_now_iso(),
         "source_issue": issue_number,
         "source_issue_url": issue_url,
         "title": title,
