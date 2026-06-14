@@ -15,6 +15,11 @@ on:
         description: Optional pasted CFP text
         required: false
         type: string
+      upload_artifact:
+        description: Upload parsed draft as an Actions artifact. May contain personal data.
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   parse-cfp-draft:
@@ -45,8 +50,35 @@ jobs:
             --title-hint "${{ inputs.title_hint }}" \
             --output cfp_issue_draft.md
 
+      - name: Write processing audit
+        if: always()
+        env:
+          CONTENT_PERSISTED: ${{ inputs.upload_artifact == true && 'true' || 'false' }}
+          STORAGE_MODE: ${{ inputs.upload_artifact == true && 'artifact' || 'ephemeral' }}
+        run: |
+          python scripts/write_audit_event.py \
+            --output "${{ runner.temp }}/cfp_parse_audit.jsonl" \
+            --workflow "$GITHUB_WORKFLOW" \
+            --event "cfp_parse_draft" \
+            --source-type "manual-input" \
+            --source-id "${{ github.run_id }}" \
+            --storage-mode "$STORAGE_MODE" \
+            --content-persisted "$CONTENT_PERSISTED" \
+            --category "cfp url or pasted text"
+
+      - name: Upload processing audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfp-parse-audit-${{ github.run_id }}
+          path: ${{ runner.temp }}/cfp_parse_audit.jsonl
+          retention-days: 30
+          if-no-files-found: ignore
+
       - name: Upload draft
+        if: ${{ inputs.upload_artifact == true }}
         uses: actions/upload-artifact@v4
         with:
           name: cfp_issue_draft
           path: cfp_issue_draft.md
+          retention-days: 7
