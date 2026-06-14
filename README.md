@@ -48,13 +48,15 @@ python scripts/validate_release.py
 ## Repository Map
 
 - `site/`: static Pages config builder.
+- `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, and CLI code.
 - `config/profiles/`: radar profile examples.
 - `examples/`: starter watchlist and OPML files.
-- `radar.py`: main academic radar runner.
+- `radar.py`: compatibility entry point for the package CLI.
 - `audit_feeds.py`: OPML audit helper.
 - `cfp/`: generated CFP ledger surface.
 - `scripts/`: CFP parsing, ingestion, backfill, and deadline digest scripts.
 - `.github/workflows/`: GitHub Actions automation.
+- `tests/`: no-network unit tests for core scoring, rendering, and state behavior.
 - `docs/`: project notes, release notes, and parser documentation.
 
 ## Release Notes
