@@ -5,6 +5,11 @@ labels:
   - backfill
 
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Privacy note: issues in a public repository are public. Do not paste personal data, private notes, unpublished abstracts, bios, or sensitive research plans unless you intentionally want them public. Backfill automation defaults to privacy-preserving mode: generated records and exports are not committed unless `PERSIST_CFP_LEDGER=true`.
+
   - type: input
     id: presentation_title
     attributes:
@@ -99,7 +104,7 @@ body:
     id: abstract
     attributes:
       label: "Abstract text"
-      description: "Paste abstract here."
+      description: "Paste only if this repository is an appropriate place to process it."
       placeholder: "Abstract"
     validations:
       required: false
@@ -108,7 +113,7 @@ body:
     id: bio
     attributes:
       label: "Bio text"
-      description: "Paste bio here."
+      description: "Paste only if this repository is an appropriate place to process it."
       placeholder: "Bio"
     validations:
       required: false
@@ -124,7 +129,8 @@ body:
     id: notes
     attributes:
       label: "Notes"
-      placeholder: "Internal notes."
+      description: "Avoid personal data or sensitive research plans in public repositories."
+      placeholder: "Non-sensitive notes."
 
   - type: checkboxes
     id: export_options
