@@ -10,4 +10,5 @@
 - Added example input files for public use.
 - Added release hygiene validation for privacy-sensitive files and known personal archive strings.
 - Added no-network unit tests for core scoring, rendering, and state behavior.
+- Added default-off persistence controls and minimal workflow audit artifacts for privacy accountability.
 - Removed personal runtime state, feed exports, watchlists, topic-specific automation, and backfilled CFP records from the public release surface.
