@@ -3,6 +3,7 @@ import json
 import os
 
 from .config import DEFAULT_CONFIG, apply_overrides, load_config
+from .diagnostics import diagnose_config, diagnostics_exit_code, format_diagnostics
 from .emailer import send_email
 from .pipeline import collect_items
 from .presets import describe_presets
@@ -29,6 +30,7 @@ def parse_args(argv=None):
     parser.add_argument("--output-html", help="Write rendered digest HTML to this path.")
     parser.add_argument("--output-json", help="Write selected items as JSON to this path.")
     parser.add_argument("--dry-run", action="store_true", help="Fetch and render without sending email or writing state.")
+    parser.add_argument("--doctor", action="store_true", help="Run no-network diagnostics for the selected profile and exit.")
     parser.add_argument("--no-email", action="store_true", help="Do not send email.")
     parser.add_argument("--no-state", action="store_true", help="Do not write seen-link state.")
     parser.add_argument("--include-seen", action="store_true", help="Render all matching items, including seen links.")
@@ -67,6 +69,7 @@ def print_first_run_result(result):
     print(f"  Bluesky watchlist: {result['watchlist']}")
     print(f"  Seen-link state: {result['state']}")
     print("")
+    print(f"Run diagnostics with: academic-radar --config {result['profile']} --doctor")
     print(f"Run a preview with: academic-radar --config {result['profile']} --dry-run")
 
 
@@ -100,6 +103,11 @@ def main(argv=None):
 
     config = load_config(args.config)
     apply_overrides(config, opml=args.opml, watchlist=args.watchlist, state=args.state, max_items=args.max_items)
+
+    if args.doctor:
+        diagnostics = diagnose_config(config)
+        print(format_diagnostics(diagnostics))
+        return diagnostics_exit_code(diagnostics)
 
     items = collect_items(config, skip_rss=args.skip_rss, skip_bsky=args.skip_bsky)
     selected_items = items if args.include_seen else filter_new_items(items, config.state_file)
