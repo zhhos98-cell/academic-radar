@@ -10,6 +10,7 @@
 - Improved the Pages web builder with beginner-facing instructions, a privacy note, a three-step workflow, clearer generated-file labels, and links to the repository, local first-run guide, and releases.
 - Reduced the Pages web builder module structure by replacing card-heavy workflow panels with a single editorial process line, compressing the responsible-use notice into a text strip, and renaming sections to `Build Profile`, `Review Files`, and `Run Locally`.
 - Reworked the builder form into a sectional editor with `Profile`, `Vocabulary`, `Bluesky`, and `RSS & limits` rows, each pairing short editorial guidance with the relevant controls.
+- Refined Chinese mode into an English-led bilingual interface that keeps the short English visual hierarchy for headings, tabs, buttons, and labels while using Chinese for explanatory copy.
 - Added a refined interaction layer with soft radius, selective translucency, hover-reveal accent bars, tab underlines, link arrows, subtle row motion, and reduced-motion support.
 - Converted the generated-file preview into a translucent side drawer with a narrow colour strip, a single left rule, selective blur, and reduced chrome around tabs and download actions.
 - Shifted the Pages web builder visual design toward a Rubin-inspired UI language with deep vermilion, saffron, marigold, plum-black, warm paper tones, darker text hierarchy, and fewer boxed modules.
