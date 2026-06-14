@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "site/**"
+      - "index.html"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -24,6 +25,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
