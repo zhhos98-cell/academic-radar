@@ -36,13 +36,14 @@ For public forks, avoid committing real runtime state, private watchlists, expor
 Local preview:
 
 ```bash
-python radar.py --config config/profiles/hps.json --dry-run --output-html radar_digest.html --output-json radar_items.json
+python radar.py --config config/profiles/hps.json --dry-run --output-html tmp/radar_digest.html --output-json tmp/radar_items.json
 ```
 
 Release hygiene check:
 
 ```bash
 python scripts/validate_release.py
+python -m unittest discover -s tests
 ```
 
 ## Repository Map
