@@ -1,0 +1,4 @@
+# handle<TAB>label<TAB>notes
+hssonline.bsky.social	History of Science Society	Example scholarly society account
+isisjournal.bsky.social	Isis Journal	Example journal account
+whipplemuseum.bsky.social	Whipple Museum	Example museum account
