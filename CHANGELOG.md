@@ -9,6 +9,7 @@
 - Added `docs/WINDOWS_APP.md` with download, first-run, workspace, button, privacy, and build instructions for the desktop app.
 - Improved the Pages web builder with beginner-facing instructions, a privacy note, a three-step workflow, clearer generated-file labels, and links to the repository, local first-run guide, and releases.
 - Reduced the Pages web builder module structure by replacing card-heavy workflow panels with a single editorial process line, compressing the responsible-use notice into a text strip, and renaming sections to `Build Profile`, `Review Files`, and `Run Locally`.
+- Reworked the builder form into a sectional editor with `Profile`, `Vocabulary`, `Bluesky`, and `RSS & limits` rows, each pairing short editorial guidance with the relevant controls.
 - Converted the generated-file preview into a translucent side drawer with a narrow colour strip, a single left rule, selective blur, and reduced chrome around tabs and download actions.
 - Shifted the Pages web builder visual design toward a Rubin-inspired UI language with deep vermilion, saffron, marigold, plum-black, warm paper tones, darker text hierarchy, and fewer boxed modules.
 - Added a responsible-use notice reminding users to check source terms, platform rules, institutional policies, data-protection duties, and private runtime file handling before automation.
