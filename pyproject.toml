@@ -27,6 +27,7 @@ dependencies = [
 
 [project.scripts]
 academic-radar = "academic_radar.cli:main"
+academic-radar-gui = "academic_radar.gui:main"
 
 [project.urls]
 Homepage = "https://github.com/zhhos98-cell/academic-radar"
