@@ -8,12 +8,17 @@ https://zhhos98-cell.github.io/academic-radar/
 
 Use the web builder to generate a JSON radar profile, Bluesky watchlist, and OPML feed list in the browser. GitHub Releases provide version notes and source snapshots.
 
+Windows desktop app:
+
+Download `AcademicRadar-Windows.zip` from GitHub Releases when available, unzip it, and double-click `AcademicRadar.exe`. See [Windows desktop app](docs/WINDOWS_APP.md).
+
 ## What It Does
 
 - Builds a JSON radar profile from field terms, negative filters, Bluesky queries, and source limits.
 - Generates a Bluesky watchlist file.
 - Generates an OPML feed list.
-- Provides GitHub Actions workflows for running the radar and maintaining a CFP ledger.
+- Provides a Windows desktop GUI for form-based setup and dry previews without PowerShell.
+- Provides GitHub Actions workflows for running the radar, building the Windows app, and maintaining a CFP ledger.
 - Includes CFP issue templates, parsers, archive automation, and a deadline digest.
 - Provides a local first-run CLI setup flow for ignored runtime files.
 - Includes built-in academic presets for reusable field-specific profiles.
@@ -23,13 +28,21 @@ Use the web builder to generate a JSON radar profile, Bluesky watchlist, and OPM
 
 The Pages builder is static and client-side only. It has no analytics, cookies, uploads, accounts, backend API calls, or server-side storage.
 
-If you fork this repository and run the workflows, you control the data processing in your fork. Bluesky handles, RSS selections, seen-link state files, recipient email addresses, issue bodies, abstracts, bios, CV exports, and ORCID exports may be personal data depending on context. See [PRIVACY.md](PRIVACY.md) and [docs/ACCOUNTABILITY.md](docs/ACCOUNTABILITY.md).
+The desktop app writes runtime files locally under the workspace selected by the user. If you fork this repository and run the workflows, you control the data processing in your fork. Bluesky handles, RSS selections, seen-link state files, recipient email addresses, issue bodies, abstracts, bios, CV exports, and ORCID exports may be personal data depending on context. See [PRIVACY.md](PRIVACY.md) and [docs/ACCOUNTABILITY.md](docs/ACCOUNTABILITY.md).
 
 By default, workflows avoid repository persistence for content-bearing outputs. Radar digest uploads, seen-link state commits, CFP ledger commits, issue comments, and parsed CFP draft uploads must be explicitly enabled.
 
 ## Quick Start
 
-For a local setup, generate ignored first-run files under `.radar/`:
+For the Windows app:
+
+1. Download `AcademicRadar-Windows.zip` from a release or from the `Build Windows App` workflow artifact.
+2. Unzip it.
+3. Double-click `AcademicRadar.exe`.
+4. Choose a workspace folder.
+5. Fill the form, then click `Save files`, `Summary`, `Doctor`, or `Dry run`.
+
+For a local CLI setup, generate ignored first-run files under `.radar/`:
 
 ```bash
 pip install .
@@ -104,7 +117,8 @@ python -m unittest discover -s tests
 ## Repository Map
 
 - `site/`: static Pages web builder.
-- `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, presets, profile summaries, diagnostics, CLI setup, and CLI code.
+- `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, presets, profile summaries, diagnostics, desktop GUI setup, and CLI code.
+- `academic_radar_gui.py`: packaging entry point for the desktop GUI.
 - `pyproject.toml`: Python package metadata and `academic-radar` console command.
 - `LICENSE`: MIT license for reuse.
 - `config/profiles/`: radar profile examples.
@@ -115,7 +129,7 @@ python -m unittest discover -s tests
 - `scripts/`: CFP parsing, ingestion, backfill, and deadline digest scripts.
 - `.github/workflows/`: GitHub Actions automation.
 - `tests/`: no-network unit tests for core scoring, rendering, setup, presets, profile summaries, diagnostics, and state behavior.
-- `docs/`: project notes, first-run setup guide, accountability model, release notes, and parser documentation.
+- `docs/`: project notes, first-run setup guide, Windows app guide, accountability model, release notes, and parser documentation.
 
 ## Release Notes
 
