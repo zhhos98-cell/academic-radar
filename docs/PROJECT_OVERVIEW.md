@@ -17,6 +17,7 @@ This repository is a reusable academic monitoring starter. It currently has four
    - Sends an email digest and records seen links in the configured state file.
    - Can generate a local first-run profile, OPML file, and Bluesky watchlist under `.radar/`.
    - Can merge reusable first-run presets for field-specific monitoring.
+   - Can run no-network diagnostics before live RSS or Bluesky fetching.
    - Does not upload radar digest artifacts or commit state unless the relevant repository variables are explicitly enabled.
 
 3. `audit_feeds.py`
@@ -72,9 +73,10 @@ This creates:
 - `.radar/bsky_watchlist.txt`
 - `.radar/seen.json`
 
-Run a preview with:
+Run diagnostics and preview with:
 
 ```bash
+academic-radar --config .radar/profiles/local.json --doctor
 academic-radar --config .radar/profiles/local.json --dry-run
 ```
 
@@ -85,6 +87,8 @@ academic-radar --list-presets
 ```
 
 The current presets are `hps`, `history-of-knowledge`, `scientific-instruments`, `photography-history`, `romantic-science`, and `book-history`. They are intentionally generic and contain field terms plus public Bluesky search queries, not private watchlists or real feed exports.
+
+The diagnostics command checks configured local paths, source-list parseability, positive integer settings, scoring term availability, negative-term overlap, and Bluesky query presence. It does not fetch network data.
 
 ## Required GitHub Secrets
 
