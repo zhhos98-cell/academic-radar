@@ -8,6 +8,7 @@
 - Added GUI packaging smoke tests that compile the desktop GUI sources without opening a display window.
 - Added `docs/WINDOWS_APP.md` with download, first-run, workspace, button, privacy, and build instructions for the desktop app.
 - Improved the Pages web builder with beginner-facing instructions, a privacy note, a three-step workflow, clearer generated-file labels, and links to the repository, local first-run guide, and releases.
+- Polished the Pages web builder visual design with softer glass panels, subtler paper texture, more refined hero hierarchy, improved form focus states, richer output preview styling, and smoother button/link interaction states.
 - Added a responsible-use notice reminding users to check source terms, platform rules, institutional policies, data-protection duties, and private runtime file handling before automation.
 - Added bilingual English/Chinese interface text and a non-persistent language switcher for the Pages web builder.
 - Refined the Pages web builder typography with IM Fell English, EB Garamond, and Chinese serif fallbacks.
