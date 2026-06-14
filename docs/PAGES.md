@@ -9,3 +9,5 @@ It is a client-side config builder. It does not read private repository data, ca
 - `feedly_active.opml`
 
 The Pages workflow deploys the `site/` directory from `main`.
+
+For a public release, keep real watchlists, RSS exports, state files, and CFP archive records out of the repository. Use the files in `examples/` as starters, or generate fresh files from the Pages tool.
