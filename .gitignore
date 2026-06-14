@@ -2,3 +2,9 @@ __pycache__/
 *.pyc
 feed_audit.csv
 feedly_stale_or_unknown.opml
+feedly_active.opml
+bsky_watchlist_core.txt
+sent_items.json
+*_sent.json
+*.local.json
+.env
