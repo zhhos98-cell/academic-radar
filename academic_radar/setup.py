@@ -9,6 +9,7 @@ from .config import (
     DEFAULT_NEGATIVE_TERMS,
     DEFAULT_PRESTIGE_OR_CORE_SOURCES,
 )
+from .presets import merge_presets
 
 
 DEFAULT_LOCAL_PROFILE = ".radar/profiles/local.json"
@@ -99,10 +100,20 @@ def build_watchlist(handles):
     return "\n".join(_unique(lines)) + "\n"
 
 
-def build_profile(profile_name, opml_path, watchlist_path, state_path, field_terms=None, negative_terms=None, bsky_queries=None):
-    extra_field_terms = _unique(field_terms or [])
+def build_profile(
+    profile_name,
+    opml_path,
+    watchlist_path,
+    state_path,
+    field_terms=None,
+    negative_terms=None,
+    bsky_queries=None,
+    presets=None,
+):
+    preset_values = merge_presets(presets or [])
+    extra_field_terms = _unique([*preset_values["field_terms"], *(field_terms or [])])
     field_term_list = _unique([*DEFAULT_CORE_FIELD_TERMS, *extra_field_terms])
-    query_list = _unique([*DEFAULT_BLUESKY_QUERIES, *(bsky_queries or [])])
+    query_list = _unique([*DEFAULT_BLUESKY_QUERIES, *preset_values["bsky_queries"], *(bsky_queries or [])])
     for term in extra_field_terms:
         query_list.extend(
             [
@@ -130,7 +141,7 @@ def build_profile(profile_name, opml_path, watchlist_path, state_path, field_ter
             "event_terms": list(DEFAULT_EVENT_TERMS),
             "core_field_terms": field_term_list,
             "prestige_or_core_sources": list(DEFAULT_PRESTIGE_OR_CORE_SOURCES),
-            "negative_terms": _unique([*DEFAULT_NEGATIVE_TERMS, *(negative_terms or [])]),
+            "negative_terms": _unique([*DEFAULT_NEGATIVE_TERMS, *preset_values["negative_terms"], *(negative_terms or [])]),
         },
         "bluesky": {
             "queries": _unique(query_list),
@@ -147,6 +158,7 @@ def write_first_run_files(
     bsky_queries=None,
     bsky_handles=None,
     rss_feeds=None,
+    presets=None,
     overwrite=False,
 ):
     profile_path = Path(profile_path)
@@ -169,6 +181,7 @@ def write_first_run_files(
             field_terms=field_terms,
             negative_terms=negative_terms,
             bsky_queries=bsky_queries,
+            presets=presets,
         ),
         overwrite,
     )
