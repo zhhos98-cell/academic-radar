@@ -18,14 +18,35 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python radar.py
+      - name: Run radar
         env:
           RADAR_CONFIG: config/profiles/hps.json
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: |
+          if [ -z "$SMTP_USER" ] || [ -z "$SMTP_PASS" ] || [ -z "$TO_EMAIL" ]; then
+            python radar.py \
+              --config "$RADAR_CONFIG" \
+              --output-html radar_digest.html \
+              --output-json radar_items.json \
+              --no-email
+          else
+            python radar.py \
+              --config "$RADAR_CONFIG" \
+              --output-html radar_digest.html \
+              --output-json radar_items.json
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: radar-digest
+          path: |
+            radar_digest.html
+            radar_items.json
 
       - name: Commit sent item state
+        if: ${{ vars.COMMIT_RADAR_STATE == 'true' }}
         run: |
           git config user.name "academic-radar-bot"
           git config user.email "academic-radar-bot@users.noreply.github.com"
