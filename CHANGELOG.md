@@ -2,6 +2,7 @@
 
 ## v0.2.0 - 2026-06-14
 
+- Improved the Pages web builder with beginner-facing instructions, a privacy note, a three-step workflow, clearer generated-file labels, and links to the repository, local first-run guide, and releases.
 - Added a local first-run CLI setup flow that creates a private `.radar/` profile, OPML file, Bluesky watchlist, and seen-link state path.
 - Added a `docs/LOCAL_FIRST_RUN.md` walkthrough for local installation, private profile generation, no-network inspection, diagnostics, dry previews, email setup, and privacy checks.
 - Added reusable first-run presets for HPS, history of knowledge, scientific instruments, photography history, Romantic science, and book history.
