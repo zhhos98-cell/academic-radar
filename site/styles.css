@@ -363,7 +363,7 @@ p {
 .builder {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
   padding: clamp(20px, 2.4vw, 28px) 0;
 }
 
@@ -385,6 +385,65 @@ p {
 .section-heading p,
 .output-intro p {
   margin-bottom: 0;
+}
+
+.config-list {
+  display: grid;
+  border-top: 1px solid rgba(214, 185, 159, 0.8);
+}
+
+.config-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.34fr) minmax(0, 1fr);
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(214, 185, 159, 0.72);
+}
+
+.config-meta {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+}
+
+.config-meta > span {
+  width: max-content;
+  color: var(--rubin-red-dark);
+  border-top: 2px solid var(--rubin-red-dark);
+  padding-top: 6px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.config-meta h3 {
+  margin: 2px 0 0;
+  color: var(--lacquer);
+  font-family: var(--font-title);
+  font-size: clamp(1.22rem, 2vw, 1.6rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.config-meta p {
+  margin-bottom: 0;
+  max-width: 22ch;
+  font-size: 0.95rem;
+}
+
+.config-controls {
+  display: grid;
+  gap: 15px;
+  min-width: 0;
+}
+
+.config-controls.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rss-controls {
+  grid-template-columns: minmax(0, 1fr) minmax(210px, 0.42fr);
+  align-items: start;
 }
 
 .field {
@@ -445,6 +504,10 @@ textarea:focus {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   align-content: start;
+}
+
+.rss-controls .numbers {
+  grid-template-columns: 1fr;
 }
 
 .output {
@@ -605,7 +668,8 @@ pre {
 
 .lang-zh h1,
 .lang-zh .hero h2,
-.lang-zh .compliance h2 {
+.lang-zh .compliance h2,
+.lang-zh .config-meta h3 {
   font-family: "Songti SC", "Noto Serif CJK SC", "SimSun", serif;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -640,7 +704,10 @@ pre {
   .hero,
   .grid,
   .field.two,
-  .next {
+  .next,
+  .config-row,
+  .config-controls.two,
+  .rss-controls {
     grid-template-columns: 1fr;
   }
 
@@ -676,6 +743,10 @@ pre {
 
   .compliance {
     grid-template-columns: 1fr;
+  }
+
+  .config-meta p {
+    max-width: 100%;
   }
 
   .output {
