@@ -23,7 +23,33 @@ jobs:
       - name: Build CFP deadline digest
         run: python scripts/cfp_deadline_digest.py
 
+      - name: Write processing audit
+        if: always()
+        env:
+          STORAGE_MODE: ${{ vars.PERSIST_CFP_LEDGER == 'true' && 'repository' || 'ephemeral' }}
+          CONTENT_PERSISTED: ${{ vars.PERSIST_CFP_LEDGER == 'true' && 'true' || 'false' }}
+        run: |
+          python scripts/write_audit_event.py \
+            --output "${{ runner.temp }}/cfp_deadline_audit.jsonl" \
+            --workflow "$GITHUB_WORKFLOW" \
+            --event "cfp_deadline_digest" \
+            --source-type "cfp-ledger" \
+            --source-id "cfp" \
+            --storage-mode "$STORAGE_MODE" \
+            --content-persisted "$CONTENT_PERSISTED" \
+            --category "deadline metadata"
+
+      - name: Upload processing audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfp-deadline-audit-${{ github.run_id }}
+          path: ${{ runner.temp }}/cfp_deadline_audit.jsonl
+          retention-days: 30
+          if-no-files-found: ignore
+
       - name: Commit CFP deadline digest
+        if: ${{ vars.PERSIST_CFP_LEDGER == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
