@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "academic-radar"
+version = "0.1.0"
+description = "Reusable academic monitoring starter for CFPs, events, books, and field-specific updates."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Academic Radar contributors" }]
+keywords = ["academia", "cfp", "rss", "bluesky", "research"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Communications :: Email",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content :: News/Diary",
+]
+dependencies = [
+    "feedparser>=6.0.11",
+    "requests>=2.32.0",
+]
+
+[project.scripts]
+academic-radar = "academic_radar.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/zhhos98-cell/academic-radar"
+Issues = "https://github.com/zhhos98-cell/academic-radar/issues"
+
+[tool.setuptools.packages.find]
+include = ["academic_radar*"]
