@@ -19,7 +19,7 @@ Repository variables control persistence:
 - `UPLOAD_RADAR_DIGEST=true`: uploads radar HTML/JSON digest artifacts. Default: off.
 - `COMMIT_RADAR_STATE=true`: commits seen-link state. Default: off.
 - `PERSIST_CFP_LEDGER=true`: commits generated CFP, backfill, deadline, ORCID, and CV files. Default: off.
-- `COMMENT_CFP_ISSUES=true`: posts workflow comments on CFP/backfill issues. Default: off.
+- `COMMENT_CFP_ISSUES=true`: posts workflow comments on CFP/backfill issues when `PERSIST_CFP_LEDGER=true`. Default: off.
 - `CLOSE_CFP_ISSUES=true`: closes processed backfill issues. Default: off.
 
 Manual CFP draft parsing also has an `upload_artifact` input. It defaults to false because the parsed draft may contain pasted CFP text or personal material.
