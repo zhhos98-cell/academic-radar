@@ -10,3 +10,4 @@ sent_items.json
 *_audit.jsonl
 .env
 tmp/
+.radar/
