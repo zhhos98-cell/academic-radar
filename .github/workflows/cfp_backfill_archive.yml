@@ -30,6 +30,8 @@ jobs:
 
       - name: Archive backfill issue
         run: python scripts/cfp_backfill_archive.py
+        env:
+          CFP_BACKFILL_COMMENT_PATH: ${{ runner.temp }}/cfp_backfill_comment.md
 
       - name: Commit generated CFP ledger files
         run: |
@@ -49,9 +51,10 @@ jobs:
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
+          CFP_BACKFILL_COMMENT_PATH: ${{ runner.temp }}/cfp_backfill_comment.md
         run: |
-          if [ -f /tmp/cfp_backfill_comment.md ]; then
-            gh issue comment "${{ github.event.issue.number }}" --body-file /tmp/cfp_backfill_comment.md
+          if [ -f "$CFP_BACKFILL_COMMENT_PATH" ]; then
+            gh issue comment "${{ github.event.issue.number }}" --body-file "$CFP_BACKFILL_COMMENT_PATH"
           else
             echo "No comment file generated."
           fi
