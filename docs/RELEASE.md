@@ -2,25 +2,43 @@
 
 ## v0.2.0 - 2026-06-14
 
-Academic Radar v0.2.0 turns the prototype into a more usable local-first starter. The release focuses on the public web builder, first-run setup, reusable field presets, no-network inspection, diagnostics, and clearer privacy-preserving defaults.
+Academic Radar v0.2.0 turns the prototype into a more usable local-first starter. The release focuses on the public web builder, a Windows desktop app, first-run setup, reusable field presets, no-network inspection, diagnostics, and clearer privacy-preserving defaults.
 
 Web builder:
 
 https://zhhos98-cell.github.io/academic-radar/
 
+Windows desktop app:
+
+Download `AcademicRadar-Windows.zip` from release assets when available, unzip it, and double-click `AcademicRadar.exe`. The app provides a form-based interface for creating local files, running summary and diagnostics, running dry previews, and opening generated HTML results without PowerShell.
+
 Highlights:
 
+- Added a Windows desktop GUI for form-based setup, local file generation, no-network summary, diagnostics, dry-run previews, and opening generated HTML results without PowerShell.
+- Added a GitHub Actions workflow that builds `AcademicRadar.exe` with PyInstaller and uploads `AcademicRadar-Windows.zip` as a workflow artifact.
+- Added `academic-radar-gui` and `academic_radar_gui.py` entry points for launching or packaging the desktop GUI.
+- Added `docs/WINDOWS_APP.md` with download, first-run, workspace, button, privacy, and build instructions for the desktop app.
 - Improved the Pages web builder with beginner-facing instructions, a privacy note, a three-step workflow, clearer generated-file labels, and links to the repository, local first-run guide, and releases.
+- Added a responsible-use notice reminding users to check source terms, platform rules, institutional policies, data-protection duties, and private runtime file handling before automation.
+- Added bilingual English/Chinese interface text and a non-persistent language switcher for the Pages web builder.
+- Refined the Pages web builder typography with IM Fell English, EB Garamond, and Chinese serif fallbacks.
 - Added `academic-radar --init` to generate private runtime files under `.radar/`.
 - Added reusable presets for HPS, history of knowledge, scientific instruments, photography history, Romantic science, and book history.
 - Added `academic-radar --list-presets` for preset discovery.
 - Added `academic-radar --summary` for no-network inspection of profile names, paths, source limits, scoring term counts, and Bluesky query counts.
 - Added `academic-radar --doctor` for no-network diagnostics of local paths, source-list parseability, positive integer settings, scoring terms, negative-term overlap, and Bluesky queries.
-- Added `docs/LOCAL_FIRST_RUN.md` with local setup, virtualenv, private profile generation, dry preview, email setup, privacy checklist, and troubleshooting notes.
 - Added setup, CLI smoke, summary, and diagnostics tests for the local-first path.
 - Ignored `.radar/` runtime files by default.
 
-Recommended first-run flow:
+Recommended GUI flow:
+
+1. Download `AcademicRadar-Windows.zip`.
+2. Unzip it.
+3. Double-click `AcademicRadar.exe`.
+4. Choose a workspace folder.
+5. Fill the form, then click `Save files`, `Summary`, `Doctor`, or `Dry run`.
+
+Recommended CLI first-run flow:
 
 ```bash
 pip install .
@@ -33,9 +51,10 @@ academic-radar --config .radar/profiles/local.json --dry-run
 Privacy note:
 
 - `.radar/` is ignored by default for local private profiles, OPML exports, Bluesky watchlists, and seen-link state files.
+- The desktop app writes runtime files locally under the workspace selected by the user.
 - Public forks should still avoid committing real runtime state, private watchlists, exported feed lists, email credentials, or personal CFP archive records.
 - Repository persistence remains default-off through workflow variables.
-- Review `PRIVACY.md`, `docs/ACCOUNTABILITY.md`, and `docs/LOCAL_FIRST_RUN.md` before enabling persistence or email automation.
+- Review `PRIVACY.md`, `docs/ACCOUNTABILITY.md`, `docs/LOCAL_FIRST_RUN.md`, and `docs/WINDOWS_APP.md` before enabling persistence or email automation.
 
 Release checklist:
 
@@ -43,34 +62,3 @@ Release checklist:
 python scripts/validate_release.py
 python -m unittest discover -s tests
 ```
-
-## v0.1.0 - Prototype
-
-Academic Radar is a reusable starter for monitoring CFPs, academic events, journal calls, new books, and field-specific scholarly updates from RSS feeds and Bluesky.
-
-Highlights:
-
-- Static Pages config builder in `site/`.
-- Modular Python package with a compatibility `radar.py` CLI entry point.
-- Installable `academic-radar` console command via `pyproject.toml`.
-- Generic radar CLI and workflow driven by a JSON profile.
-- CFP issue templates, parsers, archive workflows, and deadline digest generation.
-- Example OPML and Bluesky watchlist files in `examples/`.
-- Release hygiene validation for privacy-sensitive files and personal archive remnants.
-- No-network unit tests for scoring, rendering, and state behavior.
-- Default-off persistence for radar artifacts, state files, CFP ledger records, CFP comments, and parsed CFP draft artifacts.
-- Minimal JSONL processing audit artifacts for workflow accountability without storing content-bearing fields.
-
-Privacy note:
-
-- Do not publish real state files, private watchlists, exported feed lists, email credentials, or personal CFP archive records.
-- Use repository secrets for email delivery if you enable automation.
-- Public forks should leave persistence variables unset unless repository storage is intentional.
-- Review `PRIVACY.md` and `docs/ACCOUNTABILITY.md` before enabling persistence.
-
-GDPR-oriented note:
-
-- The hosted Pages builder is static and client-side only: it has no analytics, cookies, uploads, accounts, or server-side storage.
-- A fork owner who configures workflows, email delivery, watchlists, or state commits is responsible for the personal data they process.
-- Bluesky handles, RSS selections, seen-link history, recipient email addresses, issue bodies, abstracts, and bios may be personal data depending on context.
-- Public forks should avoid committing runtime state or personal CFP records unless the owner intentionally wants them public.
