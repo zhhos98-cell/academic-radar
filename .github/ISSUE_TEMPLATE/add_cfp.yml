@@ -9,7 +9,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        Use this form to add a structured CFP or academic opportunity to the CFP Ledger.
+        Use this form to add a structured CFP or academic opportunity.
+
+        Privacy note: issues in a public repository are public. Do not paste personal data, private notes, private email addresses, unpublished abstracts, or sensitive research plans unless you intentionally want them public. CFP automation defaults to privacy-preserving mode: generated records are not committed unless `PERSIST_CFP_LEDGER=true`.
 
   - type: input
     id: cfp_title
@@ -208,7 +210,7 @@ body:
     id: raw_text
     attributes:
       label: Raw CFP text
-      description: Paste CFP text here if useful. Later this can be parsed automatically.
+      description: Paste only CFP text that is safe for this repository. Avoid private notes, personal email threads, and unpublished personal material.
       placeholder: "Paste CFP text here."
       render: markdown
 
@@ -216,8 +218,8 @@ body:
     id: notes
     attributes:
       label: Notes
-      description: Internal notes, possible angle, travel/funding issue, fit, doubts, etc.
-      placeholder: "Internal notes."
+      description: Avoid personal data or sensitive research plans in public repositories.
+      placeholder: "Non-sensitive notes."
       render: markdown
 
   - type: checkboxes
