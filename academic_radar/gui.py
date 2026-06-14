@@ -34,9 +34,9 @@ undergraduate
 celebrity
 sports"""
 
-DEFAULT_BSKY_QUERIES = """"call for papers" "history of science"
+DEFAULT_BSKY_QUERIES = '''"call for papers" "history of science"
 "special issue" "history of science"
-"fellowship" "history of science""""
+"fellowship" "history of science"'''
 
 DEFAULT_WATCHLIST = """hssonline.bsky.social
 isisjournal.bsky.social
@@ -66,10 +66,7 @@ class ScrollFrame(ttk.Frame):
         self.canvas = tk.Canvas(self, borderwidth=0, highlightthickness=0)
         self.scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
         self.inner = ttk.Frame(self.canvas)
-        self.inner.bind(
-            "<Configure>",
-            lambda _event: self.canvas.configure(scrollregion=self.canvas.bbox("all")),
-        )
+        self.inner.bind("<Configure>", lambda _event: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
         self.window = self.canvas.create_window((0, 0), window=self.inner, anchor="nw")
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         self.canvas.pack(side="left", fill="both", expand=True)
@@ -154,7 +151,15 @@ class AcademicRadarApp(tk.Tk):
         self.negative_terms = self._text_group(form, 2, 1, "Negative terms", DEFAULT_NEGATIVE_TERMS)
         self.bsky_queries = self._text_group(form, 3, 0, "Bluesky public search queries", DEFAULT_BSKY_QUERIES)
         self.watchlist = self._text_group(form, 3, 1, "Bluesky watchlist handles", DEFAULT_WATCHLIST)
-        self.rss_feeds = self._text_group(form, 4, 0, "RSS feeds, one URL or TITLE=URL per line", DEFAULT_RSS_FEEDS, columnspan=2, height=6)
+        self.rss_feeds = self._text_group(
+            form,
+            4,
+            0,
+            "RSS feeds, one URL or TITLE=URL per line",
+            DEFAULT_RSS_FEEDS,
+            columnspan=2,
+            height=6,
+        )
 
         options = ttk.LabelFrame(form, text="Run options", padding=12)
         options.grid(row=5, column=0, columnspan=2, sticky="ew", padx=4, pady=6)
@@ -263,11 +268,21 @@ class AcademicRadarApp(tk.Tk):
                 url = row
             if not url:
                 continue
-            outlines.append(
-                f'    <outline text="{xml_utils.escape(title)}" title="{xml_utils.escape(title)}" type="rss" xmlUrl="{xml_utils.escape(url)}" />'
-            )
+            safe_title = xml_utils.escape(title)
+            safe_url = xml_utils.escape(url)
+            outlines.append(f'    <outline text="{safe_title}" title="{safe_title}" type="rss" xmlUrl="{safe_url}" />')
         body = "\n".join(outlines)
-        return f'<?xml version="1.0" encoding="UTF-8"?>\n<opml version="2.0">\n  <head>\n    <title>Academic Radar feeds</title>\n  </head>\n  <body>\n{body}\n  </body>\n</opml>\n'
+        return (
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<opml version="2.0">\n'
+            '  <head>\n'
+            '    <title>Academic Radar feeds</title>\n'
+            '  </head>\n'
+            '  <body>\n'
+            f'{body}\n'
+            '  </body>\n'
+            '</opml>\n'
+        )
 
     def write_local_files(self):
         paths = self.paths()
@@ -367,6 +382,7 @@ class AcademicRadarApp(tk.Tk):
             self.log.insert("end", message.rstrip() + "\n")
             self.log.see("end")
             self.log.configure(state="disabled")
+
         self.after(0, write)
 
     def _show_error(self, exc):
