@@ -16,6 +16,7 @@ This repository is a reusable academic monitoring starter. It currently has four
    - Searches public Bluesky posts with topic queries in the profile.
    - Sends an email digest and records seen links in the configured state file.
    - Can generate a local first-run profile, OPML file, and Bluesky watchlist under `.radar/`.
+   - Can merge reusable first-run presets for field-specific monitoring.
    - Does not upload radar digest artifacts or commit state unless the relevant repository variables are explicitly enabled.
 
 3. `audit_feeds.py`
@@ -55,7 +56,11 @@ The installable CLI can create local runtime files without committing personal f
 
 ```bash
 academic-radar --init \
-  --field-term "photographic history" \
+  --preset hps \
+  --preset history-of-knowledge \
+  --preset photography-history \
+  --preset scientific-instruments \
+  --field-term "household experiment" \
   --bsky-handle "@example.bsky.social" \
   --rss-feed "Example=https://example.org/feed.xml"
 ```
@@ -72,6 +77,14 @@ Run a preview with:
 ```bash
 academic-radar --config .radar/profiles/local.json --dry-run
 ```
+
+List reusable presets with:
+
+```bash
+academic-radar --list-presets
+```
+
+The current presets are `hps`, `history-of-knowledge`, `scientific-instruments`, `photography-history`, `romantic-science`, and `book-history`. They are intentionally generic and contain field terms plus public Bluesky search queries, not private watchlists or real feed exports.
 
 ## Required GitHub Secrets
 
@@ -130,5 +143,6 @@ Use `Backfill conference` for past presentations:
 ## Next Generalization Step
 
 - Add a release workflow that builds and attaches source and wheel artifacts.
+- Add preset support to the static Pages builder so browser-generated profiles match CLI first-run profiles.
 - Promote the CFP parser from draft generation to optional issue creation once the rules feel reliable.
 - Later, wrap the CLI with a packaged desktop or web interface.
