@@ -1,26 +1,24 @@
 # Academic Radar Project Overview
 
-This repository is a personal academic monitoring system. It currently has four working parts:
+This repository is a reusable academic monitoring starter. It currently has four working parts:
 
-1. `radar.py`
+1. `site/`
+   - A static GitHub Pages config builder.
+   - Generates a JSON radar profile, a Bluesky watchlist, and an OPML feed list in the browser.
+   - Does not call a backend or store visitor input.
+
+2. `radar.py`
    - General academic radar.
    - Loads its profile from `config/profiles/hps.json` by default.
    - Override the profile with the `RADAR_CONFIG` environment variable.
-   - Reads RSS sources from `feedly_active.opml`.
-   - Reads Bluesky handles from `bsky_watchlist_core.txt`.
-   - Searches public Bluesky posts with topic queries in the script.
-   - Sends a daily email digest and records seen links in `sent_items.json`.
-
-2. `black_studies_radar.py`
-   - A focused digest for Black Studies CFPs, special issues, grants, and fellowships.
-   - Loads its profile from `config/profiles/black_studies.json` by default.
-   - Override the profile with the `BLACK_STUDIES_RADAR_CONFIG` environment variable.
-   - Sends a weekly email digest and records seen links in `black_studies_sent.json`.
+   - Reads RSS sources and Bluesky handles from the files named in the profile.
+   - Searches public Bluesky posts with topic queries in the profile.
+   - Sends an email digest and records seen links in the configured state file.
 
 3. `audit_feeds.py`
    - Audits OPML feeds and separates active feeds from stale or unknown feeds.
    - Defaults to `feedly.opml` when present.
-   - Falls back to `feedly_active.opml`, so the workflow can run in this repository without a separate OPML export.
+   - Falls back to `feedly_active.opml` when available.
 
 4. CFP Ledger
    - Issue forms live in `.github/ISSUE_TEMPLATE/`.
@@ -34,23 +32,23 @@ This repository is a personal academic monitoring system. It currently has four 
 
 Radar profiles live in `config/profiles/`.
 
-- `hps.json`: the general history of science / HPS radar profile.
-- `black_studies.json`: the focused Black Studies CFP digest profile.
+- `hps.json`: an example profile for history of science / HPS.
+- `examples/feedly.example.opml`: starter RSS feed list.
+- `examples/bsky_watchlist.example.txt`: starter Bluesky watchlist.
 
 Profiles control:
 
-- input files, such as OPML and seen-link state files;
+- input files, such as OPML, Bluesky watchlist, and seen-link state files;
 - age limits and per-source item limits;
 - scoring terms;
 - negative filters;
-- Bluesky queries;
-- focused RSS feeds for specialized digests.
+- Bluesky queries.
 
-The scripts still include safe defaults. If a profile file is missing, the script falls back to its built-in configuration.
+The script still includes safe defaults. If a profile file is missing, the script falls back to its built-in configuration.
 
 ## Required GitHub Secrets
 
-The email digest workflows need these repository secrets:
+The email digest workflow needs these repository secrets:
 
 - `SMTP_USER`: Gmail address or SMTP username.
 - `SMTP_PASS`: SMTP app password.
@@ -58,15 +56,27 @@ The email digest workflows need these repository secrets:
 
 The CFP workflows use `GITHUB_TOKEN`, which GitHub Actions provides automatically.
 
-## Scheduled Workflows
+## Workflows
 
-- `Daily Academic Radar`: runs daily and sends the general academic digest.
-- `Black Studies CFP Digest`: runs weekly and sends the focused digest.
+- `Daily Academic Radar`: runs manually by default. Fork users can add a schedule after setting their own profile and secrets.
 - `Audit Feedly OPML`: runs manually and uploads OPML audit artifacts.
 - `CFP Ingest Archive`: runs when a CFP issue is opened or edited.
 - `CFP Backfill Archive`: runs when a backfill issue is opened or edited.
 - `CFP Deadline Digest`: runs daily and updates `cfp/deadlines.md`.
 - `CFP Parse Draft`: runs manually and uploads a draft issue body from a CFP URL or pasted text.
+- `Deploy Pages`: publishes the config builder from `site/`.
+
+## Public Release Hygiene
+
+Keep personal runtime data out of the public repository:
+
+- real feed exports;
+- real Bluesky watchlists;
+- seen-link state files;
+- private notes, abstracts, bios, CV exports, and ORCID exports;
+- SMTP credentials or email addresses.
+
+Use repository secrets for credentials, and use the files in `examples/` only as starters.
 
 ## CFP Ledger Flow
 
@@ -87,11 +97,7 @@ Use `Backfill conference` for past presentations:
 
 ## Next Generalization Step
 
-The first generalization step is now in place: profiles have been moved into `config/profiles/`.
-
-The next useful split is:
-
-- Keep source fetching, scoring, deduplication, rendering, and email delivery as reusable Python modules.
+- Split fetching, scoring, deduplication, rendering, and email delivery into reusable Python modules.
 - Add a small CLI that accepts a config file and can run locally or inside GitHub Actions.
 - Promote the CFP parser from draft generation to optional issue creation once the rules feel reliable.
-- Later, wrap the CLI with a simple desktop or web interface.
+- Later, wrap the CLI with a packaged desktop or web interface.
