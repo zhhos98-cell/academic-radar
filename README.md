@@ -15,7 +15,7 @@ https://zhhos98-cell.github.io/academic-radar/
 - Includes CFP issue templates, parsers, archive automation, and a deadline digest.
 - Provides a local first-run CLI setup flow for private, ignored runtime files.
 - Includes built-in academic presets for reusable field-specific profiles.
-- Provides no-network profile diagnostics before fetching RSS or Bluesky data.
+- Provides no-network profile summaries and diagnostics before fetching RSS or Bluesky data.
 
 ## Privacy Posture
 
@@ -38,6 +38,7 @@ academic-radar --init \
   --field-term "household experiment" \
   --bsky-handle "@example.bsky.social" \
   --rss-feed "Example=https://example.org/feed.xml"
+academic-radar --config .radar/profiles/local.json --summary
 academic-radar --config .radar/profiles/local.json --doctor
 academic-radar --config .radar/profiles/local.json --dry-run --output-html tmp/radar_digest.html --output-json tmp/radar_items.json
 ```
@@ -49,6 +50,14 @@ academic-radar --list-presets
 ```
 
 Current presets are `hps`, `history-of-knowledge`, `scientific-instruments`, `photography-history`, `romantic-science`, and `book-history`. Presets can be repeated or passed as a comma-separated list.
+
+Inspect a profile before running live collection:
+
+```bash
+academic-radar --config config/profiles/hps.json --summary
+```
+
+The summary command reports the profile name, configured local paths, source limits, scoring term counts, and Bluesky query counts. It does not fetch network data.
 
 Run diagnostics before fetching live data:
 
@@ -94,7 +103,7 @@ python -m unittest discover -s tests
 ## Repository Map
 
 - `site/`: static Pages config builder.
-- `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, presets, diagnostics, CLI setup, and CLI code.
+- `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, presets, profile summaries, diagnostics, CLI setup, and CLI code.
 - `pyproject.toml`: Python package metadata and `academic-radar` console command.
 - `LICENSE`: MIT license for reuse.
 - `config/profiles/`: radar profile examples.
@@ -104,7 +113,7 @@ python -m unittest discover -s tests
 - `cfp/`: generated CFP ledger surface.
 - `scripts/`: CFP parsing, ingestion, backfill, and deadline digest scripts.
 - `.github/workflows/`: GitHub Actions automation.
-- `tests/`: no-network unit tests for core scoring, rendering, setup, presets, diagnostics, and state behavior.
+- `tests/`: no-network unit tests for core scoring, rendering, setup, presets, profile summaries, diagnostics, and state behavior.
 - `docs/`: project notes, accountability model, release notes, and parser documentation.
 
 ## Release Notes
