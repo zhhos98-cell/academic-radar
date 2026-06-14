@@ -2,9 +2,11 @@
 
 Academic Radar is a reusable starter for monitoring CFPs, academic events, journal calls, new books, and field-specific scholarly updates from RSS feeds and Bluesky.
 
-The first public prototype is a static config builder:
+Public web builder:
 
 https://zhhos98-cell.github.io/academic-radar/
+
+Use the web builder to generate a JSON radar profile, Bluesky watchlist, and OPML feed list in the browser. GitHub Releases provide version notes and source snapshots.
 
 ## What It Does
 
@@ -13,7 +15,7 @@ https://zhhos98-cell.github.io/academic-radar/
 - Generates an OPML feed list.
 - Provides GitHub Actions workflows for running the radar and maintaining a CFP ledger.
 - Includes CFP issue templates, parsers, archive automation, and a deadline digest.
-- Provides a local first-run CLI setup flow for private, ignored runtime files.
+- Provides a local first-run CLI setup flow for ignored runtime files.
 - Includes built-in academic presets for reusable field-specific profiles.
 - Provides no-network profile summaries and diagnostics before fetching RSS or Bluesky data.
 
@@ -27,7 +29,7 @@ By default, workflows avoid repository persistence for content-bearing outputs. 
 
 ## Quick Start
 
-For a local private setup, generate ignored first-run files under `.radar/`:
+For a local setup, generate ignored first-run files under `.radar/`:
 
 ```bash
 pip install .
@@ -71,14 +73,11 @@ The diagnostics command checks configured local paths, source-list parseability,
 
 For the static Pages builder:
 
-1. Open the Pages builder and generate your files.
-2. Put the JSON profile under `config/profiles/`.
-3. Put the generated watchlist and OPML files where the profile points.
-4. Add GitHub repository secrets:
-   - `SMTP_USER`
-   - `SMTP_PASS`
-   - `TO_EMAIL`
-5. Run the `Daily Academic Radar` workflow manually.
+1. Open the web builder and generate your files.
+2. Download the JSON profile, Bluesky watchlist, and OPML file.
+3. Keep runtime files under `.radar/` for local use, or put generated files where your profile points.
+4. Add delivery settings only if you later enable email automation.
+5. Run locally with `--summary`, `--doctor`, and `--dry-run` before sending email or writing state.
 
 For public forks, avoid committing real runtime state, private watchlists, exported feed lists, or personal CFP archive records unless you intentionally want them public.
 
@@ -104,7 +103,7 @@ python -m unittest discover -s tests
 
 ## Repository Map
 
-- `site/`: static Pages config builder.
+- `site/`: static Pages web builder.
 - `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, presets, profile summaries, diagnostics, CLI setup, and CLI code.
 - `pyproject.toml`: Python package metadata and `academic-radar` console command.
 - `LICENSE`: MIT license for reuse.
