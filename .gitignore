@@ -7,5 +7,6 @@ bsky_watchlist_core.txt
 sent_items.json
 *_sent.json
 *.local.json
+*_audit.jsonl
 .env
 tmp/
