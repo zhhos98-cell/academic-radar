@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added a local first-run CLI setup flow that creates a private `.radar/` profile, OPML file, Bluesky watchlist, and seen-link state path.
+- Added setup tests for first-run file generation, RSS argument parsing, Bluesky handle normalization, and OPML escaping.
+- Ignored `.radar/` runtime files by default.
+
 ## v0.1.0 - Prototype
 
 - Added a GitHub Pages config builder for generating radar profiles, Bluesky watchlists, and OPML feed lists.
