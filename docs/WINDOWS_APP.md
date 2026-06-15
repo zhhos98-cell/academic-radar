@@ -10,6 +10,8 @@ For released builds, download the Windows zip from the GitHub Release assets whe
 
 - `AcademicRadar-Windows.zip`
 
+The `Build Release` workflow creates release assets for a tag. See [Release Process](RELEASE_PROCESS.md).
+
 For development builds, go to GitHub Actions, open the latest successful `Build Windows App` run, and download the `AcademicRadar-Windows` artifact.
 
 ## First run
