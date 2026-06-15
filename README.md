@@ -22,7 +22,7 @@ Download `AcademicRadar-Windows.zip` from GitHub Releases when available, unzip 
 - Includes CFP issue templates, parsers, archive automation, and a deadline digest.
 - Provides a local first-run CLI setup flow for ignored runtime files.
 - Includes built-in academic presets for reusable field-specific profiles.
-- Provides no-network profile summaries and diagnostics before fetching RSS or Bluesky data.
+- Provides no-network profile summaries, diagnostics, and privacy/accountability reports before fetching RSS or Bluesky data.
 
 ## Privacy Posture
 
@@ -55,6 +55,7 @@ academic-radar --init \
   --rss-feed "Example=https://example.org/feed.xml"
 academic-radar --config .radar/profiles/local.json --summary
 academic-radar --config .radar/profiles/local.json --doctor
+academic-radar --config .radar/profiles/local.json --privacy-report
 academic-radar --config .radar/profiles/local.json --dry-run --output-html tmp/radar_digest.html --output-json tmp/radar_items.json
 ```
 
@@ -84,13 +85,21 @@ academic-radar --config config/profiles/hps.json --doctor
 
 The diagnostics command checks configured local paths, source-list parseability, positive integer settings, scoring term availability, negative-term overlap, and Bluesky query presence. It does not fetch network data.
 
+Generate a privacy/accountability report before live collection or public release:
+
+```bash
+academic-radar --config config/profiles/hps.json --privacy-report
+```
+
+The privacy report shows local storage paths, data categories, retention notes, network/disclosure surfaces, and operator controls. It does not fetch network data or print SMTP secrets, email addresses, or watchlist contents.
+
 For the static Pages builder:
 
 1. Open the web builder and generate your files.
 2. Download the JSON profile, Bluesky watchlist, and OPML file.
 3. Keep runtime files under `.radar/` for local use, or put generated files where your profile points.
 4. Add delivery settings only if you later enable email automation.
-5. Run locally with `--summary`, `--doctor`, and `--dry-run` before sending email or writing state.
+5. Run locally with `--summary`, `--doctor`, `--privacy-report`, and `--dry-run` before sending email or writing state.
 
 For public forks, avoid committing real runtime state, private watchlists, exported feed lists, or personal CFP archive records unless you intentionally want them public.
 
@@ -117,7 +126,7 @@ python -m unittest discover -s tests
 ## Repository Map
 
 - `site/`: static Pages web builder.
-- `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, presets, profile summaries, diagnostics, desktop GUI setup, and CLI code.
+- `academic_radar/`: reusable Python package for config, sources, scoring, rendering, state, email, presets, profile summaries, diagnostics, privacy/accountability reporting, desktop GUI setup, and CLI code.
 - `academic_radar_gui.py`: packaging entry point for the desktop GUI.
 - `pyproject.toml`: Python package metadata and `academic-radar` console command.
 - `LICENSE`: MIT license for reuse.
@@ -128,7 +137,7 @@ python -m unittest discover -s tests
 - `cfp/`: generated CFP ledger surface.
 - `scripts/`: CFP parsing, ingestion, backfill, and deadline digest scripts.
 - `.github/workflows/`: GitHub Actions automation.
-- `tests/`: no-network unit tests for core scoring, rendering, setup, presets, profile summaries, diagnostics, and state behavior.
+- `tests/`: no-network unit tests for core scoring, rendering, setup, presets, profile summaries, diagnostics, privacy reporting, and state behavior.
 - `docs/`: project notes, first-run setup guide, Windows app guide, accountability model, release notes, and parser documentation.
 
 ## Release Notes
