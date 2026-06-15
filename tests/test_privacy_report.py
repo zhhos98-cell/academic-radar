@@ -8,7 +8,7 @@ class PrivacyReportTests(unittest.TestCase):
     def test_private_runtime_paths_are_ok(self):
         config = RadarConfig(
             opml_file=".radar/feeds.opml",
-            bsky_watchlist_file=".radar\watchlist.txt",
+            bsky_watchlist_file=r".radar\watchlist.txt",
             state_file=".radar/seen.json",
         )
         config.name = "Privacy Test"
