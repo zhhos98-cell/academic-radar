@@ -31,34 +31,91 @@ def classify(text):
     return "Other Signals", "Signal"
 
 
-def score(text, config):
-    text = text.lower()
+def matching_terms(text, terms):
+    lower_text = text.lower()
+    matches = []
+    for term in terms:
+        normalized = str(term).strip().lower()
+        if normalized and normalized in lower_text and normalized not in matches:
+            matches.append(normalized)
+    return matches
 
-    if any(term in text for term in config.negative_terms):
-        return 0
 
-    event_score = sum(3 for term in config.event_terms if term in text)
-    field_score = sum(2 for term in config.core_field_terms if term in text)
-    core_source_bonus = 4 if any(term in text for term in config.prestige_or_core_sources) else 0
-    raw = event_score + field_score + core_source_bonus
+def _reason(label, matches, points=None):
+    if not matches:
+        return ""
+    suffix = f" (+{points})" if points is not None else ""
+    return f"{label}: {', '.join(matches[:8])}{suffix}"
+
+
+def explain_score(text, config):
+    lower_text = text.lower()
+    negative_matches = matching_terms(lower_text, config.negative_terms)
+    event_matches = matching_terms(lower_text, config.event_terms)
+    field_matches = matching_terms(lower_text, config.core_field_terms)
+    source_matches = matching_terms(lower_text, config.prestige_or_core_sources)
+
+    event_score = len(event_matches) * 3
+    field_score = len(field_matches) * 2
+    source_bonus = 4 if source_matches else 0
+    raw = event_score + field_score + source_bonus
+
+    explanation = {
+        "score": raw,
+        "raw_score": raw,
+        "filtered": False,
+        "filtered_by": "",
+        "event_terms": event_matches,
+        "core_field_terms": field_matches,
+        "source_terms": source_matches,
+        "negative_terms": negative_matches,
+        "reasons": [],
+    }
+
+    if negative_matches:
+        explanation.update(score=0, filtered=True, filtered_by="negative_terms")
+        explanation["reasons"].append(_reason("Filtered by negative terms", negative_matches))
+        return explanation
+
+    if event_score:
+        explanation["reasons"].append(_reason("Event terms", event_matches, event_score))
+    if field_score:
+        explanation["reasons"].append(_reason("Field terms", field_matches, field_score))
+    if source_bonus:
+        explanation["reasons"].append(_reason("Core source terms", source_matches, source_bonus))
 
     has_event = event_score > 0
     has_core_field = field_score > 0
-    has_core_source = core_source_bonus > 0
+    has_core_source = source_bonus > 0
 
     if has_event and not has_core_field and not has_core_source:
-        return 0
-    if any(term in text for term in ["call for papers", "cfp", "call for chapters"]) and raw < 9:
-        return 0
-    if any(term in text for term in ["fellowship", "grant", "bursary", "studentship"]) and raw < 10:
-        return 0
+        explanation.update(score=0, filtered=True, filtered_by="event_without_relevance")
+        explanation["reasons"].append("Filtered: event signal without configured field/source relevance.")
+        return explanation
+    if any(term in lower_text for term in ["call for papers", "cfp", "call for chapters"]) and raw < 9:
+        explanation.update(score=0, filtered=True, filtered_by="cfp_threshold")
+        explanation["reasons"].append("Filtered: CFP/call signals require score >= 9.")
+        return explanation
+    if any(term in lower_text for term in ["fellowship", "grant", "bursary", "studentship"]) and raw < 10:
+        explanation.update(score=0, filtered=True, filtered_by="funding_threshold")
+        explanation["reasons"].append("Filtered: funding signals require score >= 10.")
+        return explanation
     if any(
-        term in text
+        term in lower_text
         for term in ["research assistant", "library assistant", "assistant librarian", "archivist", "curator"]
     ) and raw < 10:
-        return 0
+        explanation.update(score=0, filtered=True, filtered_by="job_threshold")
+        explanation["reasons"].append("Filtered: job/archive signals require score >= 10.")
+        return explanation
 
-    return raw
+    if not explanation["reasons"]:
+        explanation["reasons"].append("Matched baseline relevance rules.")
+
+    return explanation
+
+
+def score(text, config):
+    return explain_score(text, config)["score"]
 
 
 def extract_dates_and_details(text):
@@ -142,7 +199,8 @@ def extract_dates_and_details(text):
 
 def make_item(title, link, summary, source, config, source_name="", dt=None):
     full_text = f"{title} {summary} {source_name}"
-    item_score = score(full_text, config)
+    score_details = explain_score(full_text, config)
+    item_score = score_details["score"]
     if item_score <= 0:
         return None
 
@@ -157,5 +215,11 @@ def make_item(title, link, summary, source, config, source_name="", dt=None):
         "category": category,
         "tag": tag,
         "details": extract_dates_and_details(full_text),
+        "score_reasons": score_details["reasons"],
+        "score_matches": {
+            "event_terms": score_details["event_terms"],
+            "core_field_terms": score_details["core_field_terms"],
+            "source_terms": score_details["source_terms"],
+        },
         "dt": dt,
     }
