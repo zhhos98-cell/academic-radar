@@ -16,8 +16,10 @@ Highlights:
 
 - Added a Windows desktop GUI for form-based setup, local file generation, no-network summary, diagnostics, dry-run previews, and opening generated HTML results without PowerShell.
 - Added a GitHub Actions workflow that builds `AcademicRadar.exe` with PyInstaller and uploads `AcademicRadar-Windows.zip` as a workflow artifact.
+- Added a `Build Release` workflow that publishes Python package artifacts and `AcademicRadar-Windows.zip` to GitHub Releases.
 - Added `academic-radar-gui` and `academic_radar_gui.py` entry points for launching or packaging the desktop GUI.
 - Added `docs/WINDOWS_APP.md` with download, first-run, workspace, button, privacy, and build instructions for the desktop app.
+- Added `docs/RELEASE_PROCESS.md` with tag-based and manual release publishing instructions.
 - Improved the Pages web builder with beginner-facing instructions, a privacy note, a three-step workflow, clearer generated-file labels, and links to the repository, local first-run guide, and releases.
 - Added a responsible-use notice reminding users to check source terms, platform rules, institutional policies, data-protection duties, and private runtime file handling before automation.
 - Added bilingual English/Chinese interface text and a non-persistent language switcher for the Pages web builder.
@@ -62,3 +64,8 @@ Release checklist:
 python scripts/validate_release.py
 python -m unittest discover -s tests
 ```
+
+Publishing:
+
+- See `docs/RELEASE_PROCESS.md` for tag-based and manual release publishing.
+- The `Build Release` workflow builds Python package files and `AcademicRadar-Windows.zip`, then creates or updates the GitHub Release for the requested tag.
