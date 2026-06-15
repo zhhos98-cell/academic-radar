@@ -23,6 +23,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Validate release hygiene
+        run: python scripts/validate_release.py
+      - name: Run unit tests
+        run: python -m unittest discover -s tests
       - name: Build Python package
         run: |
           python -m pip install --upgrade pip build
@@ -102,7 +106,7 @@ jobs:
           fi
 
           mkdir -p flattened-assets
-          find release-assets -type f -maxdepth 3 -print -exec cp {} flattened-assets/ \;
+          find release-assets -maxdepth 3 -type f -print -exec cp {} flattened-assets/ \;
 
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" flattened-assets/* --clobber
