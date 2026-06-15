@@ -7,6 +7,7 @@ from .diagnostics import diagnose_config, diagnostics_exit_code, format_diagnost
 from .emailer import send_email
 from .pipeline import collect_items
 from .presets import describe_presets
+from .privacy_report import build_privacy_report, format_privacy_report
 from .render import render_email, serializable_items
 from .setup import DEFAULT_LOCAL_PROFILE, write_first_run_files
 from .state import filter_new_items, save_seen_links
@@ -33,6 +34,11 @@ def parse_args(argv=None):
     parser.add_argument("--dry-run", action="store_true", help="Fetch and render without sending email or writing state.")
     parser.add_argument("--summary", action="store_true", help="Print a no-network profile summary and exit.")
     parser.add_argument("--doctor", action="store_true", help="Run no-network diagnostics for the selected profile and exit.")
+    parser.add_argument(
+        "--privacy-report",
+        action="store_true",
+        help="Print a no-network privacy and accountability report for the selected profile and exit.",
+    )
     parser.add_argument("--no-email", action="store_true", help="Do not send email.")
     parser.add_argument("--no-state", action="store_true", help="Do not write seen-link state.")
     parser.add_argument("--include-seen", action="store_true", help="Render all matching items, including seen links.")
@@ -73,6 +79,7 @@ def print_first_run_result(result):
     print("")
     print(f"Inspect the profile with: academic-radar --config {result['profile']} --summary")
     print(f"Run diagnostics with: academic-radar --config {result['profile']} --doctor")
+    print(f"Review privacy/accountability with: academic-radar --config {result['profile']} --privacy-report")
     print(f"Run a preview with: academic-radar --config {result['profile']} --dry-run")
 
 
@@ -115,6 +122,10 @@ def main(argv=None):
         diagnostics = diagnose_config(config)
         print(format_diagnostics(diagnostics))
         return diagnostics_exit_code(diagnostics)
+
+    if args.privacy_report:
+        print(format_privacy_report(build_privacy_report(config)))
+        return 0
 
     items = collect_items(config, skip_rss=args.skip_rss, skip_bsky=args.skip_bsky)
     selected_items = items if args.include_seen else filter_new_items(items, config.state_file)
