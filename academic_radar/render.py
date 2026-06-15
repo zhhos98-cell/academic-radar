@@ -19,6 +19,14 @@ def render_details(details):
     return "<p>" + " | ".join(rows) + "</p>"
 
 
+def render_score_reasons(item):
+    reasons = item.get("score_reasons") or []
+    if not reasons:
+        return ""
+    body = "; ".join(str(reason) for reason in reasons[:4])
+    return f"<p><b>Why:</b> {html.escape(body)}</p>"
+
+
 def render_email(items, max_items):
     from datetime import datetime, timezone
 
@@ -63,6 +71,7 @@ def render_email(items, max_items):
                 f"{render_details(item['details'])}"
                 f"<p><b>Source:</b> {html.escape(source_line)} | "
                 f"<b>Score:</b> {item['score']}</p>"
+                f"{render_score_reasons(item)}"
                 f"<p>{html.escape(item['summary'])}</p>"
                 f"<p><a href='{html.escape(item['link'])}'>{html.escape(item['link'])}</a></p>"
                 f"</div>"
