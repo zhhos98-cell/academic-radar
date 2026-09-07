@@ -84,3 +84,26 @@ Check each proposed change for:
 8. whether growth comes from historical/intellectual substance rather than explanation for its own sake.
 
 After editing, report the exact repository path and commit SHA, and describe the conceptual or historical effect of the local diff.
+
+## General prose architecture rules (2026-09-07)
+
+These rules govern finished scholarly prose across projects. They take precedence over older stylistic or architectural heuristics when those conflict, but they do not override repository-specific source locks, evidence levels, canonical-file rules, frozen areas, or factual constraints.
+
+- **Sentence falsification:** delete or compress a sentence when its removal loses no factual or inferential step and it merely repeats a premise, explains the preceding sentence, or proves continued contact without changing the historical action.
+- Secure or interesting evidence is not automatically entitled to body space. A source belongs in the body only when it changes the event, inference, or governing claim; otherwise move it to a note/control or omit it.
+- **Correspondence is evidence, not the default narrative engine.** Keep a letter in the body when the message itself performs the historical action under analysis. Relationship continuity, density, reciprocity, or chronology alone should not organize the prose.
+- **Prevent module hardening.** Historiography, background, method, institutions, counterevidence, and source practice should not each be discharged in separate self-contained blocks. Place material where it changes the meaning of an event already under way.
+- Prefer a chronology of developing problems and actions to a sequence of thematic research packets when thematic organization causes backtracking or additive mini-essays.
+- **Paragraph proportionality:** formulate a one-sentence summary proportional to the paragraph's length. The opening sentence should govern most of that informational burden without an A/B/C/D list, repeated `and`, semicolon chains, or extra subordinate clauses. If it cannot, redistribute the material instead of making the topic sentence heavier.
+- **Paragraph-boundary counterfactual:** the next paragraph should arise as a continuation, complication, consequence, or contrast of the unresolved problem before it. If chronology or a transition word is doing all the work, revise the boundary or reorder the material.
+- **First-sentence-only test:** read only the paragraph openings. They should form a coherent compressed argument, not an outline, case list, historiography inventory, or set of memo headings.
+- Treat conjunction proliferation and clause stacking as structural evidence. If heterogeneous material requires extra `and`, `while`, semicolons, or nested subordinate clauses to cohere, restructure before polishing.
+- Avoid ABCD constructions, repeated triads, parallel noun strings, and symmetrical `X / Y / Z` summaries unless the historical evidence itself genuinely has that form.
+- Keep defensive temperature low. Replace repeated `not X`, `nor Y`, `this does not mean`, `cannot be treated as`, and pre-emptive rebuttal with positive historical statements. Preserve genuine counterevidence and reader-relevant source limits.
+- Keep internal workflow out of finished prose and notes: no `HOLD`, `control`, `audit`, `bounded`, acquisition status, `currently cannot confirm`, internal QA paths, or repo-workbench locators. Store those states in controls rather than narrating them to the reader.
+- Do not tell the reader that a point is important, central, key, striking, or significant when the historical action can establish its weight.
+- Do not let a paragraph ending introduce a new research task that its opening cannot govern. Move, cut, or reassign that material.
+- Historiography belongs where it changes the reading of a live event or claim, not in a dedicated literature-review block by default.
+- A section or paragraph should not exist mainly to discharge a research obligation. Prefer **unresolved-problem propagation**: one historical action creates a question it cannot settle, and the next passage arises because of that question.
+
+Working maxim: **if the prose needs more connective syntax to make the structure look coherent, fix the structure rather than the syntax.**
