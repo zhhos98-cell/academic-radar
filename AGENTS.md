@@ -107,3 +107,20 @@ These rules govern finished scholarly prose across projects. They take precedenc
 - A section or paragraph should not exist mainly to discharge a research obligation. Prefer **unresolved-problem propagation**: one historical action creates a question it cannot settle, and the next passage arises because of that question.
 
 Working maxim: **if the prose needs more connective syntax to make the structure look coherent, fix the structure rather than the syntax.**
+
+## Compression and recovery rules (2026-09-07)
+
+Use these rules for late-stage shortening and density passes in scholarly prose and research writing. They are meant to prevent both bloated accretion and over-compression.
+
+- **Compression is not deletion-first.** Prefer, in order: merge repeated qualifications; put names or comparable cases into rapid parallel form; interleave evidence that performs the same historical action; move provenance or non-argumentative background to notes; delete only what still adds no event, inference, historiographical intervention, or necessary source limit.
+- **Do not narrate one item to completion when several items are doing the same work.** When A, B, and C jointly establish one historical point, weave them together instead of giving each a miniature beginning-middle-end. Preserve chronology when chronology itself carries the argument.
+- **Sentence-function test:** every body sentence should do at least one of the following: establish an event/fact; show what a source actually does; advance an inference; alter the historiographical reading; preserve a necessary qualification or counterexample. If it does none of these, compress, move, or delete it.
+- **Repeated explanation is expendable; argument-bearing friction is not.** Do not delete a short sentence merely because the preceding evidence implies it if that sentence supplies the hinge needed for the next paragraph or makes a non-obvious relation explicit. Conversely, delete verdicts that simply restate an immediately preceding quotation or contrast.
+- **Public prose should use source or actor language before workbench language.** Prefer the sources' own vocabulary or ordinary established disciplinary/historiographical language. Do not publish repo-invented labels, workflow nouns, or bridge/framework vocabulary unless an external historiography or the source material independently establishes the term and the prose needs it.
+- **An organizing thread is not automatically a causal mechanism.** A recurring term may organize later material without proving genealogy, influence, transmission, or causation. State the stronger relation only when the evidence establishes it.
+- **Compression requires a recovery pass.** After any substantial shortening, compare against the immediately prior controlled state and classify deletions as: (a) successful removal of repetition/background; (b) acceptable loss of nonessential detail; or (c) accidental removal of an argument-bearing pin. Restore only category (c), and restore it in the shortest source-controlled form.
+- Typical argument-bearing pins include: a sentence that changes a historiographical date; a short inference without which two sources merely sit beside each other; a return to an earlier textual witness that blocks a teleological story; or a sentence that tells the reader why a concrete distinction matters for the next historical action.
+- **Do not restore density by restoring scaffolding.** When a compression pass cuts too deeply, add back evidence, historical consequence, or source-language formulation—not the old roadmap, abstract framework, repeated closure, or workbench term.
+- **Notes are part of the compression system.** Remove orphan notes; compress repeated provenance; keep exact locators and evidence ceilings; do not let notes re-explain an inference already made in the body.
+
+Compact rule: **cut repetition aggressively, recover argument-bearing pins conservatively, and let the sources carry as much of the conceptual work as possible.**
