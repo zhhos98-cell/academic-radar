@@ -2,14 +2,6 @@ name: Build Windows App
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "academic_radar/**"
-      - "academic_radar_gui.py"
-      - "pyproject.toml"
-      - ".github/workflows/build_windows_app.yml"
 
 permissions:
   contents: read
