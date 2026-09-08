@@ -148,3 +148,16 @@ Compact rule: **make architecture change what the prose does, not what the prose
 - **Adjacent-field reader test:** read the draft as an intelligent historian outside the immediate subfield. Mark any sentence whose force collapses unless that reader already knows an unstated fact, then repair the gap at the smallest possible locus.
 
 Compact rule: **state the factual premise the argument needs; never require the reader to reconstruct it from specialist background knowledge.**
+
+## Evidence packaging and quotation granularity (2026-09-08)
+
+- **Let the material happen before naming it.** Establish the concrete action, comparison, classification, sequence, or source problem before introducing an abstract noun that summarizes it. A noun handle may compress facts already shown; it must never substitute for facts the reader has not yet seen.
+- **Use nouns to carry established fact packages; use verbs to carry history and argument.** Prefer actors comparing, revising, classifying, borrowing, rejecting, returning to, or reusing material over prose in which abstractions appear to act on their own.
+- **Cut quotations by argumentative unit, not by the source sentence boundary.** Use three levels: **WORD/PHRASE** when only an actor’s label or concept matters; **RELATION/CLAUSE** when contrast, causation, sequence, logical relation, modality, or qualification matters; **SPEECH-ACT/SENTENCE** when the utterance itself is the historical action, or when the intact syntax is itself the evidence.
+- **Do not make quotation perform the article’s interpretation.** The quotation should establish the lexical, relational, or speech-act fact; attribution, historical consequence, and inference belong in the author’s own syntax.
+- **Several facts may share one explanation.** When two to four adjacent pieces of evidence perform the same historical action, let them accumulate before giving the interpretive sentence. Avoid a mechanical `fact → verdict → fact → verdict` rhythm.
+- Preserve complete wording where completeness carries evidence: a dual relation, explicit negation, qualification, refusal, instruction, or other speech act may require the whole clause or sentence. Compression is functional, not a preference for shorter quotation.
+- Any clipping, ellipsis, paraphrase, or nominal compression remains source-locked. Never remove a qualifier, negation, modality, referent, or contextual condition in a way that changes the source’s force.
+- During QA, mark each quotation as **word / relation / speech act** and each abstract noun as **earned / premature**. Shorten or unpack only where that classification reveals a mismatch.
+
+Compact rule: **facts first, noun after; quote only the unit that carries the evidence; let the author’s verbs do the arguing.**
