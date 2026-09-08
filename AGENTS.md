@@ -161,3 +161,31 @@ Compact rule: **state the factual premise the argument needs; never require the 
 - During QA, mark each quotation as **word / relation / speech act** and each abstract noun as **earned / premature**. Shorten or unpack only where that classification reveals a mismatch.
 
 Compact rule: **facts first, noun after; quote only the unit that carries the evidence; let the author’s verbs do the arguing.**
+
+## Paragraph-argument compression and chain test (2026-09-08)
+
+- For every body paragraph, state its **argumentative advance** in one sentence, excluding source inventory, examples, dates, names, and materials as such. If no single sentence can state what the paragraph changes in the argument without an A/B/C list or several independent claims, the paragraph is structurally heterogeneous: split, redistribute, compress, or cut it.
+- The paragraph opening should normally govern that one argumentative advance. Do not turn every opening into abstract thesis prose; historical action may lead, but the first sentence must make clear what work the evidence is doing or set up the problem the paragraph resolves.
+- Run a **first-sentence / one-sentence-skeleton audit** after editing: read only the paragraph openings, then separately read the one-sentence argumentative summaries. Both sequences should form a coherent chain in which each paragraph advances, complicates, limits, supplies counterevidence to, or converts the unresolved problem from the previous paragraph into the next question.
+- A sequence of parallel cases, thematic packets, chronology-only steps, repeated conclusions, or detached “balance” paragraphs fails this test even if each paragraph is individually sound. Reorder or rewrite until the paragraphs produce cumulative argument.
+- Counterevidence belongs where it exerts pressure on a live claim and changes the next inferential step; do not quarantine it in a decorative counterargument paragraph.
+- When a paragraph contains more material than its one-sentence argument can govern, remove or move the excess material rather than making the opening sentence heavier.
+- Final compression test: strip each paragraph mentally to its one-sentence argument. The resulting skeleton should preserve the article's progression and its internal counterpressure. Then restore only evidence that earns a step in that chain.
+
+Compact rule: **one paragraph, one compressible argumentative advance; first sentences and paragraph summaries must read as a cumulative argument with counterevidence, not as a list of materials.**
+
+## Thematic callbacks, scholarly depth, and descriptive breathing (2026-09-08)
+
+- **Sentence and clause burden:** a sentence may contain useful information and still be redundant if another sentence already performs the same argumentative function. Ask what exact step breaks if the sentence or clause disappears. Remove functional duplication before cutting first-order evidence.
+- **Two-layer callback:** when an article has both a concrete historical object and a methodological or historiographical problem, keep both visible at low frequency. Return to the object through texts, practices, disputes, or later reuse; return to the methodological problem through source relations, contemporary disagreement, historiography, or counterevidence. Do not use slogans as callbacks.
+- **Parallel strands need a hinge.** If two strands run beside each other, do not wait until the conclusion to join them. Locate the historical or conceptual point at which one begins to change the interpretation of the other.
+- **Seed early, recover later.** A title, schedule, citation, object, or parallel inquiry may establish contemporaneity without establishing conceptual connection. State that ceiling, then let a later surviving source recover the strand only when the relation becomes readable. Never write the later formulation backward into the earlier archive.
+- **Scholarly callbacks must perform work.** A contemporary, adjacent-field, later-generation, or current scholar belongs in the body only to support, oppose, offer another reconstruction, provide a field control, show later development, establish specialist afterlife, or recalibrate the historiographical claim. Aim for **random feel, non-random function**; one strong comparison is better than a name cluster.
+- A near-contemporary parallel is not evidence of influence without transmission evidence. Later reuse is not a causal genealogy. Current scholarship may establish afterlife or continuing technical relevance without validating an intellectual-development story.
+- **Descriptive breathing:** after dense argumentative stretches, occasional source-grounded sentences may show a person reading, writing, travelling, meeting, teaching, corresponding, handling an object, or encountering an institutional constraint. These sentences should give the prose air without opening a new research branch or inventing atmosphere.
+- **Counterevidence changes geometry.** Contrary passages, omissions, later compression, disciplinary narrowing, failed transmission, or changed scale should narrow, redirect, or otherwise reshape the claim. Do not add a decorative counterargument that leaves the argument unchanged.
+- **Introduction discipline:** seed the main object, governing problem, and any secondary strand needed for a later hinge, but only at the evidence level currently available.
+- **Conclusion discipline:** do not introduce a new scholar, archive object, comparison, or evidentiary branch merely to broaden the ending. State the first-order claim, use historiography for calibration, and let counterevidence define the ceiling.
+- **Note-burden corollary:** submission notes should support claims still alive in the body. Abandoned comparators, unused page ranges, and superseded research inventory belong in research controls, not indefinitely in public notes.
+
+Compact rule: **every paragraph advances one compressible claim; every callback is source-bearing; every outside scholar changes the pressure on that claim; every counterexample changes its shape; descriptive prose gives air without opening a new argument.**
