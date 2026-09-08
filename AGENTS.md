@@ -137,3 +137,14 @@ Compact rule: **cut repetition aggressively, recover argument-bearing pins conse
 - **Whole-file write audit.** After any whole-file replacement, inspect the diff for unrelated changes to titles, quotations, citations, links, endnotes, punctuation, status lines, typography, or metadata and undo them immediately.
 
 Compact rule: **make architecture change what the prose does, not what the prose calls itself; make paragraphs carry events, not research packets.**
+
+## Reader-background factual-premise audit (2026-09-08)
+
+- **Do not make the reader supply a missing factual premise.** If an argument-bearing sentence depends on background knowledge that has not been established nearby, add the minimum source-controlled fact needed for the sentence to work.
+- Run this especially at first appearances of people, texts, institutions, disputes, dates, technical terms, acronyms, and retrospective labels. A surname or title should not function as unexplained shorthand for a proposition the reader must already know.
+- The factual layer is local and minimal: usually one identifying clause or one sentence stating who/what the item is, when/where it belongs, or the exact proposition under dispute. Add only the fact that changes the reader’s ability to follow the inference.
+- Background remains source-locked. Never repair an assumed-knowledge gap from model memory or plausible general knowledge; verify it under the same evidence rules as any other historical addition.
+- Do not turn this rule into encyclopedia biography, textbook exposition, standalone background sections, or name accumulation. If the extra fact does not alter the live event, relation, or inference, omit it or move it to a note.
+- **Adjacent-field reader test:** read the draft as an intelligent historian outside the immediate subfield. Mark any sentence whose force collapses unless that reader already knows an unstated fact, then repair the gap at the smallest possible locus.
+
+Compact rule: **state the factual premise the argument needs; never require the reader to reconstruct it from specialist background knowledge.**
