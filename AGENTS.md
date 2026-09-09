@@ -2,6 +2,22 @@
 
 This file is a persistent instruction set for ChatGPT, Codex, and other agents working in this repository. Read it before editing. Repository-specific instructions, if present elsewhere, override only the relevant parts of this general protocol. Do not rewrite or shorten this file unless the user explicitly asks.
 
+## 0. First-order fact and syntactic packing — highest priority
+
+These rules are applied before all later prose heuristics.
+
+- **Keep a first-order factual layer.** Historical prose should remain recoverable to controlled actors, actions, institutions, texts, objects, dates, places, or source wording. An interpretive term may compress those facts after they have appeared; it must not replace them.
+- **After every drafting or editing pass, treat every word as questionable.** For each abstract or general noun, adjective, or verb ask whether it can be replaced by the actor/source's own wording, a first-order action, a named institution/person/book/document/object, an established theory or method name, or a date/place when that specificity matters. Prefer the concrete replacement when it is source-locked and analytically equivalent.
+- **Do not narrate item A from beginning to end and only then narrate B when A and B perform the same historical or argumentative work.** Interleave and pack them. One item may become a noun phrase, concrete modifier, apposition, subordinate or relative clause, participial phrase, parenthesis, quick flashback, or short embedded source fragment.
+- **Sentence-boundary test.** If sentence B is substantively a modifier, premise, qualification, example, source attribution, or brief flashback for sentence A, test merging B into A. If compression hides a distinct actor, action, chronology, or evidence ownership, split instead.
+- **Several fast fragments may share one sentence.** When juxtaposition itself carries the point, chain short actor/source phrases or quotations without granting each a full miniature narrative.
+- **Vary syntax with the historical action.** Avoid repetitive `A did X. B did Y. Therefore ...` patterns. Use apposition, subordination, parataxis, relative clauses, embedded quotations, brief returns, and sentence-length variation when they make the relation more exact.
+- **Historiography obeys the same compression rule.** Do not summarize scholar A at length, then scholar B, then add a synthetic `therefore`. Extract only the proposition live in the present sentence or scene; weave A as a phrase or clause, B as a narrowing/correction/redirect, and the present evidence as the next move. A scholar's whole argument need not be rehearsed when one proposition does the work.
+- **Compression is not abstraction.** Preserve first-order facts, chronology, source ownership, uncertainty, counterevidence, and argument-bearing friction. Density comes from tighter packaging of related facts, not from replacing them with higher-order labels.
+- After every substantive round run two passes: **(1) first-order / every-word audit; (2) syntactic packing audit.** Then check that no actor, sequence, provenance, or inferential hinge disappeared.
+
+Working maxim: **every word has a problem until the first-order fact or source language earns it.**
+
 ## 1. Source discipline
 
 - Factual expansion is source-locked. Dates, places, people, actions, quotations, correspondence sequences, causal links, and bibliographic claims must come from material already controlled in the repository or from newly verified external research that has first been recorded in a repo research/control note.
